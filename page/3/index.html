@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/blog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/blog/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/blog/lib/pace/pace-theme-minimal.min.css">
+  <script src="/blog/lib/pace/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://javaxh.gitee.io').hostname,
+    root: '/blog/',
+    scheme: 'Gemini',
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":true,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="技术博客,Java,记录美好学习时光">
+<meta property="og:type" content="website">
+<meta property="og:title" content="JAVA入土">
+<meta property="og:url" content="http://javaxh.gitee.io/page/3/index.html">
+<meta property="og:site_name" content="JAVA入土">
+<meta property="og:description" content="技术博客,Java,记录美好学习时光">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="晨月">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://javaxh.gitee.io/page/3/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: true,
+    isPost: false,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>JAVA入土</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/blog/atom.xml" title="JAVA入土" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/blog/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">JAVA入土</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">学习使我快乐</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/blog/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/blog/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">12</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/blog/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">0</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/blog/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">24</span></a>
+
+  </li>
+        <li class="menu-item menu-item-hot">
+
+    <a href="/blog/hot/" rel="section"><i class="fa fa-fw fa-signal"></i>热度排行</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/xuhao008/" class="github-corner" title="欢迎访问我的github主页" aria-label="欢迎访问我的github主页" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://javaxh.gitee.io/2019/05/31/springDataJpa+vue%E5%AE%9E%E7%8E%B0%E4%B8%89%E7%BA%A7%E8%81%94%E5%8A%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/blog/images/1a.jpg">
+      <meta itemprop="name" content="晨月">
+      <meta itemprop="description" content="技术博客,Java,记录美好学习时光">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JAVA入土">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/blog/2019/05/31/springDataJpa+vue%E5%AE%9E%E7%8E%B0%E4%B8%89%E7%BA%A7%E8%81%94%E5%8A%A8/" class="post-title-link" itemprop="url">springdatajpa+vue实现省市区三级联动</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-05-30 22:05:12" itemprop="dateCreated datePublished" datetime="2019-05-30T22:05:12Z">2019-05-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-08-05 03:27:43" itemprop="dateModified" datetime="2020-08-05T03:27:43Z">2020-08-05</time>
+              </span>
+
+          
+            <span id="/blog/2019/05/31/springDataJpa+vue%E5%AE%9E%E7%8E%B0%E4%B8%89%E7%BA%A7%E8%81%94%E5%8A%A8/" class="post-meta-item leancloud_visitors" data-flag-title="springdatajpa+vue实现省市区三级联动" title="热度">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">热度：</span>
+              <span class="leancloud-visitors-count"></span>
+              <span>℃</span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/blog/2019/05/31/springDataJpa+vue%E5%AE%9E%E7%8E%B0%E4%B8%89%E7%BA%A7%E8%81%94%E5%8A%A8/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/blog/2019/05/31/springDataJpa+vue%E5%AE%9E%E7%8E%B0%E4%B8%89%E7%BA%A7%E8%81%94%E5%8A%A8/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>6.6k 字</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>8 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="一，编写后端代码">一，编写后端代码</h2>
+<p>1、创建springboot项目，添加 web、jpa、lombok、mysql、jdbc 启动器，并创建对应的层</p>
+<p>2、编写省，市，区的实体（idea使用了lombok插件），SQL等项目文件文末自取<br>
+省份实体类：AddressProvince.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="meta">@Table</span>(name = <span class="string">"t_address_province"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AddressProvince</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Id</span></span><br><span class="line">    <span class="meta">@GeneratedValue</span>(strategy = GenerationType.IDENTITY)</span><br><span class="line">    <span class="meta">@Column</span>(name = <span class="string">"id"</span>,unique = <span class="keyword">true</span>,nullable = <span class="keyword">false</span>,length = <span class="number">50</span>)</span><br><span class="line">    <span class="keyword">private</span>  Integer id;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Column</span>(name = <span class="string">"code"</span>,nullable = <span class="keyword">false</span>,length = <span class="number">50</span>)</span><br><span class="line">    <span class="keyword">private</span> String code;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Column</span>(name = <span class="string">"name"</span>,nullable = <span class="keyword">false</span>,length = <span class="number">50</span>)</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>城市实体类：AddressCity.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="meta">@Table</span>(name = <span class="string">"t_address_city"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AddressCity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Id</span></span><br><span class="line">    <span class="meta">@GeneratedValue</span>(strategy = GenerationType.IDENTITY)</span><br><span class="line">    <span class="meta">@Column</span>(name = <span class="string">"id"</span>,unique = <span class="keyword">true</span>,nullable = <span class="keyword">false</span>,length = <span class="number">50</span>)</span><br><span class="line">    <span class="keyword">private</span>  Integer id;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Column</span>(name = <span class="string">"code"</span>,nullable = <span class="keyword">false</span>,length = <span class="number">50</span>)</span><br><span class="line">    <span class="keyword">private</span> String code;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Column</span>(name = <span class="string">"name"</span>,nullable = <span class="keyword">false</span>,length = <span class="number">50</span>)</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Column</span>(name = <span class="string">"provincecode"</span>,nullable = <span class="keyword">false</span>,length = <span class="number">50</span>)</span><br><span class="line">    <span class="keyword">private</span> String provinceCode;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>区域实体类：AddressTown.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="meta">@Table</span>(name =<span class="string">"t_address_town"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AddressTown</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Id</span></span><br><span class="line">    <span class="meta">@GeneratedValue</span>(strategy = GenerationType.IDENTITY)</span><br><span class="line">    <span class="meta">@Column</span>(name = <span class="string">"id"</span>,unique = <span class="keyword">true</span>,nullable = <span class="keyword">false</span>,length = <span class="number">50</span>)</span><br><span class="line">    <span class="keyword">private</span>  Integer id;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Column</span>(name = <span class="string">"code"</span>,nullable = <span class="keyword">false</span>,length = <span class="number">50</span>)</span><br><span class="line">    <span class="keyword">private</span> String code;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Column</span>(name = <span class="string">"name"</span>,nullable = <span class="keyword">false</span>,length = <span class="number">50</span>)</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Column</span>(name = <span class="string">"citycode"</span>,nullable = <span class="keyword">false</span>,length = <span class="number">50</span>)</span><br><span class="line">    <span class="keyword">private</span> String cityCode;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3、编写dao</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 省份dao</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ProvinceDao</span> <span class="keyword">extends</span> <span class="title">JpaRepository</span>&lt;<span class="title">AddressProvince</span>,<span class="title">Integer</span>&gt; </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/blog/2019/05/31/springDataJpa+vue%E5%AE%9E%E7%8E%B0%E4%B8%89%E7%BA%A7%E8%81%94%E5%8A%A8/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://javaxh.gitee.io/2019/05/31/SpringBoot,JDBC%E8%BF%9E%E6%8E%A5oracle%E6%8A%A5%E9%94%99java.lang.AbstractMethodError_%20oracle.jdbc.driver.T4CConnection.isValid(I)Z/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/blog/images/1a.jpg">
+      <meta itemprop="name" content="晨月">
+      <meta itemprop="description" content="技术博客,Java,记录美好学习时光">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JAVA入土">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/blog/2019/05/31/SpringBoot,JDBC%E8%BF%9E%E6%8E%A5oracle%E6%8A%A5%E9%94%99java.lang.AbstractMethodError_%20oracle.jdbc.driver.T4CConnection.isValid(I)Z/" class="post-title-link" itemprop="url">SpringBoot,JDBC连接数据库报错：java.lang.AbstractMethodError':oracle.jdbc.driver.T4CConnection.isValid(I)Z”</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-05-30 22:05:12" itemprop="dateCreated datePublished" datetime="2019-05-30T22:05:12Z">2019-05-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-08-05 03:27:43" itemprop="dateModified" datetime="2020-08-05T03:27:43Z">2020-08-05</time>
+              </span>
+
+          
+            <span id="/blog/2019/05/31/SpringBoot,JDBC%E8%BF%9E%E6%8E%A5oracle%E6%8A%A5%E9%94%99java.lang.AbstractMethodError_%20oracle.jdbc.driver.T4CConnection.isValid(I)Z/" class="post-meta-item leancloud_visitors" data-flag-title="SpringBoot,JDBC连接数据库报错：java.lang.AbstractMethodError':oracle.jdbc.driver.T4CConnection.isValid(I)Z”" title="热度">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">热度：</span>
+              <span class="leancloud-visitors-count"></span>
+              <span>℃</span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/blog/2019/05/31/SpringBoot,JDBC%E8%BF%9E%E6%8E%A5oracle%E6%8A%A5%E9%94%99java.lang.AbstractMethodError_%20oracle.jdbc.driver.T4CConnection.isValid(I)Z/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/blog/2019/05/31/SpringBoot,JDBC%E8%BF%9E%E6%8E%A5oracle%E6%8A%A5%E9%94%99java.lang.AbstractMethodError_%20oracle.jdbc.driver.T4CConnection.isValid(I)Z/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>848 字</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>问题：使用springboot，jdbc连接oracle10g数据库，启动项目报错<br>
+java.lang.AbstractMethodError:oracle.jdbc.driver.T4CConnection.isValid(I)Z</p>
+<p>原因：oracle的jdbc连接包与jdk版本不匹配导致的，如果使用的是ojdbc14版本的，该版本不支持jdk1.8，建议更换ojdbc版本，如ojdbc8。</p>
+<p>由于oracle部分版本，Maven坐标无法下载导入的，所以需要自己手动导入。</p>
+<p>解决：<br>
+1、下载连接驱动包<br>
+1_1、建议去oracle官网下载驱动包：<a href="https://www.oracle.com/index.html" target="_blank" rel="noopener">https://www.oracle.com/index.html</a><br>
+1_2、百度网盘下载：</p>
+<blockquote>
+<p>链接：<a href="https://pan.baidu.com/s/1YrjbA9QizJMN0J_lsD0Vug" target="_blank" rel="noopener">https://pan.baidu.com/s/1YrjbA9QizJMN0J_lsD0Vug</a><br>
+提取码：1ncu</p>
+</blockquote>
+<p>2、将下载的jar包放到一个文件夹，执行cmd命令将jar包导入到你的maven仓库<br>
+执行的命令：</p>
+<blockquote>
+<p>mvn install:install-file -Dfile=E:/ojdbc8.jar -DgroupId=com.oracle -DartifactId=ojdbc8 -Dversion=12.2.0.1 -Dpackaging=jar</p>
+</blockquote>
+<p>注意：<br>
+1、install-file -Dfile==》指的是你刚刚下载jar包保存的地址，也就是你执行cmd是文件夹<br>
+2、DgroupId DartifactId Dversion 其实就是 maven的这几个参数</p>
+<p>3、导入坐标</p>
+<pre><code>    &lt;dependency&gt;
+        &lt;groupId&gt;com.oracle&lt;/groupId&gt;
+        &lt;artifactId&gt;ojdbc8&lt;/artifactId&gt;
+        &lt;version&gt;12.2.0.1&lt;/version&gt;
+    &lt;/dependency&gt;
+</code></pre>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/blog/2019/05/31/SpringBoot,JDBC%E8%BF%9E%E6%8E%A5oracle%E6%8A%A5%E9%94%99java.lang.AbstractMethodError_%20oracle.jdbc.driver.T4CConnection.isValid(I)Z/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://javaxh.gitee.io/2019/05/31/%E4%BD%BF%E7%94%A8java%E7%88%AC%E8%99%AB%E7%88%AC%E5%8F%96%E7%BD%91%E7%AB%99%E5%89%8D%E5%8F%B0%E4%BB%A3%E7%A0%81%EF%BC%88html+css+js+img%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/blog/images/1a.jpg">
+      <meta itemprop="name" content="晨月">
+      <meta itemprop="description" content="技术博客,Java,记录美好学习时光">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JAVA入土">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/blog/2019/05/31/%E4%BD%BF%E7%94%A8java%E7%88%AC%E8%99%AB%E7%88%AC%E5%8F%96%E7%BD%91%E7%AB%99%E5%89%8D%E5%8F%B0%E4%BB%A3%E7%A0%81%EF%BC%88html+css+js+img%EF%BC%89/" class="post-title-link" itemprop="url">使用java爬虫爬取网站前台代码（html+css+js+img）</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-05-30 22:05:12" itemprop="dateCreated datePublished" datetime="2019-05-30T22:05:12Z">2019-05-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-08-05 03:27:43" itemprop="dateModified" datetime="2020-08-05T03:27:43Z">2020-08-05</time>
+              </span>
+
+          
+            <span id="/blog/2019/05/31/%E4%BD%BF%E7%94%A8java%E7%88%AC%E8%99%AB%E7%88%AC%E5%8F%96%E7%BD%91%E7%AB%99%E5%89%8D%E5%8F%B0%E4%BB%A3%E7%A0%81%EF%BC%88html+css+js+img%EF%BC%89/" class="post-meta-item leancloud_visitors" data-flag-title="使用java爬虫爬取网站前台代码（html+css+js+img）" title="热度">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">热度：</span>
+              <span class="leancloud-visitors-count"></span>
+              <span>℃</span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/blog/2019/05/31/%E4%BD%BF%E7%94%A8java%E7%88%AC%E8%99%AB%E7%88%AC%E5%8F%96%E7%BD%91%E7%AB%99%E5%89%8D%E5%8F%B0%E4%BB%A3%E7%A0%81%EF%BC%88html+css+js+img%EF%BC%89/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/blog/2019/05/31/%E4%BD%BF%E7%94%A8java%E7%88%AC%E8%99%AB%E7%88%AC%E5%8F%96%E7%BD%91%E7%AB%99%E5%89%8D%E5%8F%B0%E4%BB%A3%E7%A0%81%EF%BC%88html+css+js+img%EF%BC%89/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>10k 字</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>13 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1>使用java爬虫爬取网站前台代码（html+css+js+img）</h1>
+<h2 id="一、爬虫">一、爬虫</h2>
+<p>1、什么是爬虫<br>
+爬虫主要针对与网络网页，又称网络爬虫、网络蜘蛛，可以自动化浏览网络中的信息，或者说是一种网络机器人。它们被广泛用于互联网搜索引擎或其他类似网站，以获取或更新这些网站的内容和检索方式。它们可以自动采集所有其能够访问到的页面内容，以便程序做下一步的处理。<br>
+2、为什么我们要爬取数据<br>
+在大数据时代,我们要获取更多数据,就要进行数据的挖掘、分析、筛选,比如当我们做一个项目的时候,需要大量真实的数据的时候,就需要去某些网站进行爬取,有些网站的数据爬取后保存到数据库还不能够直接使用,需要进行清洗、过滤后才能使用,我们知道有些数据是非常珍贵的。</p>
+<h2 id="二、Jsoup">二、Jsoup</h2>
+<p>1、什么是Jsoup<br>
+jsoup 是一款 Java 的HTML 解析器，可直接解析某个URL地址、HTML文本内容。它提供了一套非常省力的API，可通过DOM，CSS以及类似于JQuery的操作方法来取出和操作数据。该版本包含一个支持 HTML5 的解析器分支，可确保跟现在的浏览器一样解析 HTML 的方法，同时降低了解析的时间和内存的占用。<br>
+2、Jsoup主要功能<br>
+2_1、从一个URL，文件或字符串中解析HTML；<br>
+2_2、使用DOM或CSS选择器来查找、取出数据；<br>
+2_3、可操作HTML元素、属性、文本<br>
+详细介绍参考：<a href="https://www.cnblogs.com/zhangyinhua/p/8037599.html" target="_blank" rel="noopener">https://www.cnblogs.com/zhangyinhua/p/8037599.html</a></p>
+<p>三、创建项目<br>
+1、pom文件</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencies&gt;</span><br><span class="line">       &lt;dependency&gt;</span><br><span class="line">           &lt;groupId&gt;com.googlecode.juniversalchardet&lt;/groupId&gt;</span><br><span class="line">           &lt;artifactId&gt;juniversalchardet&lt;/artifactId&gt;</span><br><span class="line">           &lt;version&gt;1.0.3&lt;/version&gt;</span><br><span class="line">       &lt;/dependency&gt;</span><br><span class="line">       &lt;dependency&gt;</span><br><span class="line">           &lt;groupId&gt;org.kie.modules&lt;/groupId&gt;</span><br><span class="line">           &lt;artifactId&gt;org-apache-commons-httpclient&lt;/artifactId&gt;</span><br><span class="line">           &lt;version&gt;6.2.0.CR2&lt;/version&gt;</span><br><span class="line">           &lt;type&gt;pom&lt;/type&gt;</span><br><span class="line">       &lt;/dependency&gt;</span><br><span class="line">       &lt;dependency&gt;</span><br><span class="line">           &lt;groupId&gt;org.jsoup&lt;/groupId&gt;</span><br><span class="line">           &lt;artifactId&gt;jsoup&lt;/artifactId&gt;</span><br><span class="line">           &lt;version&gt;1.10.3&lt;/version&gt;</span><br><span class="line">       &lt;/dependency&gt;</span><br><span class="line">       &lt;dependency&gt;</span><br><span class="line">           &lt;groupId&gt;org.apache.httpcomponents&lt;/groupId&gt;</span><br><span class="line">           &lt;artifactId&gt;httpcore&lt;/artifactId&gt;</span><br><span class="line">           &lt;version&gt;4.0.1&lt;/version&gt;</span><br><span class="line">       &lt;/dependency&gt;</span><br><span class="line">       &lt;dependency&gt;</span><br><span class="line">           &lt;groupId&gt;org.apache.httpcomponents&lt;/groupId&gt;</span><br><span class="line">           &lt;artifactId&gt;httpclient&lt;/artifactId&gt;</span><br><span class="line">           &lt;version&gt;4.0.2&lt;/version&gt;</span><br><span class="line">       &lt;/dependency&gt;</span><br><span class="line">   &lt;/dependencies&gt;</span><br></pre></td></tr></table></figure>
+<p>2、以正版中国网站为例，首先我们先获取页面</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RequestAndResponseTool</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Page  <span class="title">sendRequstAndGetResponse</span><span class="params">(String url)</span> </span>&#123;</span><br><span class="line">        Page page = <span class="keyword">null</span>;</span><br><span class="line">        <span class="comment">// 1.生成 HttpClinet 对象并设置参数</span></span><br><span class="line">        HttpClient httpClient = <span class="keyword">new</span> HttpClient();</span><br><span class="line">        <span class="comment">// 设置 HTTP 连接超时 5s</span></span><br><span class="line">        httpClient.getHttpConnectionManager().getParams().setConnectionTimeout(<span class="number">5000</span>);</span><br><span class="line">        <span class="comment">// 2.生成 GetMethod 对象并设置参数</span></span><br><span class="line">        GetMethod getMethod = <span class="keyword">new</span> GetMethod(url);</span><br><span class="line">        <span class="comment">// 设置 get 请求超时 5s</span></span><br><span class="line">        getMethod.getParams().setParameter(HttpMethodParams.SO_TIMEOUT, <span class="number">5000</span>);</span><br><span class="line">        <span class="comment">// 设置请求重试处理</span></span><br><span class="line">        getMethod.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, <span class="keyword">new</span> DefaultHttpMethodRetryHandler());</span><br><span class="line">        <span class="comment">// 3.执行 HTTP GET 请求</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">int</span> statusCode = httpClient.executeMethod(getMethod);</span><br><span class="line">        <span class="comment">// 判断访问的状态码</span></span><br><span class="line">            <span class="keyword">if</span> (statusCode != HttpStatus.SC_OK) &#123;</span><br><span class="line">                System.err.println(<span class="string">"Method failed: "</span> + getMethod.getStatusLine());</span><br><span class="line">            &#125;</span><br><span class="line">        <span class="comment">// 4.处理 HTTP 响应内容</span></span><br><span class="line">            <span class="keyword">byte</span>[] responseBody = getMethod.getResponseBody();<span class="comment">// 读取为字节 数组</span></span><br><span class="line">            String contentType = getMethod.getResponseHeader(<span class="string">"Content-Type"</span>).getValue(); <span class="comment">// 得到当前返回类型</span></span><br><span class="line"></span><br><span class="line">            page = <span class="keyword">new</span> Page(responseBody,url,contentType); <span class="comment">//封装成为页面</span></span><br><span class="line">        &#125; <span class="keyword">catch</span> (HttpException e) &#123;</span><br><span class="line">        <span class="comment">// 发生致命的异常，可能是协议不对或者返回的内容有问题</span></span><br><span class="line">            System.out.println(<span class="string">"Please check your provided http address!"</span>);</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        <span class="comment">// 发生网络异常</span></span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        <span class="comment">// 释放连接</span></span><br><span class="line">            getMethod.releaseConnection();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> page;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3、获取响应内容，放入page</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/blog/2019/05/31/%E4%BD%BF%E7%94%A8java%E7%88%AC%E8%99%AB%E7%88%AC%E5%8F%96%E7%BD%91%E7%AB%99%E5%89%8D%E5%8F%B0%E4%BB%A3%E7%A0%81%EF%BC%88html+css+js+img%EF%BC%89/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://javaxh.gitee.io/2020/08/05/hello-world/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/blog/images/1a.jpg">
+      <meta itemprop="name" content="晨月">
+      <meta itemprop="description" content="技术博客,Java,记录美好学习时光">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JAVA入土">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/blog/2020/08/05/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-08-05 03:27:43" itemprop="dateCreated datePublished" datetime="2020-08-05T03:27:43Z">2020-08-05</time>
+            </span>
+
+          
+            <span id="/blog/2020/08/05/hello-world/" class="post-meta-item leancloud_visitors" data-flag-title="Hello World" title="热度">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">热度：</span>
+              <span class="leancloud-visitors-count"></span>
+              <span>℃</span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/blog/2020/08/05/hello-world/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/blog/2020/08/05/hello-world/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>357 字</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<h2 id="Quick-Start">Quick Start</h2>
+<h3 id="Create-a-new-post">Create a new post</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="Run-server">Run server</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="Generate-static-files">Generate static files</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/blog/2020/08/05/hello-world/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+  </div>
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/blog/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/blog/">1</a><a class="page-number" href="/blog/page/2/">2</a><span class="page-number current">3</span>
+  </nav>
+
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="晨月"
+      src="/blog/images/1a.jpg">
+  <p class="site-author-name" itemprop="name">晨月</p>
+  <div class="site-description" itemprop="description">技术博客,Java,记录美好学习时光</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/blog/archives/">
+        
+          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/blog/tags/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xuhao008/" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xuhao008&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/weixin_44209403/" title="CSDN → https:&#x2F;&#x2F;blog.csdn.net&#x2F;weixin_44209403&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-copyright"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/yourname" title="码云 → https:&#x2F;&#x2F;weibo.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fa fa-fw fa-google"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/blog/xhxxswkl@163.com" title="E-Mail → xhxxswkl@163.com"><i class="fa fa-fw fa-envelope"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/blog/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+      
+       <div>
+          <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="210" height="110" src="//music.163.com/outchain/player?type=2&id=518682659&auto=0&height=66"></iframe>
+       </div>
+      
+
+
+      <!-- 添加近期文章 -->
+      
+        <div class="links-of-blogroll motion-element links-of-blogroll-block">
+          <div class="links-of-blogroll-title">
+            <!-- modify icon to fire by szw -->
+            <i class="fa fa-history fa-" aria-hidden="true"></i>
+            近期文章
+          </div>
+          <ul class="links-of-blogroll-list">
+            
+            
+              <li>
+                <a href="/blog/" title="" target="_blank"></a>
+              </li>
+            
+              <li>
+                <a href="/blog/" title="" target="_blank"></a>
+              </li>
+            
+              <li>
+                <a href="/blog/" title="" target="_blank"></a>
+              </li>
+            
+              <li>
+                <a href="/blog/" title="" target="_blank"></a>
+              </li>
+            
+              <li>
+                <a href="/blog/" title="" target="_blank"></a>
+              </li>
+            
+          </ul>
+        </div>
+      
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">晨月</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">124k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">2:35</span>
+</div>
+
+        <div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+   
+    <span class="site-uv">
+       我的第 <span class="busuanzi-value" id="busuanzi_value_site_uv"></span> 位朋友，
+    </span>
+   <span class="agesicon"> <span>
+   
+   
+     <span class="site-pv">
+       历经 <span class="busuanzi-value" id="busuanzi_value_site_pv"></span> 次回眸才与你相遇。
+     </span>
+   
+ 
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='150' src="/blog/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/blog/lib/anime.min.js"></script>
+  <script src="/blog/lib/velocity/velocity.min.js"></script>
+  <script src="/blog/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/blog/js/utils.js"></script>
+
+<script src="/blog/js/motion.js"></script>
+
+
+<script src="/blog/js/schemes/pisces.js"></script>
+
+
+<script src="/blog/js/next-boot.js"></script>
+
+<script src="/blog/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/blog/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: true,
+    notify: true,
+    appId: 'wG3LQ9piimb7LMXEDw0BCOmG-gzGzoHsz',
+    appKey: 'pXkLtQymiNmeMV5F3bNJ2VKy',
+    placeholder: "说点什么吧。",
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: true,
+    lang: '' || 'zh-cn',
+    path: location.pathname,
+    recordIP: false,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/moment.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/moment-precise-range-plugin@1.3.0/moment-precise-range.min.js"></script>
+  <script>
+    function timer() {
+      var ages = moment.preciseDiff(moment(),moment(20190101,"YYYYMMDD"));
+      //去除时分秒信息
+      ages = ages.replace(/\s?\d{0,2}\s+hours?/, "");
+      ages = ages.replace(/\s?\d{0,2}\s+minutes?/, "");
+      ages = ages.replace(/\s?\d{0,2}\s+seconds?/, "");
+      //将年月日转换为中文
+      ages = ages.replace(/years?/, "年");
+      ages = ages.replace(/months?/, "月");
+      ages = ages.replace(/days?/, "天");
+      ages = ages.replace(/\d+/g, '<span style="color:#1094e8">$&</span>');
+      span.innerHTML = ` &nbsp; | &nbsp;我已在此等候你 ${ages}`;
+    }
+    var span = document.createElement("span");
+    //插入到agesicon之后
+    var agesicon = document.querySelector(".agesicon");
+    document.querySelector(".copyright").insertBefore(span, agesicon.nextSibling);
+    timer();
+  </script>
+<script src="/blog/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/blog/live2dw/assets/hibiki.model.json"},"display":{"position":"right","width":190,"height":500},"mobile":{"show":false},"react":{"opacity":0.9}});</script></body>
+</html>

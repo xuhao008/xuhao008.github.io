@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/blog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/blog/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/blog/lib/pace/pace-theme-minimal.min.css">
+  <script src="/blog/lib/pace/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://javaxh.gitee.io').hostname,
+    root: '/blog/',
+    scheme: 'Gemini',
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":true,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="JSP中JSTL学习 &lt;%@ page language&#x3D;“java” import&#x3D;“java.util.*” pageEncoding&#x3D;“utf-8”%&gt; &lt;%@taglib prefix&#x3D;“c” uri&#x3D;“http:&#x2F;&#x2F;java.sun.com&#x2F;jsp&#x2F;jstl&#x2F;core” %&gt; &lt;%– JSTL学习： 作用： 提高jsp中的逻辑代码编写效率，使用标签 使用：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JSP中使用JSTL">
+<meta property="og:url" content="http://javaxh.gitee.io/2019/05/11/JSP%E4%B8%ADJSTL%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="JAVA入土">
+<meta property="og:description" content="JSP中JSTL学习 &lt;%@ page language&#x3D;“java” import&#x3D;“java.util.*” pageEncoding&#x3D;“utf-8”%&gt; &lt;%@taglib prefix&#x3D;“c” uri&#x3D;“http:&#x2F;&#x2F;java.sun.com&#x2F;jsp&#x2F;jstl&#x2F;core” %&gt; &lt;%– JSTL学习： 作用： 提高jsp中的逻辑代码编写效率，使用标签 使用：">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-05-10T22:05:12.000Z">
+<meta property="article:modified_time" content="2020-08-05T03:27:43.095Z">
+<meta property="article:author" content="晨月">
+<meta property="article:tag" content="JSTL">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://javaxh.gitee.io/2019/05/11/JSP%E4%B8%ADJSTL%E5%AD%A6%E4%B9%A0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>JSP中使用JSTL | JAVA入土</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/blog/atom.xml" title="JAVA入土" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/blog/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">JAVA入土</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">学习使我快乐</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/blog/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/blog/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">12</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/blog/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">0</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/blog/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">24</span></a>
+
+  </li>
+        <li class="menu-item menu-item-hot">
+
+    <a href="/blog/hot/" rel="section"><i class="fa fa-fw fa-signal"></i>热度排行</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/xuhao008/" class="github-corner" title="欢迎访问我的github主页" aria-label="欢迎访问我的github主页" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://javaxh.gitee.io/2019/05/11/JSP%E4%B8%ADJSTL%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/blog/images/1a.jpg">
+      <meta itemprop="name" content="晨月">
+      <meta itemprop="description" content="技术博客,Java,记录美好学习时光">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JAVA入土">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JSP中使用JSTL
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-05-10 22:05:12" itemprop="dateCreated datePublished" datetime="2019-05-10T22:05:12Z">2019-05-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-08-05 03:27:43" itemprop="dateModified" datetime="2020-08-05T03:27:43Z">2020-08-05</time>
+              </span>
+
+          
+            <span id="/blog/2019/05/11/JSP%E4%B8%ADJSTL%E5%AD%A6%E4%B9%A0/" class="post-meta-item leancloud_visitors" data-flag-title="JSP中使用JSTL" title="热度">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">热度：</span>
+              <span class="leancloud-visitors-count"></span>
+              <span>℃</span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/blog/2019/05/11/JSP%E4%B8%ADJSTL%E5%AD%A6%E4%B9%A0/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/blog/2019/05/11/JSP%E4%B8%ADJSTL%E5%AD%A6%E4%B9%A0/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4k 字</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1>JSP中JSTL学习</h1>
+<p>&lt;%@ page language=“java” import=“java.util.*” pageEncoding=“utf-8”%&gt;<br>
+&lt;%@taglib prefix=“c” uri=“<a href="http://java.sun.com/jsp/jstl/core" target="_blank" rel="noopener">http://java.sun.com/jsp/jstl/core</a>” %&gt;<br>
+&lt;%–<br>
+JSTL学习：<br>
+<strong>作用：</strong><br>
+提高jsp中的逻辑代码编写效率，使用标签<br>
+<strong>使用：</strong><br>
+JSTL的核心标签库<br>
+JSTL的格式化标签库<br>
+JSTL的sql标签库<br>
+JSTL的xml标签库<br>
+<strong>JSTL的核心标签库：</strong><br>
+1、导入jar包<br>
+2、声明jstl标签库的引入（核心标签库）<br>
+&lt;%@taglib prefix=“c” uri=“<a href="http://java.sun.com/jsp/jstl/core" target="_blank" rel="noopener">http://java.sun.com/jsp/jstl/core</a>” %&gt;<br>
+3、内容</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">基本标签：</span><br><span class="line">	&lt;c:out value="数据" default="默认值"&gt;&lt;/c:out&gt;</span><br><span class="line">		数据可以作为常量也可以是EL表达式。</span><br><span class="line">		作用：将数据输出给客户端</span><br><span class="line">	&lt;c:set var="hello" value="hello page" scope="page"&gt;&lt;/c:set&gt;</span><br><span class="line">		作用：存储数据到作用域中</span><br><span class="line">		<span class="keyword">var</span>：表示存储的键名</span><br><span class="line">		value：表示存储的数据</span><br><span class="line">		scope：表示要存储的作用域对象page request session application</span><br><span class="line">	&lt;c:remove <span class="keyword">var</span>=<span class="string">"hello"</span> scope=<span class="string">"page"</span>/&gt;&lt;br/&gt;</span><br><span class="line">		作用：删除作用域中的指定键数据</span><br><span class="line">		<span class="keyword">var</span>：表示存储的键名</span><br><span class="line">		scope：表示要删除的作用域</span><br><span class="line">		注意：</span><br><span class="line">			如果不指定作用域，则删除所有</span><br><span class="line">逻辑标签：</span><br><span class="line">	&lt;c:if test="$&#123;表达式&#125;"&gt;前端代码&lt;/c:if&gt;	</span><br><span class="line">		作用：进行逻辑判断，相当于java代码的单分支判断</span><br><span class="line">		注意：</span><br><span class="line">			逻辑判断标签需要依赖于El的逻辑运算，也就是表达式中涉及到的数据必须从作用域中获取</span><br><span class="line">	&lt;c:choose&gt;</span><br><span class="line">	&lt;c:when test="条件"&gt;判断成功执行内容&lt;/c:when&gt;</span><br><span class="line">	&lt;c:when test=""&gt;&lt;/c:when&gt;</span><br><span class="line">	.........</span><br><span class="line">	</span><br><span class="line">	&lt;c:otherwise&gt;判断都不成立执行&lt;/c:otherwise&gt;</span><br><span class="line">	&lt;/c:choose&gt;</span><br><span class="line">		作用：用来进行多条件的逻辑判断，类似java的多分枝语句</span><br><span class="line">		注意：</span><br><span class="line">			条件成立只会执行一次，都不成立执行otherwise-</span><br><span class="line">	</span><br><span class="line">循环标签：</span><br><span class="line">	&lt;c:forEach begin="1" end="4" step="2"&gt;循环体&lt;br/&gt;&lt;/c:forEach&gt;</span><br><span class="line">		作用：</span><br><span class="line">			循环内容进行处理</span><br><span class="line">		使用：</span><br><span class="line">			begin：声明循环开始位置</span><br><span class="line">			end：声明循环结束位置</span><br><span class="line">			step：每次循环长度</span><br><span class="line">			VarStatus：声明变量记录每次循环的数据（角标，次数，是否是第一次循环，是否是最后一次循环）</span><br><span class="line">				$&#123;vs.index&#125;---$&#123;vs.count&#125;--$&#123;vs.first&#125;---$&#123;vs.last&#125;&lt;br/&gt;&lt;/c:forEach&gt;</span><br><span class="line">				注意：数据存储在作用域中，需要使用El表达式获取</span><br><span class="line">			items:声明要遍历的对象，结合EL表达式获取对象</span><br><span class="line">			<span class="keyword">var</span>:声明变量记录每次循环的结果，结果存储在El表达式中，需要使用El表达式获取。</span><br></pre></td></tr></table></figure>
+<h3 id="基本标签学习">基本标签学习</h3>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"> &lt;%</span><br><span class="line"> 	request.setAttribute(<span class="string">"str"</span>, <span class="string">"学习使我快乐"</span>);</span><br><span class="line">  %&gt;</span><br><span class="line"></span><br><span class="line">&lt;c:out <span class="attribute">value</span>=<span class="string">"哈哈"</span>&gt;&lt;/c:out&gt;----$&#123;str&#125;&lt;br/&gt;</span><br><span class="line">&lt;c:out <span class="attribute">value</span>=<span class="string">"<span class="variable">$&#123;str2&#125;</span>"</span> <span class="attribute">default</span>=<span class="string">"哈哈11"</span>&gt;&lt;/c:out&gt;&lt;br/&gt;</span><br><span class="line">&lt;c:<span class="builtin-name">set</span> <span class="attribute">var</span>=<span class="string">"hello"</span> <span class="attribute">value</span>=<span class="string">"hello page"</span> <span class="attribute">scope</span>=<span class="string">"page"</span>&gt;&lt;/c:set&gt;&lt;br/&gt;</span><br><span class="line">&lt;c:<span class="builtin-name">set</span> <span class="attribute">var</span>=<span class="string">"hello"</span> <span class="attribute">value</span>=<span class="string">"hello request"</span> <span class="attribute">scope</span>=<span class="string">"request"</span>&gt;&lt;/c:set&gt;&lt;br/&gt;</span><br><span class="line">&lt;c:<span class="builtin-name">set</span> <span class="attribute">var</span>=<span class="string">"hello"</span> <span class="attribute">value</span>=<span class="string">"hello request"</span> <span class="attribute">scope</span>=<span class="string">"session"</span>&gt;&lt;/c:set&gt;&lt;br/&gt;</span><br><span class="line">&lt;c:<span class="builtin-name">set</span> <span class="attribute">var</span>=<span class="string">"hello"</span> <span class="attribute">value</span>=<span class="string">"hello application"</span> <span class="attribute">scope</span>=<span class="string">"application"</span>&gt;&lt;/c:set&gt;&lt;br/&gt;</span><br><span class="line">&lt;c:out <span class="attribute">value</span>=<span class="string">"<span class="variable">$&#123;hello&#125;</span>"</span>&gt;&lt;/c:out&gt;</span><br><span class="line">&lt;c:out <span class="attribute">value</span>=<span class="string">"<span class="variable">$&#123;sessionScope.hello&#125;</span>"</span>&gt;&lt;/c:out&gt;&lt;br/&gt;</span><br><span class="line">&lt;c:<span class="builtin-name">remove</span> <span class="attribute">var</span>=<span class="string">"hello"</span> <span class="attribute">scope</span>=<span class="string">"page"</span>/&gt;&lt;br/&gt;</span><br><span class="line">&lt;c:out <span class="attribute">value</span>=<span class="string">"<span class="variable">$&#123;hello&#125;</span>"</span>&gt;&lt;/c:out&gt; &lt;br/&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="逻辑标签学习">逻辑标签学习</h3>
+<figure class="highlight dust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"> <span class="tag">&lt;<span class="name">c:set</span> <span class="attr">var</span>=<span class="string">"a"</span> <span class="attr">value</span>=<span class="string">"5"</span>&gt;</span><span class="tag">&lt;/<span class="name">c:set</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">c:if</span> <span class="attr">test</span>=<span class="string">"$</span></span></span><span class="template-variable">&#123;a&gt;3&#125;</span><span class="xml"><span class="tag"><span class="string">"</span>&gt;</span></span></span><br><span class="line"><span class="xml">	<span class="tag">&lt;<span class="name">b</span>&gt;</span>学习<span class="tag">&lt;/<span class="name">b</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;/<span class="name">c:if</span>&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">c:set</span> <span class="attr">var</span>=<span class="string">"xx"</span> <span class="attr">value</span>=<span class="string">"85"</span>&gt;</span><span class="tag">&lt;/<span class="name">c:set</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">c:choose</span>&gt;</span></span></span><br><span class="line"><span class="xml">	<span class="tag">&lt;<span class="name">c:when</span> <span class="attr">test</span>=<span class="string">"$</span></span></span><span class="template-variable">&#123;xx&gt;=90&#125;</span><span class="xml"><span class="tag"><span class="string">"</span>&gt;</span></span></span><br><span class="line"><span class="xml">		<span class="tag">&lt;<span class="name">i</span>&gt;</span>快乐<span class="tag">&lt;/<span class="name">i</span>&gt;</span></span></span><br><span class="line"><span class="xml">	<span class="tag">&lt;/<span class="name">c:when</span>&gt;</span></span></span><br><span class="line"><span class="xml">	<span class="tag">&lt;<span class="name">c:when</span> <span class="attr">test</span>=<span class="string">"$</span></span></span><span class="template-variable">&#123;xx&lt;90&amp;&amp;xx&gt;=80&#125;</span><span class="xml"><span class="tag"><span class="string">"</span>&gt;</span></span></span><br><span class="line"><span class="xml">		<span class="tag">&lt;<span class="name">i</span>&gt;</span>了啦啦啦<span class="tag">&lt;/<span class="name">i</span>&gt;</span></span></span><br><span class="line"><span class="xml">	<span class="tag">&lt;/<span class="name">c:when</span>&gt;</span></span></span><br><span class="line"><span class="xml">	<span class="tag">&lt;<span class="name">c:when</span> <span class="attr">test</span>=<span class="string">"$</span></span></span><span class="template-variable">&#123;xx&lt;80&#125;</span><span class="xml"><span class="tag"><span class="string">"</span>&gt;</span></span></span><br><span class="line"><span class="xml">		<span class="tag">&lt;<span class="name">i</span>&gt;</span>男男女女女<span class="tag">&lt;/<span class="name">i</span>&gt;</span></span></span><br><span class="line"><span class="xml">	<span class="tag">&lt;/<span class="name">c:when</span>&gt;</span></span></span><br><span class="line"><span class="xml">	<span class="tag">&lt;<span class="name">c:otherwise</span>&gt;</span></span></span><br><span class="line"><span class="xml">		<span class="tag">&lt;<span class="name">i</span>&gt;</span>中<span class="tag">&lt;/<span class="name">i</span>&gt;</span></span></span><br><span class="line"><span class="xml">	<span class="tag">&lt;/<span class="name">c:otherwise</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;/<span class="name">c:choose</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+<h3 id="循环标签学习">循环标签学习</h3>
+<h4 id="常量循环">常量循环</h4>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="keyword">c</span>:forEach begin=<span class="string">"1"</span> end=<span class="string">"4"</span> step=<span class="string">"1"</span> varStatus=<span class="string">"vs"</span>&gt;<span class="number">1111</span>---$&#123;<span class="keyword">vs</span>.<span class="built_in">index</span>&#125;---$&#123;<span class="keyword">vs</span>.<span class="built_in">count</span>&#125;--$&#123;<span class="keyword">vs</span>.<span class="keyword">first</span>&#125;---$&#123;<span class="keyword">vs</span>.<span class="keyword">last</span>&#125;&lt;<span class="keyword">br</span>/&gt;&lt;/<span class="keyword">c</span>:forEach&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="动态循环List">动态循环List</h4>
+<figure class="highlight vbscript-html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml">JSP中存入request域值</span></span><br><span class="line"><span class="vbscript">&lt;%</span></span><br><span class="line"><span class="vbscript">ArrayList&lt;<span class="built_in">String</span>&gt; str=<span class="keyword">new</span> ArrayList&lt;&gt;();</span></span><br><span class="line"><span class="vbscript">   str.add(<span class="string">"a"</span>);</span></span><br><span class="line"><span class="vbscript">   str.add(<span class="string">"b"</span>);</span></span><br><span class="line"><span class="vbscript">   str.add(<span class="string">"c"</span>);</span></span><br><span class="line"><span class="vbscript">   <span class="built_in">request</span>.setAttribute(<span class="string">"list"</span>, str);</span></span><br><span class="line"><span class="vbscript">%&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">c:forEach</span> <span class="attr">items</span>=<span class="string">"$&#123;list&#125;"</span> <span class="attr">var</span>=<span class="string">"str"</span> &gt;</span></span></span><br><span class="line"><span class="xml"> 	<span class="tag">&lt;<span class="name">table</span>&gt;</span></span></span><br><span class="line"><span class="xml"> 		<span class="tag">&lt;<span class="name">tr</span>&gt;</span></span></span><br><span class="line"><span class="xml"> 			<span class="tag">&lt;<span class="name">td</span>&gt;</span>$&#123;str&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span></span><br><span class="line"><span class="xml"> 			<span class="tag">&lt;<span class="name">td</span>&gt;</span>$&#123;str&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span></span><br><span class="line"><span class="xml"> 			<span class="tag">&lt;<span class="name">td</span>&gt;</span>$&#123;str&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span></span><br><span class="line"><span class="xml"> 		<span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span></span><br><span class="line"><span class="xml"> 	<span class="tag">&lt;/<span class="name">table</span>&gt;</span></span></span><br><span class="line"><span class="xml"> <span class="tag">&lt;/<span class="name">c:forEach</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+<h4 id="动态循环Map">动态循环Map</h4>
+<figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;%</span><br><span class="line">HashMap&lt;String ,String&gt; <span class="keyword">map</span>=new HashMap&lt;String,String&gt;();</span><br><span class="line"> 		 <span class="keyword">map</span>.put(<span class="string">"1"</span>, <span class="string">"a"</span>);</span><br><span class="line">   		 <span class="keyword">map</span>.put(<span class="string">"2"</span>, <span class="string">"b"</span>);</span><br><span class="line">     	 <span class="keyword">map</span>.put(<span class="string">"3"</span>, <span class="string">"c"</span>);</span><br><span class="line">     	 request.setAttribute(<span class="string">"map"</span>, <span class="keyword">map</span>);</span><br><span class="line">%&gt;</span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">c:forEach</span> <span class="attr">items</span>=<span class="string">"$&#123;map&#125;"</span> <span class="attr">var</span>=<span class="string">"map"</span>&gt;</span></span></span><br><span class="line"><span class="xml">	</span><span class="xml"><span class="tag">&lt;<span class="name">table</span>&gt;</span></span></span><br><span class="line"><span class="xml"> 		</span><span class="xml"><span class="tag">&lt;<span class="name">tr</span>&gt;</span></span></span><br><span class="line"><span class="xml"> 			</span><span class="xml"><span class="tag">&lt;<span class="name">td</span>&gt;</span>$</span><span class="xquery">&#123;<span class="keyword">map</span><span class="built_in">.key</span>&#125;</span><span class="xml">---$</span><span class="xquery">&#123;<span class="keyword">map</span>.<span class="keyword">value</span>&#125;</span><span class="xml"><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span></span><br><span class="line"><span class="xml"> 			</span><span class="xml"><span class="tag">&lt;<span class="name">td</span>&gt;</span>$</span><span class="xquery">&#123;<span class="keyword">map</span><span class="built_in">.key</span>&#125;</span><span class="xml">---$</span><span class="xquery">&#123;<span class="keyword">map</span>.<span class="keyword">value</span>&#125;</span><span class="xml"><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span></span><br><span class="line"><span class="xml"> 			</span><span class="xml"><span class="tag">&lt;<span class="name">td</span>&gt;</span>$</span><span class="xquery">&#123;<span class="keyword">map</span><span class="built_in">.key</span>&#125;</span><span class="xml">---$</span><span class="xquery">&#123;<span class="keyword">map</span>.<span class="keyword">value</span>&#125;</span><span class="xml"><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span></span><br><span class="line"><span class="xml"> 		<span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span></span><br><span class="line"><span class="xml"> 	<span class="tag">&lt;/<span class="name">table</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;/<span class="name">c:forEach</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    
+      <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束 <i class="fa fa-heart"></i> 感谢阅读-------------</div>
+
+    
+        <div class="reward-container">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/blog/images/wechatpay.png" alt="晨月 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/blog/images/alipay.jpg" alt="晨月 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/blog/tags/JSTL/" rel="tag"><i class="fa fa-tag"></i>JSTL</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/blog/2019/04/06/%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BASpringCloud%E7%8E%AF%E5%A2%83/" rel="prev" title="快速搭建SpringCloud环境">
+      <i class="fa fa-chevron-left"></i> 快速搭建SpringCloud环境
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/blog/2019/05/31/%E4%BD%BF%E7%94%A8java%E7%88%AC%E8%99%AB%E7%88%AC%E5%8F%96%E7%BD%91%E7%AB%99%E5%89%8D%E5%8F%B0%E4%BB%A3%E7%A0%81%EF%BC%88html+css+js+img%EF%BC%89/" rel="next" title="使用java爬虫爬取网站前台代码（html+css+js+img）">
+      使用java爬虫爬取网站前台代码（html+css+js+img） <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="comments"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#null"><span class="nav-number">1.</span> <span class="nav-text">JSP中JSTL学习</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本标签学习"><span class="nav-number">1.0.1.</span> <span class="nav-text">基本标签学习</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#逻辑标签学习"><span class="nav-number">1.0.2.</span> <span class="nav-text">逻辑标签学习</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#循环标签学习"><span class="nav-number">1.0.3.</span> <span class="nav-text">循环标签学习</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#常量循环"><span class="nav-number">1.0.3.1.</span> <span class="nav-text">常量循环</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#动态循环List"><span class="nav-number">1.0.3.2.</span> <span class="nav-text">动态循环List</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#动态循环Map"><span class="nav-number">1.0.3.3.</span> <span class="nav-text">动态循环Map</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="晨月"
+      src="/blog/images/1a.jpg">
+  <p class="site-author-name" itemprop="name">晨月</p>
+  <div class="site-description" itemprop="description">技术博客,Java,记录美好学习时光</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/blog/archives/">
+        
+          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/blog/tags/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xuhao008/" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xuhao008&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/weixin_44209403/" title="CSDN → https:&#x2F;&#x2F;blog.csdn.net&#x2F;weixin_44209403&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-copyright"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/yourname" title="码云 → https:&#x2F;&#x2F;weibo.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fa fa-fw fa-google"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/blog/xhxxswkl@163.com" title="E-Mail → xhxxswkl@163.com"><i class="fa fa-fw fa-envelope"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/blog/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+      
+       <div>
+          <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="210" height="110" src="//music.163.com/outchain/player?type=2&id=518682659&auto=0&height=66"></iframe>
+       </div>
+      
+
+
+      <!-- 添加近期文章 -->
+      
+        <div class="links-of-blogroll motion-element links-of-blogroll-block">
+          <div class="links-of-blogroll-title">
+            <!-- modify icon to fire by szw -->
+            <i class="fa fa-history fa-" aria-hidden="true"></i>
+            近期文章
+          </div>
+          <ul class="links-of-blogroll-list">
+            
+            
+              <li>
+                <a href="/blog/" title="" target="_blank"></a>
+              </li>
+            
+              <li>
+                <a href="/blog/" title="" target="_blank"></a>
+              </li>
+            
+              <li>
+                <a href="/blog/" title="" target="_blank"></a>
+              </li>
+            
+              <li>
+                <a href="/blog/" title="" target="_blank"></a>
+              </li>
+            
+              <li>
+                <a href="/blog/" title="" target="_blank"></a>
+              </li>
+            
+          </ul>
+        </div>
+      
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">晨月</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">124k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">2:35</span>
+</div>
+
+        <div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+   
+    <span class="site-uv">
+       我的第 <span class="busuanzi-value" id="busuanzi_value_site_uv"></span> 位朋友，
+    </span>
+   <span class="agesicon"> <span>
+   
+   
+     <span class="site-pv">
+       历经 <span class="busuanzi-value" id="busuanzi_value_site_pv"></span> 次回眸才与你相遇。
+     </span>
+   
+ 
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='150' src="/blog/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/blog/lib/anime.min.js"></script>
+  <script src="/blog/lib/velocity/velocity.min.js"></script>
+  <script src="/blog/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/blog/js/utils.js"></script>
+
+<script src="/blog/js/motion.js"></script>
+
+
+<script src="/blog/js/schemes/pisces.js"></script>
+
+
+<script src="/blog/js/next-boot.js"></script>
+
+<script src="/blog/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/blog/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: true,
+    notify: true,
+    appId: 'wG3LQ9piimb7LMXEDw0BCOmG-gzGzoHsz',
+    appKey: 'pXkLtQymiNmeMV5F3bNJ2VKy',
+    placeholder: "说点什么吧。",
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: true,
+    lang: '' || 'zh-cn',
+    path: location.pathname,
+    recordIP: false,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/moment.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/moment-precise-range-plugin@1.3.0/moment-precise-range.min.js"></script>
+  <script>
+    function timer() {
+      var ages = moment.preciseDiff(moment(),moment(20190101,"YYYYMMDD"));
+      //去除时分秒信息
+      ages = ages.replace(/\s?\d{0,2}\s+hours?/, "");
+      ages = ages.replace(/\s?\d{0,2}\s+minutes?/, "");
+      ages = ages.replace(/\s?\d{0,2}\s+seconds?/, "");
+      //将年月日转换为中文
+      ages = ages.replace(/years?/, "年");
+      ages = ages.replace(/months?/, "月");
+      ages = ages.replace(/days?/, "天");
+      ages = ages.replace(/\d+/g, '<span style="color:#1094e8">$&</span>');
+      span.innerHTML = ` &nbsp; | &nbsp;我已在此等候你 ${ages}`;
+    }
+    var span = document.createElement("span");
+    //插入到agesicon之后
+    var agesicon = document.querySelector(".agesicon");
+    document.querySelector(".copyright").insertBefore(span, agesicon.nextSibling);
+    timer();
+  </script>
+<script src="/blog/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/blog/live2dw/assets/hibiki.model.json"},"display":{"position":"right","width":190,"height":500},"mobile":{"show":false},"react":{"opacity":0.9}});</script></body>
+</html>

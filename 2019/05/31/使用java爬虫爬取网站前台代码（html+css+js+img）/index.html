@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/blog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/blog/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/blog/lib/pace/pace-theme-minimal.min.css">
+  <script src="/blog/lib/pace/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://javaxh.gitee.io').hostname,
+    root: '/blog/',
+    scheme: 'Gemini',
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":true,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="使用java爬虫爬取网站前台代码（html+css+js+img） 一、爬虫 1、什么是爬虫 爬虫主要针对与网络网页，又称网络爬虫、网络蜘蛛，可以自动化浏览网络中的信息，或者说是一种网络机器人。它们被广泛用于互联网搜索引擎或其他类似网站，以获取或更新这些网站的内容和检索方式。它们可以自动采集所有其能够访问到的页面内容，以便程序做下一步的处理。 2、为什么我们要爬取数据 在大数据时代,我们要获取更多">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用java爬虫爬取网站前台代码（html+css+js+img）">
+<meta property="og:url" content="http://javaxh.gitee.io/2019/05/31/%E4%BD%BF%E7%94%A8java%E7%88%AC%E8%99%AB%E7%88%AC%E5%8F%96%E7%BD%91%E7%AB%99%E5%89%8D%E5%8F%B0%E4%BB%A3%E7%A0%81%EF%BC%88html+css+js+img%EF%BC%89/index.html">
+<meta property="og:site_name" content="JAVA入土">
+<meta property="og:description" content="使用java爬虫爬取网站前台代码（html+css+js+img） 一、爬虫 1、什么是爬虫 爬虫主要针对与网络网页，又称网络爬虫、网络蜘蛛，可以自动化浏览网络中的信息，或者说是一种网络机器人。它们被广泛用于互联网搜索引擎或其他类似网站，以获取或更新这些网站的内容和检索方式。它们可以自动采集所有其能够访问到的页面内容，以便程序做下一步的处理。 2、为什么我们要爬取数据 在大数据时代,我们要获取更多">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20191120201810607.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDIwOTQwMw==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2019112020183150.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDIwOTQwMw==,size_16,color_FFFFFF,t_70">
+<meta property="article:published_time" content="2019-05-30T22:05:12.000Z">
+<meta property="article:modified_time" content="2020-08-05T03:27:43.110Z">
+<meta property="article:author" content="晨月">
+<meta property="article:tag" content="docker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20191120201810607.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDIwOTQwMw==,size_16,color_FFFFFF,t_70">
+
+<link rel="canonical" href="http://javaxh.gitee.io/2019/05/31/%E4%BD%BF%E7%94%A8java%E7%88%AC%E8%99%AB%E7%88%AC%E5%8F%96%E7%BD%91%E7%AB%99%E5%89%8D%E5%8F%B0%E4%BB%A3%E7%A0%81%EF%BC%88html+css+js+img%EF%BC%89/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>使用java爬虫爬取网站前台代码（html+css+js+img） | JAVA入土</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/blog/atom.xml" title="JAVA入土" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/blog/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">JAVA入土</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">学习使我快乐</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/blog/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/blog/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">12</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/blog/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">0</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/blog/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">24</span></a>
+
+  </li>
+        <li class="menu-item menu-item-hot">
+
+    <a href="/blog/hot/" rel="section"><i class="fa fa-fw fa-signal"></i>热度排行</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/xuhao008/" class="github-corner" title="欢迎访问我的github主页" aria-label="欢迎访问我的github主页" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://javaxh.gitee.io/2019/05/31/%E4%BD%BF%E7%94%A8java%E7%88%AC%E8%99%AB%E7%88%AC%E5%8F%96%E7%BD%91%E7%AB%99%E5%89%8D%E5%8F%B0%E4%BB%A3%E7%A0%81%EF%BC%88html+css+js+img%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/blog/images/1a.jpg">
+      <meta itemprop="name" content="晨月">
+      <meta itemprop="description" content="技术博客,Java,记录美好学习时光">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JAVA入土">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用java爬虫爬取网站前台代码（html+css+js+img）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-05-30 22:05:12" itemprop="dateCreated datePublished" datetime="2019-05-30T22:05:12Z">2019-05-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-08-05 03:27:43" itemprop="dateModified" datetime="2020-08-05T03:27:43Z">2020-08-05</time>
+              </span>
+
+          
+            <span id="/blog/2019/05/31/%E4%BD%BF%E7%94%A8java%E7%88%AC%E8%99%AB%E7%88%AC%E5%8F%96%E7%BD%91%E7%AB%99%E5%89%8D%E5%8F%B0%E4%BB%A3%E7%A0%81%EF%BC%88html+css+js+img%EF%BC%89/" class="post-meta-item leancloud_visitors" data-flag-title="使用java爬虫爬取网站前台代码（html+css+js+img）" title="热度">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">热度：</span>
+              <span class="leancloud-visitors-count"></span>
+              <span>℃</span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/blog/2019/05/31/%E4%BD%BF%E7%94%A8java%E7%88%AC%E8%99%AB%E7%88%AC%E5%8F%96%E7%BD%91%E7%AB%99%E5%89%8D%E5%8F%B0%E4%BB%A3%E7%A0%81%EF%BC%88html+css+js+img%EF%BC%89/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/blog/2019/05/31/%E4%BD%BF%E7%94%A8java%E7%88%AC%E8%99%AB%E7%88%AC%E5%8F%96%E7%BD%91%E7%AB%99%E5%89%8D%E5%8F%B0%E4%BB%A3%E7%A0%81%EF%BC%88html+css+js+img%EF%BC%89/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>10k 字</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>13 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1>使用java爬虫爬取网站前台代码（html+css+js+img）</h1>
+<h2 id="一、爬虫">一、爬虫</h2>
+<p>1、什么是爬虫<br>
+爬虫主要针对与网络网页，又称网络爬虫、网络蜘蛛，可以自动化浏览网络中的信息，或者说是一种网络机器人。它们被广泛用于互联网搜索引擎或其他类似网站，以获取或更新这些网站的内容和检索方式。它们可以自动采集所有其能够访问到的页面内容，以便程序做下一步的处理。<br>
+2、为什么我们要爬取数据<br>
+在大数据时代,我们要获取更多数据,就要进行数据的挖掘、分析、筛选,比如当我们做一个项目的时候,需要大量真实的数据的时候,就需要去某些网站进行爬取,有些网站的数据爬取后保存到数据库还不能够直接使用,需要进行清洗、过滤后才能使用,我们知道有些数据是非常珍贵的。</p>
+<h2 id="二、Jsoup">二、Jsoup</h2>
+<p>1、什么是Jsoup<br>
+jsoup 是一款 Java 的HTML 解析器，可直接解析某个URL地址、HTML文本内容。它提供了一套非常省力的API，可通过DOM，CSS以及类似于JQuery的操作方法来取出和操作数据。该版本包含一个支持 HTML5 的解析器分支，可确保跟现在的浏览器一样解析 HTML 的方法，同时降低了解析的时间和内存的占用。<br>
+2、Jsoup主要功能<br>
+2_1、从一个URL，文件或字符串中解析HTML；<br>
+2_2、使用DOM或CSS选择器来查找、取出数据；<br>
+2_3、可操作HTML元素、属性、文本<br>
+详细介绍参考：<a href="https://www.cnblogs.com/zhangyinhua/p/8037599.html" target="_blank" rel="noopener">https://www.cnblogs.com/zhangyinhua/p/8037599.html</a></p>
+<p>三、创建项目<br>
+1、pom文件</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencies&gt;</span><br><span class="line">       &lt;dependency&gt;</span><br><span class="line">           &lt;groupId&gt;com.googlecode.juniversalchardet&lt;/groupId&gt;</span><br><span class="line">           &lt;artifactId&gt;juniversalchardet&lt;/artifactId&gt;</span><br><span class="line">           &lt;version&gt;1.0.3&lt;/version&gt;</span><br><span class="line">       &lt;/dependency&gt;</span><br><span class="line">       &lt;dependency&gt;</span><br><span class="line">           &lt;groupId&gt;org.kie.modules&lt;/groupId&gt;</span><br><span class="line">           &lt;artifactId&gt;org-apache-commons-httpclient&lt;/artifactId&gt;</span><br><span class="line">           &lt;version&gt;6.2.0.CR2&lt;/version&gt;</span><br><span class="line">           &lt;type&gt;pom&lt;/type&gt;</span><br><span class="line">       &lt;/dependency&gt;</span><br><span class="line">       &lt;dependency&gt;</span><br><span class="line">           &lt;groupId&gt;org.jsoup&lt;/groupId&gt;</span><br><span class="line">           &lt;artifactId&gt;jsoup&lt;/artifactId&gt;</span><br><span class="line">           &lt;version&gt;1.10.3&lt;/version&gt;</span><br><span class="line">       &lt;/dependency&gt;</span><br><span class="line">       &lt;dependency&gt;</span><br><span class="line">           &lt;groupId&gt;org.apache.httpcomponents&lt;/groupId&gt;</span><br><span class="line">           &lt;artifactId&gt;httpcore&lt;/artifactId&gt;</span><br><span class="line">           &lt;version&gt;4.0.1&lt;/version&gt;</span><br><span class="line">       &lt;/dependency&gt;</span><br><span class="line">       &lt;dependency&gt;</span><br><span class="line">           &lt;groupId&gt;org.apache.httpcomponents&lt;/groupId&gt;</span><br><span class="line">           &lt;artifactId&gt;httpclient&lt;/artifactId&gt;</span><br><span class="line">           &lt;version&gt;4.0.2&lt;/version&gt;</span><br><span class="line">       &lt;/dependency&gt;</span><br><span class="line">   &lt;/dependencies&gt;</span><br></pre></td></tr></table></figure>
+<p>2、以正版中国网站为例，首先我们先获取页面</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RequestAndResponseTool</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Page  <span class="title">sendRequstAndGetResponse</span><span class="params">(String url)</span> </span>&#123;</span><br><span class="line">        Page page = <span class="keyword">null</span>;</span><br><span class="line">        <span class="comment">// 1.生成 HttpClinet 对象并设置参数</span></span><br><span class="line">        HttpClient httpClient = <span class="keyword">new</span> HttpClient();</span><br><span class="line">        <span class="comment">// 设置 HTTP 连接超时 5s</span></span><br><span class="line">        httpClient.getHttpConnectionManager().getParams().setConnectionTimeout(<span class="number">5000</span>);</span><br><span class="line">        <span class="comment">// 2.生成 GetMethod 对象并设置参数</span></span><br><span class="line">        GetMethod getMethod = <span class="keyword">new</span> GetMethod(url);</span><br><span class="line">        <span class="comment">// 设置 get 请求超时 5s</span></span><br><span class="line">        getMethod.getParams().setParameter(HttpMethodParams.SO_TIMEOUT, <span class="number">5000</span>);</span><br><span class="line">        <span class="comment">// 设置请求重试处理</span></span><br><span class="line">        getMethod.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, <span class="keyword">new</span> DefaultHttpMethodRetryHandler());</span><br><span class="line">        <span class="comment">// 3.执行 HTTP GET 请求</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">int</span> statusCode = httpClient.executeMethod(getMethod);</span><br><span class="line">        <span class="comment">// 判断访问的状态码</span></span><br><span class="line">            <span class="keyword">if</span> (statusCode != HttpStatus.SC_OK) &#123;</span><br><span class="line">                System.err.println(<span class="string">"Method failed: "</span> + getMethod.getStatusLine());</span><br><span class="line">            &#125;</span><br><span class="line">        <span class="comment">// 4.处理 HTTP 响应内容</span></span><br><span class="line">            <span class="keyword">byte</span>[] responseBody = getMethod.getResponseBody();<span class="comment">// 读取为字节 数组</span></span><br><span class="line">            String contentType = getMethod.getResponseHeader(<span class="string">"Content-Type"</span>).getValue(); <span class="comment">// 得到当前返回类型</span></span><br><span class="line"></span><br><span class="line">            page = <span class="keyword">new</span> Page(responseBody,url,contentType); <span class="comment">//封装成为页面</span></span><br><span class="line">        &#125; <span class="keyword">catch</span> (HttpException e) &#123;</span><br><span class="line">        <span class="comment">// 发生致命的异常，可能是协议不对或者返回的内容有问题</span></span><br><span class="line">            System.out.println(<span class="string">"Please check your provided http address!"</span>);</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        <span class="comment">// 发生网络异常</span></span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        <span class="comment">// 释放连接</span></span><br><span class="line">            getMethod.releaseConnection();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> page;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3、获取响应内容，放入page</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Page</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">byte</span>[] content ;</span><br><span class="line">    <span class="keyword">private</span> String html ;  <span class="comment">//网页源码字符串</span></span><br><span class="line">    <span class="keyword">private</span> Document doc  ;<span class="comment">//网页Dom文档</span></span><br><span class="line">    <span class="keyword">private</span> String charset ;<span class="comment">//字符编码</span></span><br><span class="line">    <span class="keyword">private</span> String url ;<span class="comment">//url路径</span></span><br><span class="line">    <span class="keyword">private</span> String contentType ;<span class="comment">// 内容类型</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Page</span><span class="params">(<span class="keyword">byte</span>[] content , String url , String contentType)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.content = content ;</span><br><span class="line">        <span class="keyword">this</span>.url = url ;</span><br><span class="line">        <span class="keyword">this</span>.contentType = contentType ;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getCharset</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> charset;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getUrl</span><span class="params">()</span></span>&#123;<span class="keyword">return</span> url ;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getContentType</span><span class="params">()</span></span>&#123; <span class="keyword">return</span> contentType ;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">byte</span>[] getContent()&#123; <span class="keyword">return</span> content ;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setContent</span><span class="params">(<span class="keyword">byte</span>[] content)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.content = content;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 返回网页的源码字符串</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 网页的源码字符串</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getHtml</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (html != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> html;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (content == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(charset==<span class="keyword">null</span>)&#123;</span><br><span class="line">            charset = CharsetDetector.guessEncoding(content); <span class="comment">// 根据内容来猜测 字符编码</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">this</span>.html = <span class="keyword">new</span> String(content, charset);</span><br><span class="line">            <span class="keyword">return</span> html;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (UnsupportedEncodingException ex) &#123;</span><br><span class="line">            ex.printStackTrace();</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    *  得到文档</span></span><br><span class="line"><span class="comment">    * */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Document <span class="title">getDoc</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (doc != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> doc;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">this</span>.doc = Jsoup.parse(getHtml(), url);</span><br><span class="line">            <span class="keyword">return</span> doc;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception ex) &#123;</span><br><span class="line">            ex.printStackTrace();</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>4、储存爬取的网页文本数据，FileTool</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FileTool</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> String dirPath;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * getMethod.getResponseHeader("Content-Type").getValue()</span></span><br><span class="line"><span class="comment">     * 根据 URL 和网页类型生成需要保存的网页的文件名，去除 URL 中的非文件名字符</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">getFileNameByUrl</span><span class="params">(String url, String contentType)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//去除 http://</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//text/html 类型</span></span><br><span class="line">        <span class="keyword">if</span> (contentType.indexOf(<span class="string">"html"</span>) != -<span class="number">1</span>) &#123;</span><br><span class="line">           url = url.replaceAll(<span class="string">"[\\?/:*|&lt;&gt;\"]"</span>, <span class="string">"_"</span>) + <span class="string">".html"</span>;</span><br><span class="line">           <span class="keyword">return</span> url;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">int</span> i = url.lastIndexOf(<span class="string">"/"</span>);</span><br><span class="line">            url = url.substring(i+<span class="number">1</span>,url.length());</span><br><span class="line">            <span class="keyword">return</span> url;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    *  生成目录</span></span><br><span class="line"><span class="comment">    * */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">mkdir</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (dirPath == <span class="keyword">null</span>) &#123;</span><br><span class="line">            dirPath = Class.class.getClass().getResource("/").getPath() + "temp\\";</span><br><span class="line">        &#125;</span><br><span class="line">        File fileDir = <span class="keyword">new</span> File(dirPath);</span><br><span class="line">        <span class="keyword">if</span> (!fileDir.exists()) &#123;</span><br><span class="line">            fileDir.mkdir();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 保存网页字节数组到本地文件，filePath 为要保存的文件的相对地址</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">saveToLocal</span><span class="params">(Page page)</span> </span>&#123;</span><br><span class="line">        mkdir();</span><br><span class="line">        String fileName = getFileNameByUrl(page.getUrl(), page.getContentType()) ;</span><br><span class="line"></span><br><span class="line">        String filePath = dirPath + fileName ;</span><br><span class="line">        <span class="keyword">byte</span>[] data = page.getContent();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line"></span><br><span class="line">            DataOutputStream out = <span class="keyword">new</span> DataOutputStream(<span class="keyword">new</span> FileOutputStream(<span class="keyword">new</span> File(filePath)));</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; data.length; i++) &#123;</span><br><span class="line">                out.write(data[i]);</span><br><span class="line">            &#125;</span><br><span class="line">            out.flush();</span><br><span class="line">            out.close();</span><br><span class="line">            System.out.println(<span class="string">"文件："</span>+ fileName + <span class="string">"已经被存储在"</span>+ filePath  );</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>5、主方法，配置网站路径和css，js，img的路径过滤，配置爬取文件存储地址，并获取</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyCrawler</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 使用种子初始化 URL 队列</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> seeds 种子 URL</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initCrawlerWithSeeds</span><span class="params">(String[] seeds)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; seeds.length; i++)&#123;</span><br><span class="line">            Links.addUnvisitedUrlQueue(seeds[i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 抓取过程</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> seeds</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">crawling2</span><span class="params">(String[] seeds)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//初始化 URL 队列</span></span><br><span class="line">        initCrawlerWithSeeds(seeds);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//定义过滤器，提取以 http://www.baidu.com 开头的链接</span></span><br><span class="line">        LinkFilter filter = <span class="keyword">new</span> LinkFilter() &#123;</span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">accept</span><span class="params">(String url)</span> </span>&#123;</span><br><span class="line">                <span class="keyword">if</span> (url.startsWith(<span class="string">"https://getitfree.cn/"</span>)) &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        URL url;</span><br><span class="line">        <span class="keyword">int</span> responsecode;</span><br><span class="line">        HttpURLConnection urlConnection;</span><br><span class="line">        BufferedReader reader;</span><br><span class="line">        String line;</span><br><span class="line">        String filePath=<span class="string">"F:\\IDEAProject\\crawl\\crawl\\target\\classes\\temp\\index.html"</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//循环条件：待抓取的链接不空且抓取的网页不多于 1000</span></span><br><span class="line">        <span class="keyword">while</span> (!Links.unVisitedUrlQueueIsEmpty()  &amp;&amp; Links.getVisitedUrlNum() &lt;= <span class="number">1000</span>) &#123;</span><br><span class="line"></span><br><span class="line">            <span class="comment">//先从待访问的序列中取出第一个；</span></span><br><span class="line">            String visitUrl = (String) Links.removeHeadOfUnVisitedUrlQueue();</span><br><span class="line">            <span class="keyword">if</span> (visitUrl == <span class="keyword">null</span>)&#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//根据URL得到page;</span></span><br><span class="line">            Page page = RequestAndResponseTool.sendRequstAndGetResponse(visitUrl);</span><br><span class="line">            Elements es = PageParserTool.select(page,<span class="string">"img"</span>);</span><br><span class="line">            Iterator iterator  = es.iterator();</span><br><span class="line">            <span class="keyword">while</span>(iterator.hasNext()) &#123;</span><br><span class="line">                Element element = (Element) iterator.next();</span><br><span class="line">                <span class="keyword">if</span> (element.hasAttr(<span class="string">"href"</span>)) &#123;</span><br><span class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (element.hasAttr(<span class="string">"src"</span>)) &#123;</span><br><span class="line">                    String src = element.attr(<span class="string">"src"</span>);</span><br><span class="line">                    <span class="keyword">if</span> (src.indexOf(<span class="string">"?"</span>)!=-<span class="number">1</span>)&#123;</span><br><span class="line">                        <span class="keyword">continue</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    src = src.substring(src.lastIndexOf(<span class="string">"/"</span>) + <span class="number">1</span>);</span><br><span class="line">                    element.attr(<span class="string">"src"</span>, src);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            es =PageParserTool.select(page,<span class="string">"link"</span>);</span><br><span class="line">            iterator  = es.iterator();</span><br><span class="line">            <span class="keyword">while</span>(iterator.hasNext()) &#123;</span><br><span class="line">                Element element = (Element) iterator.next();</span><br><span class="line">                <span class="keyword">if</span> (element.hasAttr(<span class="string">"href"</span>)) &#123;</span><br><span class="line">                    String href = element.attr(<span class="string">"href"</span>);</span><br><span class="line">                    <span class="keyword">if</span> (href.indexOf(<span class="string">"?"</span>)!=-<span class="number">1</span>)&#123;</span><br><span class="line">                        <span class="keyword">continue</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    href = href.substring(href.lastIndexOf(<span class="string">"/"</span>) + <span class="number">1</span>);</span><br><span class="line">                    element.attr(<span class="string">"href"</span>, href);</span><br><span class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (element.hasAttr(<span class="string">"src"</span>)) &#123;</span><br><span class="line">                    String src = element.attr(<span class="string">"src"</span>);</span><br><span class="line">                    src = src.substring(src.lastIndexOf(<span class="string">"/"</span>) + <span class="number">1</span>);</span><br><span class="line">                    element.attr(<span class="string">"src"</span>, src);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            es =PageParserTool.select(page,<span class="string">"script"</span>);</span><br><span class="line">            iterator  = es.iterator();</span><br><span class="line">            <span class="keyword">while</span>(iterator.hasNext()) &#123;</span><br><span class="line">                Element element = (Element) iterator.next();</span><br><span class="line">                <span class="keyword">if</span> (element.hasAttr(<span class="string">"href"</span>)) &#123;</span><br><span class="line">                    String href = element.attr(<span class="string">"href"</span>);</span><br><span class="line">                    <span class="comment">//System.out.println("src:" + src);</span></span><br><span class="line">                    href = href.substring(href.lastIndexOf(<span class="string">"/"</span>) + <span class="number">1</span>);</span><br><span class="line">                    element.attr(<span class="string">"href"</span>, href);</span><br><span class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (element.hasAttr(<span class="string">"src"</span>)) &#123;</span><br><span class="line">                    String src = element.attr(<span class="string">"src"</span>);</span><br><span class="line">                    <span class="comment">//System.out.println("src:" + src);</span></span><br><span class="line">                    <span class="keyword">if</span> (src.indexOf(<span class="string">"?"</span>)!=-<span class="number">1</span>)&#123;</span><br><span class="line">                        <span class="keyword">continue</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    src = src.substring(src.lastIndexOf(<span class="string">"/"</span>) + <span class="number">1</span>);</span><br><span class="line">                    element.attr(<span class="string">"src"</span>, src);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                File file = <span class="keyword">new</span> File(filePath);</span><br><span class="line">                PrintStream ps = <span class="keyword">new</span> PrintStream(<span class="keyword">new</span> FileOutputStream(file));</span><br><span class="line">                ps.append(page.getDoc().toString());</span><br><span class="line">            &#125; <span class="keyword">catch</span> (FileNotFoundException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">crawling</span><span class="params">(String[] seeds)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//初始化 URL 队列</span></span><br><span class="line">        initCrawlerWithSeeds(seeds);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//定义过滤器，提取以 http://www.baidu.com 开头的链接</span></span><br><span class="line">        LinkFilter filter = <span class="keyword">new</span> LinkFilter() &#123;</span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">accept</span><span class="params">(String url)</span> </span>&#123;</span><br><span class="line">                <span class="keyword">if</span> (url.startsWith(<span class="string">"https://getitfree.cn/"</span>)) &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//循环条件：待抓取的链接不空且抓取的网页不多于 1000</span></span><br><span class="line">        <span class="keyword">while</span> (!Links.unVisitedUrlQueueIsEmpty()  &amp;&amp; Links.getVisitedUrlNum() &lt;= <span class="number">1000</span>) &#123;</span><br><span class="line"></span><br><span class="line">            <span class="comment">//先从待访问的序列中取出第一个；</span></span><br><span class="line">            String visitUrl = (String) Links.removeHeadOfUnVisitedUrlQueue();</span><br><span class="line">            <span class="keyword">if</span> (visitUrl == <span class="keyword">null</span>)&#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">//根据URL得到page;</span></span><br><span class="line">            Page page = RequestAndResponseTool.sendRequstAndGetResponse(visitUrl);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            <span class="comment">//将保存文件</span></span><br><span class="line">            FileTool.saveToLocal(page);</span><br><span class="line"></span><br><span class="line">            <span class="comment">//将已经访问过的链接放入已访问的链接中；</span></span><br><span class="line">            Links.addVisitedUrlSet(visitUrl);</span><br><span class="line"></span><br><span class="line">            <span class="comment">//得到超链接</span></span><br><span class="line">            Set&lt;String&gt; links = PageParserTool.getLinks(page,<span class="string">"img"</span>);</span><br><span class="line">            <span class="keyword">for</span> (String link : links) &#123;</span><br><span class="line">                Links.addUnvisitedUrlQueue(link);</span><br><span class="line">                System.out.println(<span class="string">"新增爬取路径: "</span> + link);</span><br><span class="line">            &#125;</span><br><span class="line">            links = PageParserTool.getLinks(page,<span class="string">"script"</span>);</span><br><span class="line">            <span class="keyword">for</span> (String link : links) &#123;</span><br><span class="line">                Links.addUnvisitedUrlQueue(link);</span><br><span class="line">                System.out.println(<span class="string">"新增爬取路径: "</span> + link);</span><br><span class="line">            &#125;</span><br><span class="line">            links = PageParserTool.getLinks(page,<span class="string">"link"</span>);</span><br><span class="line">            <span class="keyword">for</span> (String link : links) &#123;</span><br><span class="line">                Links.addUnvisitedUrlQueue(link);</span><br><span class="line">                System.out.println(<span class="string">"新增爬取路径: "</span> + link);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//main 方法入口</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        MyCrawler crawler = <span class="keyword">new</span> MyCrawler();</span><br><span class="line">        crawler.crawling2(<span class="keyword">new</span> String[]&#123;<span class="string">"https://getitfree.cn/"</span>&#125;);</span><br><span class="line">        crawler.crawling(<span class="keyword">new</span> String[]&#123;<span class="string">"https://getitfree.cn/"</span>&#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>四、爬取结果和dome源码等<br>
+1、结果<br>
+<img src="https://img-blog.csdnimg.cn/20191120201810607.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDIwOTQwMw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+<img src="https://img-blog.csdnimg.cn/2019112020183150.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDIwOTQwMw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+2、该博客只有部分代码，如果需要dome源码，自取</p>
+<blockquote>
+<p>链接：<a href="https://pan.baidu.com/s/1THFARMlsbY_s51-LYWZZGw" target="_blank" rel="noopener">https://pan.baidu.com/s/1THFARMlsbY_s51-LYWZZGw</a><br>
+提取码：nezg</p>
+</blockquote>
+<p>3、路还很长，乘风破浪，各位加油！！！！</p>
+
+    </div>
+
+    
+    
+    
+
+    
+      <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束 <i class="fa fa-heart"></i> 感谢阅读-------------</div>
+
+    
+        <div class="reward-container">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/blog/images/wechatpay.png" alt="晨月 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/blog/images/alipay.jpg" alt="晨月 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/blog/tags/docker/" rel="tag"><i class="fa fa-tag"></i>docker</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/blog/2019/05/11/JSP%E4%B8%ADJSTL%E5%AD%A6%E4%B9%A0/" rel="prev" title="JSP中使用JSTL">
+      <i class="fa fa-chevron-left"></i> JSP中使用JSTL
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/blog/2019/05/31/%E4%BD%BF%E7%94%A8docker-compose%E5%BF%AB%E9%80%9F%E5%88%9B%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" rel="next" title="使用docker-compose快速创建个人博客">
+      使用docker-compose快速创建个人博客 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="comments"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#null"><span class="nav-number">1.</span> <span class="nav-text">使用java爬虫爬取网站前台代码（html+css+js+img）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、爬虫"><span class="nav-number">1.1.</span> <span class="nav-text">一、爬虫</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、Jsoup"><span class="nav-number">1.2.</span> <span class="nav-text">二、Jsoup</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="晨月"
+      src="/blog/images/1a.jpg">
+  <p class="site-author-name" itemprop="name">晨月</p>
+  <div class="site-description" itemprop="description">技术博客,Java,记录美好学习时光</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/blog/archives/">
+        
+          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/blog/tags/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xuhao008/" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xuhao008&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/weixin_44209403/" title="CSDN → https:&#x2F;&#x2F;blog.csdn.net&#x2F;weixin_44209403&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-copyright"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/yourname" title="码云 → https:&#x2F;&#x2F;weibo.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fa fa-fw fa-google"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/blog/xhxxswkl@163.com" title="E-Mail → xhxxswkl@163.com"><i class="fa fa-fw fa-envelope"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/blog/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+      
+       <div>
+          <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="210" height="110" src="//music.163.com/outchain/player?type=2&id=518682659&auto=0&height=66"></iframe>
+       </div>
+      
+
+
+      <!-- 添加近期文章 -->
+      
+        <div class="links-of-blogroll motion-element links-of-blogroll-block">
+          <div class="links-of-blogroll-title">
+            <!-- modify icon to fire by szw -->
+            <i class="fa fa-history fa-" aria-hidden="true"></i>
+            近期文章
+          </div>
+          <ul class="links-of-blogroll-list">
+            
+            
+              <li>
+                <a href="/blog/" title="" target="_blank"></a>
+              </li>
+            
+              <li>
+                <a href="/blog/" title="" target="_blank"></a>
+              </li>
+            
+              <li>
+                <a href="/blog/" title="" target="_blank"></a>
+              </li>
+            
+              <li>
+                <a href="/blog/" title="" target="_blank"></a>
+              </li>
+            
+              <li>
+                <a href="/blog/" title="" target="_blank"></a>
+              </li>
+            
+          </ul>
+        </div>
+      
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">晨月</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">124k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">2:35</span>
+</div>
+
+        <div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+   
+    <span class="site-uv">
+       我的第 <span class="busuanzi-value" id="busuanzi_value_site_uv"></span> 位朋友，
+    </span>
+   <span class="agesicon"> <span>
+   
+   
+     <span class="site-pv">
+       历经 <span class="busuanzi-value" id="busuanzi_value_site_pv"></span> 次回眸才与你相遇。
+     </span>
+   
+ 
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='150' src="/blog/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/blog/lib/anime.min.js"></script>
+  <script src="/blog/lib/velocity/velocity.min.js"></script>
+  <script src="/blog/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/blog/js/utils.js"></script>
+
+<script src="/blog/js/motion.js"></script>
+
+
+<script src="/blog/js/schemes/pisces.js"></script>
+
+
+<script src="/blog/js/next-boot.js"></script>
+
+<script src="/blog/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/blog/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: true,
+    notify: true,
+    appId: 'wG3LQ9piimb7LMXEDw0BCOmG-gzGzoHsz',
+    appKey: 'pXkLtQymiNmeMV5F3bNJ2VKy',
+    placeholder: "说点什么吧。",
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: true,
+    lang: '' || 'zh-cn',
+    path: location.pathname,
+    recordIP: false,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/moment.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/moment-precise-range-plugin@1.3.0/moment-precise-range.min.js"></script>
+  <script>
+    function timer() {
+      var ages = moment.preciseDiff(moment(),moment(20190101,"YYYYMMDD"));
+      //去除时分秒信息
+      ages = ages.replace(/\s?\d{0,2}\s+hours?/, "");
+      ages = ages.replace(/\s?\d{0,2}\s+minutes?/, "");
+      ages = ages.replace(/\s?\d{0,2}\s+seconds?/, "");
+      //将年月日转换为中文
+      ages = ages.replace(/years?/, "年");
+      ages = ages.replace(/months?/, "月");
+      ages = ages.replace(/days?/, "天");
+      ages = ages.replace(/\d+/g, '<span style="color:#1094e8">$&</span>');
+      span.innerHTML = ` &nbsp; | &nbsp;我已在此等候你 ${ages}`;
+    }
+    var span = document.createElement("span");
+    //插入到agesicon之后
+    var agesicon = document.querySelector(".agesicon");
+    document.querySelector(".copyright").insertBefore(span, agesicon.nextSibling);
+    timer();
+  </script>
+<script src="/blog/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/blog/live2dw/assets/hibiki.model.json"},"display":{"position":"right","width":190,"height":500},"mobile":{"show":false},"react":{"opacity":0.9}});</script></body>
+</html>

@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/blog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/blog/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/blog/lib/pace/pace-theme-minimal.min.css">
+  <script src="/blog/lib/pace/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://javaxh.gitee.io').hostname,
+    root: '/blog/',
+    scheme: 'Gemini',
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":true,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="SpringBoot项目实现高并发商品秒杀 注：该项目使用IDEA+SpringBoot+Maven+Mybatis+Redis+RabbitMQ 等技术实现。本人水平有限，以下代码可能有错误，或者解释不清，希望理解，并且及时下方留言，及时修改，谢谢各位道友！ 一、秒杀实现思路 秒杀其实就是一件商品，在某一个时间段内，由于降低了价格，超高的优惠，导致在这一个时间段内购买量大量增加，但是库存有限，产">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringBoot项目实现高并发商品秒杀">
+<meta property="og:url" content="http://javaxh.gitee.io/2019/05/31/SpringBoot%E9%A1%B9%E7%9B%AE%E5%AE%9E%E7%8E%B0%E9%AB%98%E5%B9%B6%E5%8F%91%E5%95%86%E5%93%81%E7%A7%92%E6%9D%80/index.html">
+<meta property="og:site_name" content="JAVA入土">
+<meta property="og:description" content="SpringBoot项目实现高并发商品秒杀 注：该项目使用IDEA+SpringBoot+Maven+Mybatis+Redis+RabbitMQ 等技术实现。本人水平有限，以下代码可能有错误，或者解释不清，希望理解，并且及时下方留言，及时修改，谢谢各位道友！ 一、秒杀实现思路 秒杀其实就是一件商品，在某一个时间段内，由于降低了价格，超高的优惠，导致在这一个时间段内购买量大量增加，但是库存有限，产">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-05-30T22:05:12.000Z">
+<meta property="article:modified_time" content="2020-08-05T03:27:43.095Z">
+<meta property="article:author" content="晨月">
+<meta property="article:tag" content="高并发">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://javaxh.gitee.io/2019/05/31/SpringBoot%E9%A1%B9%E7%9B%AE%E5%AE%9E%E7%8E%B0%E9%AB%98%E5%B9%B6%E5%8F%91%E5%95%86%E5%93%81%E7%A7%92%E6%9D%80/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>SpringBoot项目实现高并发商品秒杀 | JAVA入土</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/blog/atom.xml" title="JAVA入土" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/blog/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">JAVA入土</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">学习使我快乐</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/blog/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/blog/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">12</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/blog/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">0</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/blog/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">24</span></a>
+
+  </li>
+        <li class="menu-item menu-item-hot">
+
+    <a href="/blog/hot/" rel="section"><i class="fa fa-fw fa-signal"></i>热度排行</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/xuhao008/" class="github-corner" title="欢迎访问我的github主页" aria-label="欢迎访问我的github主页" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://javaxh.gitee.io/2019/05/31/SpringBoot%E9%A1%B9%E7%9B%AE%E5%AE%9E%E7%8E%B0%E9%AB%98%E5%B9%B6%E5%8F%91%E5%95%86%E5%93%81%E7%A7%92%E6%9D%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/blog/images/1a.jpg">
+      <meta itemprop="name" content="晨月">
+      <meta itemprop="description" content="技术博客,Java,记录美好学习时光">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JAVA入土">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SpringBoot项目实现高并发商品秒杀
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-05-30 22:05:12" itemprop="dateCreated datePublished" datetime="2019-05-30T22:05:12Z">2019-05-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-08-05 03:27:43" itemprop="dateModified" datetime="2020-08-05T03:27:43Z">2020-08-05</time>
+              </span>
+
+          
+            <span id="/blog/2019/05/31/SpringBoot%E9%A1%B9%E7%9B%AE%E5%AE%9E%E7%8E%B0%E9%AB%98%E5%B9%B6%E5%8F%91%E5%95%86%E5%93%81%E7%A7%92%E6%9D%80/" class="post-meta-item leancloud_visitors" data-flag-title="SpringBoot项目实现高并发商品秒杀" title="热度">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">热度：</span>
+              <span class="leancloud-visitors-count"></span>
+              <span>℃</span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/blog/2019/05/31/SpringBoot%E9%A1%B9%E7%9B%AE%E5%AE%9E%E7%8E%B0%E9%AB%98%E5%B9%B6%E5%8F%91%E5%95%86%E5%93%81%E7%A7%92%E6%9D%80/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/blog/2019/05/31/SpringBoot%E9%A1%B9%E7%9B%AE%E5%AE%9E%E7%8E%B0%E9%AB%98%E5%B9%B6%E5%8F%91%E5%95%86%E5%93%81%E7%A7%92%E6%9D%80/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>16k 字</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>19 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1>SpringBoot项目实现高并发商品秒杀</h1>
+<p>注：该项目使用IDEA+SpringBoot+Maven+Mybatis+Redis+RabbitMQ 等技术实现。本人水平有限，以下代码可能有错误，或者解释不清，希望理解，并且及时下方留言，及时修改，谢谢各位道友！</p>
+<h2 id="一、秒杀实现思路">一、秒杀实现思路</h2>
+<p>秒杀其实就是一件商品，在某一个时间段内，由于降低了价格，超高的优惠，导致在这一个时间段内购买量大量增加，但是库存有限，产生的一种高并发现象。<br>
+秒杀最重要的就是减库存，增订单。同时需要判断用户是否多次秒杀，同时还要防止用户通过恶意软件刷单。</p>
+<p>所以需要以下<strong>3</strong>点：<br>
+1、高可用：保证系统的高可用和正确性，设计PlanB备用。<br>
+2、一致性：保证秒杀减库存中的数据一致性。<br>
+3、高性能：涉及大量并发读写，所以需要支持高并发，从动静分离、热点发现与隔离、请求削峰与分层过滤、服务端极致优化来实现。</p>
+<p><strong>具体流程</strong>：系统初始化，把商品库存数量等加载到Redis中，用户登录时将用户信息保存到Seesion中，保证用户信息的完整，精确，当用户发送秒杀请求时，判断用户是否已秒杀过，同时前端给用户验证码等判断，将各用户请求时间分开，当确定用户验证通过时，判断库存是否足够，如果不够直接返回请求失败，避免系统压力，如果足够就减库存，Redis预减库存，同时将秒杀请求发送给RabbitMQ ，同时给前端返回状态，显示排队中等状态，同时前端给一个定时根据该商品id去循环请求，后端RabbitMQ监听到消息，就开始操作数据库，修改数据库商品库存和新增订单等操作，前端循环请求返回状态，得到订单代表秒杀成功，或者队列中，否则秒杀失败，秒杀成功后，用户需要在一定时间内付款，不然就自动取消订单，返回库存。</p>
+<h2 id="二、部分代码实现">二、部分代码实现</h2>
+<p>Redis安装教程：<a href="https://www.runoob.com/redis/redis-install.html" target="_blank" rel="noopener">https://www.runoob.com/redis/redis-install.html</a><br>
+RabbitMQ安装教程：<a href="https://www.linuxprobe.com/install-rabbitmq-on-centos-7.html" target="_blank" rel="noopener">https://www.linuxprobe.com/install-rabbitmq-on-centos-7.html</a></p>
+<p>1、pom文件和xml配置</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span>?&gt;</span><br><span class="line">&lt;project xmlns=<span class="string">"http://maven.apache.org/POM/4.0.0"</span> xmlns:xsi=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span><br><span class="line">         xsi:schemaLocation=<span class="string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span><br><span class="line">  &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</span><br><span class="line"></span><br><span class="line">  &lt;groupId&gt;com.ljs&lt;/groupId&gt;</span><br><span class="line">  &lt;artifactId&gt;miaosha_idea&lt;/artifactId&gt;</span><br><span class="line">  &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;</span><br><span class="line"></span><br><span class="line">  &lt;name&gt;miaosha_idea&lt;/name&gt;</span><br><span class="line">  &lt;url&gt;http:<span class="comment">//maven.apache.org&lt;/url&gt;</span></span><br><span class="line">  &lt;parent&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.5.9.RELEASE&lt;/version&gt;</span><br><span class="line">  &lt;/parent&gt;</span><br><span class="line">  &lt;properties&gt;</span><br><span class="line"> &lt;project.build.sourceEncoding&gt;UTF8&lt;/project.build.sourceEncoding&gt;</span><br><span class="line">  &lt;/properties&gt;</span><br><span class="line">  &lt;dependencies&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">      &lt;groupId&gt;junit&lt;/groupId&gt;</span><br><span class="line">      &lt;artifactId&gt;junit&lt;/artifactId&gt;</span><br><span class="line">      &lt;version&gt;3.8.1&lt;/version&gt;</span><br><span class="line">      &lt;scope&gt;test&lt;/scope&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">      &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">      &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">      &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">      &lt;artifactId&gt;spring-boot-starter-thymeleaf&lt;/artifactId&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">      &lt;groupId&gt;org.mybatis.spring.boot&lt;/groupId&gt;</span><br><span class="line">      &lt;artifactId&gt;mybatis-spring-boot-starter&lt;/artifactId&gt;</span><br><span class="line">      &lt;version&gt;1.3.1&lt;/version&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">      &lt;groupId&gt;mysql&lt;/groupId&gt;</span><br><span class="line">      &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">      &lt;groupId&gt;com.alibaba&lt;/groupId&gt;</span><br><span class="line">      &lt;artifactId&gt;druid&lt;/artifactId&gt;</span><br><span class="line">      &lt;version&gt;1.0.5&lt;/version&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">      &lt;groupId&gt;redis.clients&lt;/groupId&gt;</span><br><span class="line">      &lt;artifactId&gt;jedis&lt;/artifactId&gt;</span><br><span class="line">      &lt;version&gt;2.7.3&lt;/version&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">      &lt;groupId&gt;com.alibaba&lt;/groupId&gt;</span><br><span class="line">      &lt;artifactId&gt;fastjson&lt;/artifactId&gt;</span><br><span class="line">      &lt;version&gt;1.2.38&lt;/version&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">      &lt;groupId&gt;commons-codec&lt;/groupId&gt;</span><br><span class="line">      &lt;artifactId&gt;commons-codec&lt;/artifactId&gt;</span><br><span class="line">      &lt;version&gt;1.9&lt;/version&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">      &lt;groupId&gt;org.apache.commons&lt;/groupId&gt;</span><br><span class="line">      &lt;artifactId&gt;commons-lang3&lt;/artifactId&gt;</span><br><span class="line">      &lt;version&gt;3.6&lt;/version&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">      &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">      &lt;artifactId&gt;spring-boot-starter-validation&lt;/artifactId&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">      &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">      &lt;artifactId&gt;spring-boot-starter-amqp&lt;/artifactId&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">    &lt;!-- &lt;dependency&gt;</span><br><span class="line">      &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">      &lt;artifactId&gt;spring-boot-starter-tomcat&lt;/artifactId&gt;</span><br><span class="line">      &lt;scope&gt;provided&lt;/scope&gt;</span><br><span class="line">  &lt;/dependency&gt;  --&gt;</span><br><span class="line">  &lt;/dependencies&gt;</span><br><span class="line">  &lt;build&gt;</span><br><span class="line">    &lt;finalName&gt;$&#123;project.artifactId&#125;&lt;/finalName&gt;</span><br><span class="line">    &lt;plugins&gt;</span><br><span class="line">      &lt;!-- 打war包插件 --&gt;</span><br><span class="line">      &lt;!-- &lt;plugin&gt;</span><br><span class="line">        &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;maven-war-plugin&lt;/artifactId&gt;</span><br><span class="line">        &lt;configuration&gt;</span><br><span class="line">            &lt;failOnMissingWebXml&gt;false&lt;/failOnMissingWebXml&gt;</span><br><span class="line">        &lt;/configuration&gt;</span><br><span class="line">      &lt;/plugin&gt; --&gt;</span><br><span class="line">      &lt;!-- 打jar包插件 --&gt;</span><br><span class="line">      &lt;plugin&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;</span><br><span class="line">      &lt;/plugin&gt;</span><br><span class="line">    &lt;/plugins&gt;</span><br><span class="line"></span><br><span class="line">    &lt;pluginManagement&gt;&lt;!-- <span class="function">lock down plugins versions to avoid using Maven <span class="title">defaults</span> <span class="params">(may be moved to parent pom)</span> --&gt;</span></span><br><span class="line"><span class="function">      &lt;plugins&gt;</span></span><br><span class="line"><span class="function">        &lt;!-- clean lifecycle, see https:<span class="comment">//maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle --&gt;</span></span></span><br><span class="line"><span class="function">        &lt;plugin&gt;</span></span><br><span class="line"><span class="function">          &lt;artifactId&gt;maven-clean-plugin&lt;/artifactId&gt;</span></span><br><span class="line"><span class="function">          &lt;version&gt;3.1.0&lt;/version&gt;</span></span><br><span class="line"><span class="function">        &lt;/plugin&gt;</span></span><br><span class="line"><span class="function">        &lt;!-- <span class="keyword">default</span> lifecycle, jar packaging: see https:<span class="comment">//maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging --&gt;</span></span></span><br><span class="line"><span class="function">        &lt;plugin&gt;</span></span><br><span class="line"><span class="function">          &lt;artifactId&gt;maven-resources-plugin&lt;/artifactId&gt;</span></span><br><span class="line"><span class="function">          &lt;version&gt;3.0.2&lt;/version&gt;</span></span><br><span class="line"><span class="function">        &lt;/plugin&gt;</span></span><br><span class="line"><span class="function">        &lt;plugin&gt;</span></span><br><span class="line"><span class="function">          &lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;</span></span><br><span class="line"><span class="function">          &lt;version&gt;3.8.0&lt;/version&gt;</span></span><br><span class="line"><span class="function">        &lt;/plugin&gt;</span></span><br><span class="line"><span class="function">        &lt;plugin&gt;</span></span><br><span class="line"><span class="function">          &lt;artifactId&gt;maven-surefire-plugin&lt;/artifactId&gt;</span></span><br><span class="line"><span class="function">          &lt;version&gt;2.22.1&lt;/version&gt;</span></span><br><span class="line"><span class="function">        &lt;/plugin&gt;</span></span><br><span class="line"><span class="function">        &lt;plugin&gt;</span></span><br><span class="line"><span class="function">          &lt;artifactId&gt;maven-jar-plugin&lt;/artifactId&gt;</span></span><br><span class="line"><span class="function">          &lt;version&gt;3.0.2&lt;/version&gt;</span></span><br><span class="line"><span class="function">        &lt;/plugin&gt;</span></span><br><span class="line"><span class="function">        &lt;plugin&gt;</span></span><br><span class="line"><span class="function">          &lt;artifactId&gt;maven-install-plugin&lt;/artifactId&gt;</span></span><br><span class="line"><span class="function">          &lt;version&gt;2.5.2&lt;/version&gt;</span></span><br><span class="line"><span class="function">        &lt;/plugin&gt;</span></span><br><span class="line"><span class="function">        &lt;plugin&gt;</span></span><br><span class="line"><span class="function">          &lt;artifactId&gt;maven-deploy-plugin&lt;/artifactId&gt;</span></span><br><span class="line"><span class="function">          &lt;version&gt;2.8.2&lt;/version&gt;</span></span><br><span class="line"><span class="function">        &lt;/plugin&gt;</span></span><br><span class="line"><span class="function">        &lt;!-- site lifecycle, see https:<span class="comment">//maven.apache.org/ref/current/maven-core/lifecycles.html#site_Lifecycle --&gt;</span></span></span><br><span class="line"><span class="function">        &lt;plugin&gt;</span></span><br><span class="line"><span class="function">          &lt;artifactId&gt;maven-site-plugin&lt;/artifactId&gt;</span></span><br><span class="line"><span class="function">          &lt;version&gt;3.7.1&lt;/version&gt;</span></span><br><span class="line"><span class="function">        &lt;/plugin&gt;</span></span><br><span class="line"><span class="function">        &lt;plugin&gt;</span></span><br><span class="line"><span class="function">          &lt;artifactId&gt;maven-project-info-reports-plugin&lt;/artifactId&gt;</span></span><br><span class="line"><span class="function">          &lt;version&gt;3.0.0&lt;/version&gt;</span></span><br><span class="line"><span class="function">        &lt;/plugin&gt;</span></span><br><span class="line"><span class="function">      &lt;/plugins&gt;</span></span><br><span class="line"><span class="function">    &lt;/pluginManagement&gt;</span></span><br><span class="line"><span class="function">  &lt;/build&gt;</span></span><br><span class="line"><span class="function">&lt;/project&gt;</span></span><br></pre></td></tr></table></figure>
+<p>yml配置：主要配置了thymeleaf，redis，RabbitMQ，数据库的一些配置，注意redis，RabbitMQ和数据库的端口，ip和用户名，密码，避免错误。</p>
+<blockquote>
+<p>#thymeleaf<br>
+spring.thymeleaf.cache=false<br>
+spring.thymeleaf.content-type=text/html<br>
+spring.thymeleaf.enabled=true<br>
+spring.thymeleaf.encoding=UTF-8<br>
+spring.thymeleaf.mode=HTML5<br>
+#拼接前缀与后缀,去创建templates目录，里面放置模板文件<br>
+spring.thymeleaf.prefix=classpath:/templates/<br>
+spring.thymeleaf.suffix=.html<br>
+#mybatis<br>
+#是否打印sql语句<br>
+#spring.jpa.show-sql= true<br>
+mybatis.type-aliases-package=com.ljs.miaosha.domain<br>
+#mybatis.type-handlers-package=com.example.typehandler<br>
+#下划线转换为驼峰<br>
+mybatis.configuration.map-underscore-to-camel-case=true<br>
+mybatis.configuration.default-fetch-size=100<br>
+#ms --3000ms—&gt;3s<br>
+mybatis.configuration.default-statement-timeout=3000<br>
+#mybatis配置文件路径<br>
+#mapperLocaitons<br>
+mybatis.mapper-locaitons=classpath:com/ljs/miaosha/dao/*.xml<br>
+#druid<br>
+spring.datasource.url=jdbc:mysql://localhost/miaosha?useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=false<br>
+spring.datasource.username=root<br>
+spring.datasource.password=root<br>
+spring.datasource.driver-class-name=com.mysql.jdbc.Driver<br>
+spring.datasource.type=com.alibaba.druid.pool.DruidDataSource<br>
+spring.datasource.filters=stat<br>
+spring.datasource.initialSize=100<br>
+spring.datasource.minIdle=500<br>
+spring.datasource.maxActive=1000<br>
+spring.datasource.maxWait=60000<br>
+spring.datasource.timeBetweenEvictionRunsMillis=60000<br>
+spring.datasource.minEvictableIdleTimeMillis=30000<br>
+spring.datasource.validationQuery=select ‘x’<br>
+spring.datasource.testWhileIdle=true<br>
+spring.datasource.testOnBorrow=false<br>
+spring.datasource.testOnReturn=false<br>
+spring.datasource.poolPreparedStatements=true<br>
+spring.datasource.maxPoolPreparedStatementPerConnectionSize=20<br>
+#redis  配置服务器等信息<br>
+redis.host=127.0.0.1<br>
+redis.port=6379<br>
+redis.timeout=10<br>
+#redis.password=123456<br>
+redis.poolMaxTotal=1000<br>
+redis.poolMaxldle=500<br>
+redis.poolMaxWait=500<br>
+#static  静态资源配置，设置静态文件路径css,js,图片等等<br>
+#spring.mvc.static-path-pattern=/static/**    spring.mvc.static-path-pattern=/**<br>
+spring.resources.add-mappings=true<br>
+spring.resources.cache-period=3600<br>
+spring.resources.chain.cache=true<br>
+spring.resources.chain.enabled=true<br>
+spring.resources.chain.gzipped=true<br>
+spring.resources.chain.html-application-cache=true<br>
+spring.resources.static-locations=classpath:/static/<br>
+#RabbitMQ配置<br>
+spring.rabbitmq.host=106.14.252.156<br>
+spring.rabbitmq.port=5672<br>
+spring.rabbitmq.username=admin<br>
+spring.rabbitmq.password=StrongPassword<br>
+spring.rabbitmq.virtual-host=/<br>
+#消费者数量<br>
+spring.rabbitmq.listener.simple.concurrency=10<br>
+#消费者最大数量<br>
+spring.rabbitmq.listener.simple.max-concurrency=10<br>
+#消费，每次从队列中取多少个,取多了，可能处理不过来<br>
+spring.rabbitmq.listener.simple.prefetch=1<br>
+spring.rabbitmq.listener.auto-startup=true<br>
+#消费失败的数据重新压入队列<br>
+spring.rabbitmq.listener.simple.default-requeue-rejected=true<br>
+#发送,队列满的时候，发送不进去，启动重置<br>
+spring.rabbitmq.template.retry.enabled=true<br>
+#一秒钟之后重试<br>
+spring.rabbitmq.template.retry.initial-interval=1000<br>
+spring.rabbitmq.template.retry.max-attempts=3<br>
+#最大间隔 10s<br>
+spring.rabbitmq.template.retry.max-interval=10000<br>
+spring.rabbitmq.template.retry.multiplier=1.0</p>
+</blockquote>
+<p>2、各部分接口<br>
+2_1登录接口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/do_login"</span>)<span class="comment">//作为异步操作</span></span><br><span class="line">		<span class="meta">@ResponseBody</span></span><br><span class="line">		<span class="function"><span class="keyword">public</span> Result&lt;Boolean&gt; <span class="title">doLogin</span><span class="params">(HttpServletResponse response,@Valid LoginVo loginVo)</span> </span>&#123;<span class="comment">//0代表成功</span></span><br><span class="line">			<span class="comment">//参数检验成功之后，登录</span></span><br><span class="line">			CodeMsg cm=miaoshaUserService.login(response,loginVo);</span><br><span class="line">			<span class="keyword">if</span>(cm.getCode()==<span class="number">0</span>) &#123;</span><br><span class="line">				<span class="keyword">return</span> Result.success(<span class="keyword">true</span>);</span><br><span class="line">			&#125;<span class="keyword">else</span> &#123;</span><br><span class="line">				<span class="keyword">return</span> Result.error(cm);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br></pre></td></tr></table></figure>
+<p>2_2、页面缓存接口，返回秒杀商品集合信息， 做页面缓存的list页面，防止同一时间访问量巨大到达数据库，如果缓存时间过长，数据及时性就不高。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(value=<span class="string">"/to_list"</span>,produces=<span class="string">"text/html"</span>)</span><br><span class="line">	<span class="meta">@ResponseBody</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">toListCache</span><span class="params">(Model model,MiaoshaUser user,HttpServletRequest request,</span></span></span><br><span class="line"><span class="function"><span class="params">			HttpServletResponse response)</span> </span>&#123;</span><br><span class="line">		<span class="comment">// 1.取缓存</span></span><br><span class="line">		<span class="comment">// public &lt;T&gt; T get(KeyPrefix prefix,String key,Class&lt;T&gt; data)</span></span><br><span class="line">		String html = redisService.get(GoodsKey.getGoodsList, <span class="string">""</span>, String<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">		<span class="keyword">if</span> (!StringUtils.isEmpty(html)) &#123;</span><br><span class="line">			<span class="keyword">return</span> html;</span><br><span class="line">		&#125;</span><br><span class="line">		model.addAttribute(<span class="string">"user"</span>, user);</span><br><span class="line">		<span class="comment">//查询商品列表</span></span><br><span class="line">		List&lt;GoodsVo&gt; goodsList= goodsService.getGoodsVoList();</span><br><span class="line">		model.addAttribute(<span class="string">"goodsList"</span>, goodsList);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//2.手动渲染  使用模板引擎	templateName:模板名称 	String templateName="goods_list";</span></span><br><span class="line">		SpringWebContext context=<span class="keyword">new</span> SpringWebContext(request,response,request.getServletContext(),</span><br><span class="line">				request.getLocale(),model.asMap(),applicationContext);</span><br><span class="line">		html=thymeleafViewResolver.getTemplateEngine().process(<span class="string">"goods_list"</span>, context);</span><br><span class="line">		<span class="comment">//保存至缓存</span></span><br><span class="line">		<span class="keyword">if</span>(!StringUtils.isEmpty(html)) &#123;</span><br><span class="line">			redisService.set(GoodsKey.getGoodsList, <span class="string">""</span>, html);<span class="comment">//key---GoodsKey:gl---缓存goodslist这个页面</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> html;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<p>2_3、秒杀商品详情页加载接口，当访问商品详情页时，触发该接口，获取商品详情页信息，并且得到秒杀商品当前时间状态</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(value=<span class="string">"/detail/&#123;goodsId&#125;"</span>)</span><br><span class="line">	<span class="meta">@ResponseBody</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Result&lt;GoodsDetailVo&gt; <span class="title">toDetail_staticPage</span><span class="params">(Model model, MiaoshaUser user,</span></span></span><br><span class="line"><span class="function"><span class="params">													 HttpServletRequest request, HttpServletResponse response, @PathVariable(<span class="string">"goodsId"</span>)</span><span class="keyword">long</span> goodsId) </span>&#123;<span class="comment">//id一般用snowflake算法</span></span><br><span class="line">		System.out.println(<span class="string">"页面静态化/detail/&#123;goodsId&#125;"</span>);</span><br><span class="line">		model.addAttribute(<span class="string">"user"</span>, user);</span><br><span class="line">		GoodsVo goodsVo=goodsService.getGoodsVoByGoodsId(goodsId);</span><br><span class="line">		model.addAttribute(<span class="string">"goods"</span>, goodsVo);</span><br><span class="line">		<span class="comment">//既然是秒杀，还要传入秒杀开始时间，结束时间等信息</span></span><br><span class="line">		<span class="keyword">long</span> start=goodsVo.getStartDate().getTime();</span><br><span class="line">		<span class="keyword">long</span> end=goodsVo.getEndDate().getTime();</span><br><span class="line">		<span class="keyword">long</span> now=System.currentTimeMillis();</span><br><span class="line">		<span class="comment">//秒杀状态量</span></span><br><span class="line">		<span class="keyword">int</span> status=<span class="number">0</span>;</span><br><span class="line">		<span class="comment">//开始时间倒计时</span></span><br><span class="line">		<span class="keyword">int</span> remailSeconds=<span class="number">0</span>;</span><br><span class="line">		<span class="comment">//查看当前秒杀状态</span></span><br><span class="line">		<span class="keyword">if</span>(now&lt;start) &#123;<span class="comment">//秒杀还未开始，---&gt;倒计时</span></span><br><span class="line">			status=<span class="number">0</span>;</span><br><span class="line">			remailSeconds=(<span class="keyword">int</span>) ((start-now)/<span class="number">1000</span>);  <span class="comment">//毫秒转为秒</span></span><br><span class="line">		&#125;<span class="keyword">else</span> <span class="keyword">if</span>(now&gt;end)&#123; <span class="comment">//秒杀已经结束</span></span><br><span class="line">			status=<span class="number">2</span>;</span><br><span class="line">			remailSeconds=-<span class="number">1</span>;  <span class="comment">//毫秒转为秒</span></span><br><span class="line">		&#125;<span class="keyword">else</span> &#123;<span class="comment">//秒杀正在进行</span></span><br><span class="line">			status=<span class="number">1</span>;</span><br><span class="line">			remailSeconds=<span class="number">0</span>;  <span class="comment">//毫秒转为秒</span></span><br><span class="line">		&#125;</span><br><span class="line">		model.addAttribute(<span class="string">"status"</span>, status);</span><br><span class="line">		model.addAttribute(<span class="string">"remailSeconds"</span>, remailSeconds);</span><br><span class="line">		GoodsDetailVo gdVo=<span class="keyword">new</span> GoodsDetailVo();</span><br><span class="line">		gdVo.setGoodsVo(goodsVo);</span><br><span class="line">		gdVo.setStatus(status);</span><br><span class="line">		gdVo.setRemailSeconds(remailSeconds);</span><br><span class="line">		gdVo.setUser(user);</span><br><span class="line">		<span class="comment">//将数据填进去，传至页面</span></span><br><span class="line">		<span class="keyword">return</span> Result.success(gdVo);		</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<p>2_4、获取秒杀的path接口，获取地址，并且验证验证码的值是否正确</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(value =<span class="string">"/getPath"</span>)</span><br><span class="line">	<span class="meta">@ResponseBody</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Result&lt;String&gt; <span class="title">getMiaoshaPath</span><span class="params">(HttpServletRequest request,Model model,MiaoshaUser user,</span></span></span><br><span class="line"><span class="function"><span class="params">			@RequestParam(<span class="string">"goodsId"</span>)</span> Long goodsId,</span></span><br><span class="line"><span class="function">			@<span class="title">RequestParam</span><span class="params">(value=<span class="string">"vertifyCode"</span>,defaultValue=<span class="string">"0"</span>)</span> <span class="keyword">int</span> vertifyCode) </span>&#123;</span><br><span class="line">		model.addAttribute(<span class="string">"user"</span>, user);</span><br><span class="line">		<span class="comment">//如果用户为空，则返回至登录页面</span></span><br><span class="line">		<span class="keyword">if</span>(user==<span class="keyword">null</span>)&#123;</span><br><span class="line">			<span class="keyword">return</span> Result.error(CodeMsg.SESSION_ERROR);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//限制访问次数</span></span><br><span class="line">		String uri=request.getRequestURI();</span><br><span class="line">		String key=uri+<span class="string">"_"</span>+user.getId();</span><br><span class="line">		<span class="comment">//限定key5s之内只能访问5次</span></span><br><span class="line">		Integer count=redisService.get(AccessKey.access, key, Integer<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">		<span class="keyword">if</span>(count==<span class="keyword">null</span>) &#123;</span><br><span class="line">			redisService.set(AccessKey.access, key, <span class="number">1</span>);</span><br><span class="line">		&#125;<span class="keyword">else</span> <span class="keyword">if</span>(count&lt;<span class="number">5</span>) &#123;</span><br><span class="line">			redisService.incr(AccessKey.access, key);</span><br><span class="line">		&#125;<span class="keyword">else</span> &#123;<span class="comment">//超过5次</span></span><br><span class="line">			<span class="keyword">return</span> Result.error(CodeMsg.ACCESS_LIMIT);</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//验证验证码</span></span><br><span class="line">		<span class="keyword">boolean</span> check=miaoshaService.checkVCode(user, goodsId,vertifyCode );</span><br><span class="line">		<span class="keyword">if</span>(!check) &#123;</span><br><span class="line">			<span class="keyword">return</span> Result.error(CodeMsg.REQUEST_ILLEAGAL);</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println(<span class="string">"通过!"</span>);</span><br><span class="line">		<span class="comment">//生成一个随机串</span></span><br><span class="line">		String path=miaoshaService.createMiaoshaPath(user,goodsId);</span><br><span class="line">		System.out.println(<span class="string">"@MiaoshaController-tomiaoshaPath-path:"</span>+path);</span><br><span class="line">		<span class="keyword">return</span> Result.success(path); </span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<p>2_5、订单和消息队列接口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(value=<span class="string">"/&#123;path&#125;/do_miaosha_ajaxcache"</span>,method=RequestMethod.POST)</span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Result&lt;Integer&gt; <span class="title">doMiaoshaCache</span><span class="params">(Model model,MiaoshaUser user,</span></span></span><br><span class="line"><span class="function"><span class="params">		@RequestParam(value=<span class="string">"goodsId"</span>,defaultValue=<span class="string">"0"</span>)</span> <span class="keyword">long</span> goodsId,</span></span><br><span class="line"><span class="function">		@<span class="title">PathVariable</span><span class="params">(<span class="string">"path"</span>)</span>String path) </span>&#123;</span><br><span class="line">	model.addAttribute(<span class="string">"user"</span>, user);</span><br><span class="line">	<span class="comment">//1.如果用户为空，则返回至登录页面</span></span><br><span class="line">	<span class="keyword">if</span>(user==<span class="keyword">null</span>)&#123;</span><br><span class="line">		<span class="keyword">return</span> Result.error(CodeMsg.SESSION_ERROR);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//验证path,去redis里面取出来然后验证。</span></span><br><span class="line">	<span class="keyword">boolean</span> check=miaoshaService.checkPath(user,goodsId,path);</span><br><span class="line">	<span class="keyword">if</span>(!check) &#123;</span><br><span class="line">		<span class="keyword">return</span> Result.error(CodeMsg.REQUEST_ILLEAGAL);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//2.预减少库存，减少redis里面的库存</span></span><br><span class="line">	<span class="keyword">long</span> stock=redisService.decr(GoodsKey.getMiaoshaGoodsStock,<span class="string">""</span>+goodsId);</span><br><span class="line">	<span class="comment">//3.判断减少数量1之后的stock，区别于查数据库时候的stock&lt;=0</span></span><br><span class="line">	<span class="keyword">if</span>(stock&lt;<span class="number">0</span>) &#123;</span><br><span class="line">		<span class="keyword">return</span> Result.error(CodeMsg.MIAOSHA_OVER_ERROR);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//4.判断这个秒杀订单形成没有，判断是否已经秒杀到了，避免一个账户秒杀多个商品</span></span><br><span class="line">	MiaoshaOrder order = orderService.getMiaoshaOrderByUserIdAndCoodsId(user.getId(), goodsId);</span><br><span class="line">	<span class="keyword">if</span> (order != <span class="keyword">null</span>) &#123;<span class="comment">// 重复下单</span></span><br><span class="line">		<span class="keyword">return</span> Result.error(CodeMsg.REPEATE_MIAOSHA);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//5.正常请求，入队，发送一个秒杀message到队列里面去，入队之后客户端应该进行轮询。</span></span><br><span class="line">	MiaoshaMessage mms=<span class="keyword">new</span> MiaoshaMessage();</span><br><span class="line">	mms.setUser(user);</span><br><span class="line">	mms.setGoodsId(goodsId);</span><br><span class="line">	mQSender.sendMiaoshaMessage(mms);</span><br><span class="line">	<span class="comment">//返回0代表排队中</span></span><br><span class="line">	<span class="keyword">return</span> Result.success(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2_6、秒杀轮询接口，判断用户秒杀是否成功，返回状态</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(value = <span class="string">"/result"</span>, method = RequestMethod.GET)</span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Result&lt;Long&gt; <span class="title">doMiaoshaResult</span><span class="params">(Model model, MiaoshaUser user,</span></span></span><br><span class="line"><span class="function"><span class="params">		@RequestParam(value = <span class="string">"goodsId"</span>, defaultValue = <span class="string">"0"</span>)</span> <span class="keyword">long</span> goodsId) </span>&#123;</span><br><span class="line">	<span class="keyword">long</span> result=miaoshaService.getMiaoshaResult(user.getId(),goodsId);</span><br><span class="line">	System.out.println(<span class="string">"轮询 result："</span>+result);</span><br><span class="line">	<span class="keyword">return</span> Result.success(result);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2_7、订单判断接口，判断订单是否存在，返回订单页面消息，开始支付</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/detail"</span>)</span><br><span class="line">	<span class="meta">@ResponseBody</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Result&lt;OrderDetailVo&gt; <span class="title">info</span><span class="params">(Model model, MiaoshaUser user,</span></span></span><br><span class="line"><span class="function"><span class="params">									  @RequestParam(<span class="string">"orderId"</span>)</span> <span class="keyword">long</span> orderId) </span>&#123;</span><br><span class="line">		<span class="keyword">if</span>(user==<span class="keyword">null</span>) &#123;</span><br><span class="line">			<span class="keyword">return</span> Result.error(CodeMsg.SESSION_ERROR);</span><br><span class="line">		&#125;</span><br><span class="line">		OrderInfo order=orderService.getOrderByOrderId(orderId);</span><br><span class="line">		<span class="keyword">if</span>(order==<span class="keyword">null</span>) &#123;</span><br><span class="line">			<span class="keyword">return</span> Result.error(CodeMsg.ORDER_NOT_EXIST);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//订单存在的情况</span></span><br><span class="line">		<span class="keyword">long</span> goodsId=order.getGoodsId();</span><br><span class="line">		GoodsVo gVo=goodsService.getGoodsVoByGoodsId(goodsId);</span><br><span class="line">		OrderDetailVo oVo=<span class="keyword">new</span> OrderDetailVo();</span><br><span class="line">		oVo.setGoodsVo(gVo);</span><br><span class="line">		oVo.setOrder(order);</span><br><span class="line">		<span class="keyword">return</span> Result.success(oVo);<span class="comment">//返回页面login</span></span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="三、项目资料等">三、项目资料等</h2>
+<p>1、由于代码过多，这里就不全部贴出了<br>
+2、项目代码</p>
+<blockquote>
+<p>链接：<a href="https://pan.baidu.com/s/1qZjAuce1gRRXHHDHZgDLmw" target="_blank" rel="noopener">https://pan.baidu.com/s/1qZjAuce1gRRXHHDHZgDLmw</a><br>
+提取码：iroz</p>
+</blockquote>
+<p>3、该秒杀项目的视频，来源慕课网 <a href="https://www.imooc.com" target="_blank" rel="noopener">https://www.imooc.com</a></p>
+<blockquote>
+<p>链接：<a href="https://pan.baidu.com/s/1vjBlJ82iiIjBSkEN9hbEsA" target="_blank" rel="noopener">https://pan.baidu.com/s/1vjBlJ82iiIjBSkEN9hbEsA</a><br>
+提取码：33qx</p>
+</blockquote>
+<p>4、借鉴了部分博主的博客，非常感谢</p>
+<blockquote>
+<p><a href="https://blog.csdn.net/Brad_PiTt7/article/details/90717429" target="_blank" rel="noopener">https://blog.csdn.net/Brad_PiTt7/article/details/90717429</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    
+      <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束 <i class="fa fa-heart"></i> 感谢阅读-------------</div>
+
+    
+        <div class="reward-container">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/blog/images/wechatpay.png" alt="晨月 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/blog/images/alipay.jpg" alt="晨月 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/blog/tags/%E9%AB%98%E5%B9%B6%E5%8F%91/" rel="tag"><i class="fa fa-tag"></i>高并发</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/blog/2019/05/31/SpringDataJpa+vue+Echarts%E7%BB%98%E5%88%B6%E6%9F%B1%E7%8A%B6%E5%9B%BE%E5%92%8C%E9%A5%BC%E7%8A%B6%E5%9B%BE/" rel="prev" title="SpringDataJpa+vue+Echarts绘制柱状图和饼状图">
+      <i class="fa fa-chevron-left"></i> SpringDataJpa+vue+Echarts绘制柱状图和饼状图
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/blog/2019/05/31/SpringBoot,JDBC%E8%BF%9E%E6%8E%A5oracle%E6%8A%A5%E9%94%99java.lang.AbstractMethodError_%20oracle.jdbc.driver.T4CConnection.isValid(I)Z/" rel="next" title="SpringBoot,JDBC连接数据库报错：java.lang.AbstractMethodError':oracle.jdbc.driver.T4CConnection.isValid(I)Z”">
+      SpringBoot,JDBC连接数据库报错：java.lang.AbstractMethodError':oracle.jdbc.driver.T4CConnection.isValid(I)Z” <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="comments"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#null"><span class="nav-number">1.</span> <span class="nav-text">SpringBoot项目实现高并发商品秒杀</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、秒杀实现思路"><span class="nav-number">1.1.</span> <span class="nav-text">一、秒杀实现思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、部分代码实现"><span class="nav-number">1.2.</span> <span class="nav-text">二、部分代码实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、项目资料等"><span class="nav-number">1.3.</span> <span class="nav-text">三、项目资料等</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="晨月"
+      src="/blog/images/1a.jpg">
+  <p class="site-author-name" itemprop="name">晨月</p>
+  <div class="site-description" itemprop="description">技术博客,Java,记录美好学习时光</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/blog/archives/">
+        
+          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/blog/tags/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xuhao008/" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xuhao008&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/weixin_44209403/" title="CSDN → https:&#x2F;&#x2F;blog.csdn.net&#x2F;weixin_44209403&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-copyright"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/yourname" title="码云 → https:&#x2F;&#x2F;weibo.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fa fa-fw fa-google"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/blog/xhxxswkl@163.com" title="E-Mail → xhxxswkl@163.com"><i class="fa fa-fw fa-envelope"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/blog/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+      
+       <div>
+          <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="210" height="110" src="//music.163.com/outchain/player?type=2&id=518682659&auto=0&height=66"></iframe>
+       </div>
+      
+
+
+      <!-- 添加近期文章 -->
+      
+        <div class="links-of-blogroll motion-element links-of-blogroll-block">
+          <div class="links-of-blogroll-title">
+            <!-- modify icon to fire by szw -->
+            <i class="fa fa-history fa-" aria-hidden="true"></i>
+            近期文章
+          </div>
+          <ul class="links-of-blogroll-list">
+            
+            
+              <li>
+                <a href="/blog/" title="" target="_blank"></a>
+              </li>
+            
+              <li>
+                <a href="/blog/" title="" target="_blank"></a>
+              </li>
+            
+              <li>
+                <a href="/blog/" title="" target="_blank"></a>
+              </li>
+            
+              <li>
+                <a href="/blog/" title="" target="_blank"></a>
+              </li>
+            
+              <li>
+                <a href="/blog/" title="" target="_blank"></a>
+              </li>
+            
+          </ul>
+        </div>
+      
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">晨月</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">124k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">2:35</span>
+</div>
+
+        <div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+   
+    <span class="site-uv">
+       我的第 <span class="busuanzi-value" id="busuanzi_value_site_uv"></span> 位朋友，
+    </span>
+   <span class="agesicon"> <span>
+   
+   
+     <span class="site-pv">
+       历经 <span class="busuanzi-value" id="busuanzi_value_site_pv"></span> 次回眸才与你相遇。
+     </span>
+   
+ 
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='150' src="/blog/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/blog/lib/anime.min.js"></script>
+  <script src="/blog/lib/velocity/velocity.min.js"></script>
+  <script src="/blog/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/blog/js/utils.js"></script>
+
+<script src="/blog/js/motion.js"></script>
+
+
+<script src="/blog/js/schemes/pisces.js"></script>
+
+
+<script src="/blog/js/next-boot.js"></script>
+
+<script src="/blog/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/blog/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: true,
+    notify: true,
+    appId: 'wG3LQ9piimb7LMXEDw0BCOmG-gzGzoHsz',
+    appKey: 'pXkLtQymiNmeMV5F3bNJ2VKy',
+    placeholder: "说点什么吧。",
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: true,
+    lang: '' || 'zh-cn',
+    path: location.pathname,
+    recordIP: false,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/moment.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/moment-precise-range-plugin@1.3.0/moment-precise-range.min.js"></script>
+  <script>
+    function timer() {
+      var ages = moment.preciseDiff(moment(),moment(20190101,"YYYYMMDD"));
+      //去除时分秒信息
+      ages = ages.replace(/\s?\d{0,2}\s+hours?/, "");
+      ages = ages.replace(/\s?\d{0,2}\s+minutes?/, "");
+      ages = ages.replace(/\s?\d{0,2}\s+seconds?/, "");
+      //将年月日转换为中文
+      ages = ages.replace(/years?/, "年");
+      ages = ages.replace(/months?/, "月");
+      ages = ages.replace(/days?/, "天");
+      ages = ages.replace(/\d+/g, '<span style="color:#1094e8">$&</span>');
+      span.innerHTML = ` &nbsp; | &nbsp;我已在此等候你 ${ages}`;
+    }
+    var span = document.createElement("span");
+    //插入到agesicon之后
+    var agesicon = document.querySelector(".agesicon");
+    document.querySelector(".copyright").insertBefore(span, agesicon.nextSibling);
+    timer();
+  </script>
+<script src="/blog/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/blog/live2dw/assets/hibiki.model.json"},"display":{"position":"right","width":190,"height":500},"mobile":{"show":false},"react":{"opacity":0.9}});</script></body>
+</html>

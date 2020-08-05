@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/blog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/blog/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/blog/lib/pace/pace-theme-minimal.min.css">
+  <script src="/blog/lib/pace/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://javaxh.gitee.io').hostname,
+    root: '/blog/',
+    scheme: 'Gemini',
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":true,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="java的概念 Java是一种可以撰写跨平台应用程序的、面向对象的程序设计语言。简单说，Java就是一种语言，不过是一种针对jvm的语言，Java编译后是字节码，而jvm会把这些字节码解释成机器码，然后做出相应的动作。 而Java是一种特殊的解释型语言（首先将java的类文件编译成jvm能识别的字节码文件，然后针对热点方法，利用JTT即时编译技术，编译执行，而对于非热点方法，采用的则是解释执行）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第一天">
+<meta property="og:url" content="http://javaxh.gitee.io/2020/07/29/%E7%AC%AC%E4%B8%80%E5%A4%A9/index.html">
+<meta property="og:site_name" content="JAVA入土">
+<meta property="og:description" content="java的概念 Java是一种可以撰写跨平台应用程序的、面向对象的程序设计语言。简单说，Java就是一种语言，不过是一种针对jvm的语言，Java编译后是字节码，而jvm会把这些字节码解释成机器码，然后做出相应的动作。 而Java是一种特殊的解释型语言（首先将java的类文件编译成jvm能识别的字节码文件，然后针对热点方法，利用JTT即时编译技术，编译执行，而对于非热点方法，采用的则是解释执行）">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img-blog.csdn.net/20180816142243274?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3l5X2NzZG4xMzE0/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cDovL2ltYWdlLm91eWFuZ3NpaGFpLmNuL0Z0SjNQYkJSZE5TYTFOYVVyOTZKbVVxMjRfeVM?x-oss-process=image/format,png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/1453275/202004/1453275-20200417122916656-1751498856.png">
+<meta property="og:image" content="https://img-blog.csdn.net/2018060909032670?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM1ODEzNjUz/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+<meta property="og:image" content="https://img-blog.csdn.net/20180609090741370?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM1ODEzNjUz/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2019082621181768.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0MjM4MTQy,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190109180611675.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzg5Njc0Nw==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2019010918550513.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzg5Njc0Nw==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cDovL2ltYWdlLm91eWFuZ3NpaGFpLmNuL0ZzVHYyYU1zR2N2OE05UnN5eDZQT0JPR0tZMWc?x-oss-process=image/format,png">
+<meta property="article:published_time" content="2020-07-29T15:05:12.000Z">
+<meta property="article:modified_time" content="2020-08-05T05:24:23.377Z">
+<meta property="article:author" content="晨月">
+<meta property="article:tag" content="个人学习笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdn.net/20180816142243274?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3l5X2NzZG4xMzE0/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+
+<link rel="canonical" href="http://javaxh.gitee.io/2020/07/29/%E7%AC%AC%E4%B8%80%E5%A4%A9/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>第一天 | JAVA入土</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/blog/atom.xml" title="JAVA入土" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/blog/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">JAVA入土</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">学习使我快乐</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/blog/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/blog/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">12</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/blog/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">0</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/blog/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">24</span></a>
+
+  </li>
+        <li class="menu-item menu-item-hot">
+
+    <a href="/blog/hot/" rel="section"><i class="fa fa-fw fa-signal"></i>热度排行</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/xuhao008/" class="github-corner" title="欢迎访问我的github主页" aria-label="欢迎访问我的github主页" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://javaxh.gitee.io/2020/07/29/%E7%AC%AC%E4%B8%80%E5%A4%A9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/blog/images/1a.jpg">
+      <meta itemprop="name" content="晨月">
+      <meta itemprop="description" content="技术博客,Java,记录美好学习时光">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JAVA入土">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          第一天
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-07-29 15:05:12" itemprop="dateCreated datePublished" datetime="2020-07-29T15:05:12Z">2020-07-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-08-05 05:24:23" itemprop="dateModified" datetime="2020-08-05T05:24:23Z">2020-08-05</time>
+              </span>
+
+          
+            <span id="/blog/2020/07/29/%E7%AC%AC%E4%B8%80%E5%A4%A9/" class="post-meta-item leancloud_visitors" data-flag-title="第一天" title="热度">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">热度：</span>
+              <span class="leancloud-visitors-count"></span>
+              <span>℃</span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/blog/2020/07/29/%E7%AC%AC%E4%B8%80%E5%A4%A9/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/blog/2020/07/29/%E7%AC%AC%E4%B8%80%E5%A4%A9/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>7.2k 字</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>9 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h4 id="java的概念">java的概念</h4>
+<p>Java是一种可以撰写跨平台应用程序的、面向对象的程序设计语言。简单说，Java就是一种语言，不过是一种针对jvm的语言，Java编译后是字节码，而jvm会把这些字节码解释成机器码，然后做出相应的动作。</p>
+<p>而Java是一种特殊的解释型语言（首先将java的类文件编译成jvm能识别的字节码文件，然后针对热点方法，利用JTT即时编译技术，编译执行，而对于非热点方法，采用的则是解释执行）</p>
+<p><img src="https://img-blog.csdn.net/20180816142243274?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3l5X2NzZG4xMzE0/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="image"></p>
+<p>java主要分三块，j2se：java的基础核心语言。j2me：java的微型模块，专门针对内存小，没有持续电源等小型设备。j2ee：java的企业模块，专门针对企业数据库服务器的连接维护。 手机用到的是用j2me所编出来的小程序</p>
+<p>javac：Java编译器</p>
+<p>java：Java解释器</p>
+<p>jdb：Java调试器</p>
+<p>javap：反编译</p>
+<p>javadoc：文档生成器</p>
+<p>利用编辑器编写Java源程序，源文件名：主类名.java</p>
+<p>利用编译器将源程序编译成字节码，字节码文件名：源文件名.class</p>
+<p>利用虚拟机（解释器）运行，工作过程：载入、代码校验、解释执行</p>
+<h5 id="必须熟练掌握的命令">必须熟练掌握的命令</h5>
+<p>javac命令：编译器将java源文件编译成字节码文件</p>
+<p>java命令：JVM解释执行已经编译好的字节码文件</p>
+<h4 id="java属于面向对象语言">java属于面向对象语言</h4>
+<p>具备封装，继承，多态三大特性。</p>
+<p>封装：每个类不对外暴露其构造和实现，只展示自身的功能与作用</p>
+<p>继承：同一父类的子类共同持有父类的公有（非private）资源</p>
+<p>多态：同一父类的子类对于父类公有方法或资源，可以具备不同的表达方式</p>
+<h4 id="JVM、JRE-、JDK说明">JVM、JRE 、JDK说明</h4>
+<p>A:什么是JVM</p>
+<p>JVM是java虚拟机(JVM Java Virtual Machine)，java程序需要运行在虚拟机上，不同平台有自己的虚拟机，因此java语言可以跨平台</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltYWdlLm91eWFuZ3NpaGFpLmNuL0Z0SjNQYkJSZE5TYTFOYVVyOTZKbVVxMjRfeVM?x-oss-process=image/format,png" alt="image"></p>
+<p>B:什么是JRE（运行环境）</p>
+<p>包括Java虚拟机(JVM Java Virtual Machine)和Java程序所需的核心类库等如果想要运行一个开发好的Java程序，计算机中只需要安装JRE即可。</p>
+<p>JRE:JVM+类库+运行工具（java.exe）。</p>
+<p>C:什么是JDK（开发环境）</p>
+<p>JDK是提供给Java开发人员使用的，其中包含了java的开发工具，也包括了JRE。所以安装了JDK，就不用在单独安装JRE了。其中的开发工具：编译工具(javac.exe) 运行工具（java.exe） 打包工具(jar.exe)等</p>
+<p>D:为什么JDK中包含一个JRE</p>
+<p>JDK若无JRE则缺少虚拟机，而开发完的程序，需要运行一下看看效果。</p>
+<p>E:JDK,JRE,JVM的作用和关系</p>
+<p>JDK包含JRE 和开发工具包              JRE包含 核心类库和JVM</p>
+<p>F：环境配置注意事项</p>
+<p>JRE不可以安装在JDK内部（javac无法执行），CLASSPATH最好不配置</p>
+<h4 id="java基本数据类型">java基本数据类型</h4>
+<p><img src="https://img2020.cnblogs.com/blog/1453275/202004/1453275-20200417122916656-1751498856.png" alt="image"></p>
+<p><strong>8大基本数据类型</strong></p>
+<p>byte short int char  long double boolean float</p>
+<p>精度从低到高：byte,short – int–(char) – long – float – double</p>
+<p>低精度到高精度（隐式转换）：long a = 1 （系统默认整数为int类型）</p>
+<p>高精度到低精度（强制转换）：byte b = (int)a (损失精度)</p>
+<p>基本数据类型作为类成员时具有默认值</p>
+<pre><code>boolean:false         char:0(空格)      byte:0              int:0          
+
+short:0                   Long:0L           float:0.0f          double:0.0d
+</code></pre>
+<p><strong>注意:</strong></p>
+<ol>
+<li>不能对布尔值进行转换</li>
+<li>不能把对象类型转换为不相干的类型</li>
+<li>在把高容量转换到低容量的时候，强制转换</li>
+<li>转换的时候可能存在内存溢出，或者精度问题</li>
+<li>除了int和char的包装类是Integer和Character，其他基本数据类型的包装类都是自己的首字母大写</li>
+</ol>
+<p><strong>基本数据类型和封装类的区别:</strong></p>
+<ol>
+<li>定义不同。封装类是对象，基本数据类型不是；</li>
+<li>使用方式不同。封装类需要先new初始化，再通过JVM根据具体情况实例化后赋予定值，基本数据类型可以直接赋值，某些集合类型必须使用包装类，不能使用基本数据类型，如ArrayList<Integer></Integer></li>
+<li>初始值不同。包装类初始值默认为null，基本数据类型根据类型不同而值不同；</li>
+<li>存储方式和位置不用。封装类分拆引用和实例，引用存储在栈（stack），具体实例存储在堆（heap），基本数据类型存储在栈中（stack）。</li>
+</ol>
+<p><strong>为什么需要包装类:</strong></p>
+<ol>
+<li>包装类封装在java.lang包中；</li>
+<li>基本数据类型没有toString()方法；</li>
+<li>编码过程中只接收对象的情况，比如List中只能存入对象，不能存入基本数据类型；比如一个方法的参数是Object时，不能传入基本数据类型，但可以传入对应的包装类； 比如泛型等等。</li>
+</ol>
+<h4 id="JAVA运算符详解">JAVA运算符详解</h4>
+<h5 id="1、算数运算符">1、算数运算符</h5>
+<p>++算数运算符操作数必须是数值类型++</p>
+<p>一元运算符:只有一个操作数</p>
+<p>包括：正‘+’，负‘-’，自加‘++’，自减‘–‘</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">”++“和”--“用于数值变量之前，在赋值操作中，先对被”++“或”--“操作变量值先加1或者先减1，然后在进行其他的操作；</span><br><span class="line"></span><br><span class="line">"++"和”--“用于数值变量之后，在赋值操作中，先用被”++“或”--“的操作变量值进行其他的操作，然后在对其值加1或者减1。</span><br></pre></td></tr></table></figure>
+<p>二元运算符:有两个操作数，运算符在两个操作数之间，用来完成加减乘除四则运算</p>
+<p>包括：加’+’，减’-’，乘’*’，除’/’，取余’%’</p>
+<p><strong>注意：</strong></p>
+<ul>
+<li>①数值计算中语法现象——“晋升”，即：byte、short和char(低于int的数据类型)进行算术运算后，结果会自动提升成int类型；</li>
+<li>②两个char型运算时，自动转换为int型；当char与别的类型运算时，也会先自动转换为int型的，再做其它类型的自动转换；</li>
+<li>③算数运算可以加入小括号&quot;()&quot;提高优先级，优先小括号内运算，再其他运算符运算；</li>
+<li>④算数运算前操作数变量必须赋值，反之，报语法错误。</li>
+</ul>
+<h5 id="2、关系运算符">2、关系运算符</h5>
+<p>等于’==’，不等于’!=’，大于’&gt;’，大于等于’&gt;=’，小于’&lt;’，小于等于’&lt;=’：<br>
+<img src="https://img-blog.csdn.net/2018060909032670?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM1ODEzNjUz/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="image"></p>
+<p>关系运算符用于比较两个数值之间的大小，其运算结果为一个逻辑类型(boolean布尔类型)的数值</p>
+<h5 id="3、逻辑运算符">3、逻辑运算符</h5>
+<p>逻辑运算符要求操作数的数据类型为逻辑型，其运算结果也是逻辑型值。</p>
+<p>逻辑运算的数据和逻辑运算符的运算结果是boolean类型。</p>
+<p>逻辑与’&amp;&amp;’，逻辑或’||’，逻辑非’!’，逻辑异或’^’，逻辑与’&amp;’，逻辑或’|’</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&amp;(并且)	        有<span class="literal">false</span>则<span class="literal">false</span></span><br><span class="line"><span class="params">|(或者)     	有<span class="literal">true</span>则<span class="literal">true</span></span></span><br><span class="line"><span class="params">!(非)       	非<span class="literal">false</span>则<span class="literal">true</span>，非<span class="literal">true</span>则<span class="literal">false</span></span></span><br><span class="line"><span class="params">^(异或)	        相同为<span class="literal">false</span>，不同为<span class="literal">true</span></span></span><br><span class="line"><span class="params">&amp;&amp;(短路与)  	    有<span class="literal">false</span>则<span class="literal">false</span>,若&amp;&amp;左边表达式或者值为<span class="literal">false</span>则右边不进行计算</span></span><br><span class="line"><span class="params">|</span><span class="params">|(短路或)	    有<span class="literal">true</span>则<span class="literal">true</span>,若|</span><span class="params">|左边表达式或者值为<span class="literal">true</span>则右边不进行计算</span></span><br></pre></td></tr></table></figure>
+<h4 id="JAVA流程控制">JAVA流程控制</h4>
+<p><img src="https://img-blog.csdn.net/20180609090741370?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM1ODEzNjUz/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="image"></p>
+<h4 id="JAVA异常处理">JAVA异常处理</h4>
+<p><img src="https://img-blog.csdnimg.cn/2019082621181768.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0MjM4MTQy,size_16,color_FFFFFF,t_70" alt="image"></p>
+<p>Throwable是所有错误和异常的顶级父类，有两个重要的子类：Exception（异常）和 Error（错误）</p>
+<p><strong>error 和 exception 的区别？</strong></p>
+<p>Error 类一般是指与虚拟机相关的问题，如系统崩溃，虚拟机错误，内存空间不足，方法调用栈溢出等。对于这类错误的导致的应用程序中断，仅靠程序本身无法恢复和和预防，遇到这样的错误，建议让程序终止。</p>
+<p>Exception 类表示程序可以处理的异常，可以捕获且可能恢复。遇到这类异常，应该尽可能处理异常，使程序恢复运行，而不应该随意终止异常。</p>
+<p>Exception分为编译时异常 CheckedException 和运行时异常 RuntimeException。</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">当前方法知道如何处理该异常，则用 <span class="keyword">try</span>…<span class="keyword">catch</span> 块来处理该异常。</span><br><span class="line">当前方法不知道如何处理，则在定义该方法是声明 <span class="keyword">throws</span> 抛出该异常。</span><br><span class="line"></span><br><span class="line">被<span class="keyword">finally</span>控制的语句体一定会执行（前提是JVM没有停止）</span><br><span class="line">如果<span class="keyword">catch</span>里面有<span class="keyword">return</span>语句，<span class="keyword">finally</span>的代码会执行，会在在<span class="keyword">return</span>前执行。</span><br><span class="line"></span><br><span class="line"><span class="keyword">throw</span>：</span><br><span class="line"><span class="number">1</span>） <span class="keyword">throw</span> 语句用在方法体内，表示抛出异常，由方法体内的语句处理。</span><br><span class="line"><span class="number">2</span>） <span class="keyword">throw</span> 是具体向外抛出异常的动作，所以它抛出的是一个异常实例，执行 <span class="keyword">throw</span> 一定是抛出了某种异常</span><br><span class="line"><span class="keyword">throws</span>：</span><br><span class="line"><span class="number">1</span>） <span class="keyword">throws</span> 语句是用在方法声明后面，表示如果抛出异常，由该方法的调用者来进行异常的处理。</span><br><span class="line"><span class="number">2</span>） <span class="keyword">throws</span> 主要是声明这个方法会抛出某种类型的异常，让它的使用者要知道需要捕获的异常的类型。</span><br><span class="line"><span class="number">3</span>） <span class="keyword">throws</span> 表示出现异常的一种可能性，并不一定会发生这种异常。</span><br></pre></td></tr></table></figure>
+<h4 id="JAVA文件处理和IO流">JAVA文件处理和IO流</h4>
+<p><strong>File文件类</strong></p>
+<p>File类提供了对文件和目录的所有操作方法，大致可以分为：创建，删除，重命名，判断，获取。</p>
+<blockquote>
+<p>1、创建：创建文件（createNewFile()）和创建目录（mkdir()，mkdirs()）。返回值均是boolean类型，在创建前会自行判断文件或目录是否存在，不存在才去创建。创建目录时推荐使用mkdirs()方法，这个会自动帮你检查并创建不存在的上级目录<br>
+2、删除：方法是delete()，返回值boolean，既可以删目录，也可以删文件。<br>
+3、重命名：是由renameTo(Filedest)方法完成的，这个方法要求传入一个封装了新路径的File实例，返回值是布尔类型。JDK的开发者对其功能进行了进一步扩充：如果只是文件名不一样，那就是重命名；如果路径和文件名都不一样，那就是先剪切再重命名。<br>
+4、判断：有多个方面的判断，首先是类型判断（是目录还是文件？）：isDirectory()，isFile()。其次还有文件状态判断：canRead()是否可读，public boolean canWrite()是否可写，public boolean isHidden() 是否隐藏。还有一个用的最多就是关于文件是否存在的判断：exists()。涉及到File类，常见的逻辑都是先判断文件或目录是否存在，再根据返回结果进一步操作。这些方法的返回值也都是布尔类型。<br>
+5、获取：首先是路径的获取，这其中包括了绝对路径，相对路径，父目录的路径，分别是：getAbsolutePath，getPath()，getParent()；其次还有文件名的获取，包括父目录的文件名，分别是：getName()，getParent()；也可以后去父目录的File实例：getParentFile()；获取最后一次的修改时间（毫秒值）lastModified；获取文件大小（字节数）length()；可以获取指定目录下的所有文件夹/文件的名称或者File实例：list()，listFile()；甚至可以获取次抽象路径名指定的分区大小，已使用的字节数和未分配的字节数：getTotalSpace()，getUseSpace()，getFreeSpace()。</p>
+</blockquote>
+<h4 id="IO流">IO流</h4>
+<p><img src="https://img-blog.csdnimg.cn/20190109180611675.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzg5Njc0Nw==,size_16,color_FFFFFF,t_70" alt="image"></p>
+<ol>
+<li>按照流的方向分：输入流（InputStream）和输出流（OutputStream）</li>
+<li>按照实现功能分：节点流（可以从或向一个特定的地方（节点）读写数据。例如FileReader）和处理流（是对一个已存在的流的连接和封装，通过所封装的流的功能调用实现数据读写）</li>
+<li>按照数据处理单元分：字节流和字符流。</li>
+</ol>
+<blockquote>
+<p>字节流：多用于读取或书写二进制数据，这些类的基类为InputStream或OutputStream。可以处理所有以bit为单位储存的文件，也就是说可以处理所有的文件，但是在处理字符上的速度不如字符流。<br>
+字符流：操作的是为了支持Unicode编码，用于字符国际化，一个字符占用两个字节，这些类的基类为Reader或Writer。该流只能处理字符，但处理字符速度很快</p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/2019010918550513.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzg5Njc0Nw==,size_16,color_FFFFFF,t_70" alt="image"></p>
+<p>拷贝文件，一个一个字节的拷贝</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">t1</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">	FileInputStream fis = <span class="keyword">new</span> FileInputStream(<span class="string">"H:\\javaio\\copy01.txt"</span>);</span><br><span class="line">	FileOutputStream fos = <span class="keyword">new</span> FileOutputStream(<span class="string">"H:\\javaio\\copy02.txt"</span>);</span><br><span class="line">	<span class="keyword">int</span> n;</span><br><span class="line">    <span class="comment">//这里面是n等于读取到的字节，当读取到末尾时，返回的是-1，所以这里用！=-1来表示没有读到文件末尾</span></span><br><span class="line">	<span class="keyword">while</span>((n = fis.read()) != -<span class="number">1</span>)&#123;</span><br><span class="line">		fos.write(n);</span><br><span class="line">	&#125;</span><br><span class="line">	fos.close();</span><br><span class="line">	fis.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>利用缓冲流进行拷贝，多个字节多个字节拷贝</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">t1</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">		BufferedInputStream bis = <span class="keyword">new</span> BufferedInputStream(<span class="keyword">new</span> FileInputStream(<span class="string">"H:\\javaio\\测试.avi"</span>));</span><br><span class="line">		BufferedOutputStream bos = <span class="keyword">new</span> BufferedOutputStream(<span class="keyword">new</span> FileOutputStream(<span class="string">"H:javaio\\测试copy1.avi"</span>));</span><br><span class="line">		<span class="keyword">byte</span>[] b = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">2</span>*<span class="number">1024</span>];</span><br><span class="line">		<span class="keyword">int</span> len;</span><br><span class="line">		<span class="keyword">while</span>((len = bis.read(b)) != -<span class="number">1</span>)&#123;</span><br><span class="line">			bos.write(b, <span class="number">0</span>, len);</span><br><span class="line">		&#125;</span><br><span class="line">		bos.close();</span><br><span class="line">		bis.close();</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<p>使用转换流进行文件的拷贝</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">t1</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">		InputStreamReader isr = <span class="keyword">new</span> InputStreamReader(<span class="keyword">new</span> FileInputStream(<span class="string">"H:\\javaio\\copy01.txt"</span>));</span><br><span class="line">		OutputStreamWriter osw = <span class="keyword">new</span> OutputStreamWriter(<span class="keyword">new</span> FileOutputStream(<span class="string">"H:\\javaio\\copy02.txt"</span>));</span><br><span class="line">		<span class="keyword">char</span>[] cbuf = <span class="keyword">new</span> <span class="keyword">char</span>[<span class="number">1024</span>];</span><br><span class="line">		<span class="keyword">int</span> len;</span><br><span class="line">		<span class="keyword">while</span>((len = isr.read(cbuf)) != -<span class="number">1</span>)&#123;</span><br><span class="line">			osw.write(cbuf, <span class="number">0</span>, len);</span><br><span class="line">		&#125;</span><br><span class="line">		osw.close();</span><br><span class="line">		isr.close();</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<p>使用字符流进行文件的拷贝</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">t1</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">		FileReader fr = <span class="keyword">new</span> FileReader(<span class="string">"H:\\javaio\\copy01.txt"</span>);</span><br><span class="line">		FileWriter fw = <span class="keyword">new</span> FileWriter(<span class="string">"H:\\javaio\\copy02.txt"</span>);</span><br><span class="line">		<span class="keyword">char</span>[] cbuf = <span class="keyword">new</span> <span class="keyword">char</span>[<span class="number">1024</span>];</span><br><span class="line">		<span class="keyword">int</span> len;</span><br><span class="line">		<span class="keyword">while</span>((len = fr.read(cbuf)) != -<span class="number">1</span>)&#123;</span><br><span class="line">			fw.write(cbuf, <span class="number">0</span>, len);</span><br><span class="line">		&#125;</span><br><span class="line">		fw.close();</span><br><span class="line">		fr.close();</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<p>使用字符缓冲流行文件的拷贝</p>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> void t1() throws Exception&#123;</span><br><span class="line">    		BufferedReader br = <span class="keyword">new</span> <span class="type">BufferedReader</span>(<span class="keyword">new</span> <span class="type">FileReader</span>(<span class="string">"H:\\javaio\\copy01.txt"</span>));</span><br><span class="line">    		BufferedWriter bw = <span class="keyword">new</span> <span class="type">BufferedWriter</span>(<span class="keyword">new</span> <span class="type">FileWriter</span>(<span class="string">"H:\\javaio\\copy02.txt"</span>));</span><br><span class="line">    <span class="comment">//		char[] cbuf = new char[1024];</span></span><br><span class="line">    <span class="comment">//		int len;</span></span><br><span class="line">    <span class="comment">//		while((len=br.read(cbuf)) != -1)&#123;</span></span><br><span class="line">    <span class="comment">//			bw.write(cbuf, 0, len);</span></span><br><span class="line">    <span class="comment">//		&#125;</span></span><br><span class="line">    		<span class="comment">//BufferedReader提供了readLine方法，可以不再使用字节读取方式</span></span><br><span class="line">    		<span class="keyword">String</span> readline;</span><br><span class="line">    		<span class="keyword">while</span>((readline = br.readLine()) != <span class="literal">null</span>)&#123;</span><br><span class="line">    			bw.write(readline);</span><br><span class="line">    			bw.<span class="keyword">new</span><span class="type">Line</span>();</span><br><span class="line">    		&#125;</span><br><span class="line">    		bw.close();</span><br><span class="line">    		br.close();</span><br><span class="line">    	&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="其他流">其他流</h5>
+<p>ObjectInputStream和ObjectOutputStream（对象流）</p>
+<blockquote>
+<p>ObjectInputStream（对象输入流）继承于InputStream，ObjectOutputStream（对象输出流）继承于OutputStream。对象流是将对象的基本数据和图形实现持久存储。ObjectOutputStream实际是在对流进行序列化操作，ObjectInputStream实际是在对流进行反序列化操作，要实现序列化，必须实现Serializable接口，否则是无法进行序列化和反序列化的，如果对象中的属性加了transient和static关键字的话，则该属性不会被序列化。</p>
+</blockquote>
+<blockquote>
+<p>补充：序列化与反序列化<br>
+数据传输过程中，都会默认采用二进制文件的方式，因为计算机的底层识别方式就是二进制，不依赖任何运行环境或是程序设计语言，所以这是实现数据传输跨平台跨网络的基础。*序列化可以直接将java对象转化为一个字节序列，并能够在以后将这个字节序列完全恢复为原来的对象（反序列化），*这一过程甚至可以通过网络进行，这意味着序列化机制能自动弥补不同操作系统之间的差异。<br>
+注：实现序列化的对象必须实现Serializable接口</p>
+</blockquote>
+<p>PrintStream和PrintWriter（打印流）</p>
+<blockquote>
+<p>PrintStream（可以将字节流封装成打印流）继承于FilterOutputStream，FilterOutputStream是继承于OutputStream的；PrintWriter（可以将字节流、字符流封装成打印流）继承于Writer的。</p>
+</blockquote>
+<h4 id="集合">集合</h4>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltYWdlLm91eWFuZ3NpaGFpLmNuL0ZzVHYyYU1zR2N2OE05UnN5eDZQT0JPR0tZMWc?x-oss-process=image/format,png" alt="image"></p>
+
+    </div>
+
+    
+    
+    
+
+    
+      <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束 <i class="fa fa-heart"></i> 感谢阅读-------------</div>
+
+    
+        <div class="reward-container">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/blog/images/wechatpay.png" alt="晨月 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/blog/images/alipay.jpg" alt="晨月 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/blog/tags/%E4%B8%AA%E4%BA%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag"><i class="fa fa-tag"></i>个人学习笔记</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/blog/2020/07/14/Vue%E4%B8%AD%E4%BD%BF%E7%94%A8iframe%E5%BC%95%E7%94%A8html%E9%A1%B5%E9%9D%A2%E5%B7%B2%E7%BB%8Fvue%E5%92%8Chtml%E9%A1%B5%E9%9D%A2%E6%96%B9%E6%B3%95%E7%9A%84%E8%B0%83%E7%94%A8/" rel="prev" title="Vue中使用iframe引用html页面已经vue和html页面方法的调用">
+      <i class="fa fa-chevron-left"></i> Vue中使用iframe引用html页面已经vue和html页面方法的调用
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/blog/2020/07/30/%E7%AC%AC%E4%BA%8C%E5%A4%A9/" rel="next" title="第二天">
+      第二天 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="comments"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#java的概念"><span class="nav-number">1.</span> <span class="nav-text">java的概念</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#必须熟练掌握的命令"><span class="nav-number">1.1.</span> <span class="nav-text">必须熟练掌握的命令</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#java属于面向对象语言"><span class="nav-number">2.</span> <span class="nav-text">java属于面向对象语言</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JVM、JRE-、JDK说明"><span class="nav-number">3.</span> <span class="nav-text">JVM、JRE 、JDK说明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#java基本数据类型"><span class="nav-number">4.</span> <span class="nav-text">java基本数据类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JAVA运算符详解"><span class="nav-number">5.</span> <span class="nav-text">JAVA运算符详解</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、算数运算符"><span class="nav-number">5.1.</span> <span class="nav-text">1、算数运算符</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、关系运算符"><span class="nav-number">5.2.</span> <span class="nav-text">2、关系运算符</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、逻辑运算符"><span class="nav-number">5.3.</span> <span class="nav-text">3、逻辑运算符</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JAVA流程控制"><span class="nav-number">6.</span> <span class="nav-text">JAVA流程控制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JAVA异常处理"><span class="nav-number">7.</span> <span class="nav-text">JAVA异常处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JAVA文件处理和IO流"><span class="nav-number">8.</span> <span class="nav-text">JAVA文件处理和IO流</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IO流"><span class="nav-number">9.</span> <span class="nav-text">IO流</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#其他流"><span class="nav-number">9.1.</span> <span class="nav-text">其他流</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#集合"><span class="nav-number">10.</span> <span class="nav-text">集合</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="晨月"
+      src="/blog/images/1a.jpg">
+  <p class="site-author-name" itemprop="name">晨月</p>
+  <div class="site-description" itemprop="description">技术博客,Java,记录美好学习时光</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/blog/archives/">
+        
+          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/blog/tags/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xuhao008/" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xuhao008&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/weixin_44209403/" title="CSDN → https:&#x2F;&#x2F;blog.csdn.net&#x2F;weixin_44209403&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-copyright"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/yourname" title="码云 → https:&#x2F;&#x2F;weibo.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fa fa-fw fa-google"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/blog/xhxxswkl@163.com" title="E-Mail → xhxxswkl@163.com"><i class="fa fa-fw fa-envelope"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/blog/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+      
+       <div>
+          <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="210" height="110" src="//music.163.com/outchain/player?type=2&id=518682659&auto=0&height=66"></iframe>
+       </div>
+      
+
+
+      <!-- 添加近期文章 -->
+      
+        <div class="links-of-blogroll motion-element links-of-blogroll-block">
+          <div class="links-of-blogroll-title">
+            <!-- modify icon to fire by szw -->
+            <i class="fa fa-history fa-" aria-hidden="true"></i>
+            近期文章
+          </div>
+          <ul class="links-of-blogroll-list">
+            
+            
+              <li>
+                <a href="/blog/" title="" target="_blank"></a>
+              </li>
+            
+              <li>
+                <a href="/blog/" title="" target="_blank"></a>
+              </li>
+            
+              <li>
+                <a href="/blog/" title="" target="_blank"></a>
+              </li>
+            
+              <li>
+                <a href="/blog/" title="" target="_blank"></a>
+              </li>
+            
+              <li>
+                <a href="/blog/" title="" target="_blank"></a>
+              </li>
+            
+          </ul>
+        </div>
+      
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">晨月</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">124k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">2:35</span>
+</div>
+
+        <div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+   
+    <span class="site-uv">
+       我的第 <span class="busuanzi-value" id="busuanzi_value_site_uv"></span> 位朋友，
+    </span>
+   <span class="agesicon"> <span>
+   
+   
+     <span class="site-pv">
+       历经 <span class="busuanzi-value" id="busuanzi_value_site_pv"></span> 次回眸才与你相遇。
+     </span>
+   
+ 
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='150' src="/blog/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/blog/lib/anime.min.js"></script>
+  <script src="/blog/lib/velocity/velocity.min.js"></script>
+  <script src="/blog/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/blog/js/utils.js"></script>
+
+<script src="/blog/js/motion.js"></script>
+
+
+<script src="/blog/js/schemes/pisces.js"></script>
+
+
+<script src="/blog/js/next-boot.js"></script>
+
+<script src="/blog/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/blog/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: true,
+    notify: true,
+    appId: 'wG3LQ9piimb7LMXEDw0BCOmG-gzGzoHsz',
+    appKey: 'pXkLtQymiNmeMV5F3bNJ2VKy',
+    placeholder: "说点什么吧。",
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: true,
+    lang: '' || 'zh-cn',
+    path: location.pathname,
+    recordIP: false,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/moment.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/moment-precise-range-plugin@1.3.0/moment-precise-range.min.js"></script>
+  <script>
+    function timer() {
+      var ages = moment.preciseDiff(moment(),moment(20190101,"YYYYMMDD"));
+      //去除时分秒信息
+      ages = ages.replace(/\s?\d{0,2}\s+hours?/, "");
+      ages = ages.replace(/\s?\d{0,2}\s+minutes?/, "");
+      ages = ages.replace(/\s?\d{0,2}\s+seconds?/, "");
+      //将年月日转换为中文
+      ages = ages.replace(/years?/, "年");
+      ages = ages.replace(/months?/, "月");
+      ages = ages.replace(/days?/, "天");
+      ages = ages.replace(/\d+/g, '<span style="color:#1094e8">$&</span>');
+      span.innerHTML = ` &nbsp; | &nbsp;我已在此等候你 ${ages}`;
+    }
+    var span = document.createElement("span");
+    //插入到agesicon之后
+    var agesicon = document.querySelector(".agesicon");
+    document.querySelector(".copyright").insertBefore(span, agesicon.nextSibling);
+    timer();
+  </script>
+<script src="/blog/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/blog/live2dw/assets/hibiki.model.json"},"display":{"position":"right","width":190,"height":500},"mobile":{"show":false},"react":{"opacity":0.9}});</script></body>
+</html>
