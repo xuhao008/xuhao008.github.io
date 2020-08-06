@@ -3,11 +3,11 @@
   <title>JAVA入土</title>
   
   <subtitle>学习使我快乐</subtitle>
-  <link href="/atom.xml" rel="self"/>
+  <link href="/blog/atom.xml" rel="self"/>
   
-  <link href="http://xuhao008.github.io/"/>
+  <link href="http://javaxh.gitee.io/"/>
   <updated>2020-08-06T09:34:14.063Z</updated>
-  <id>http://xuhao008.github.io/</id>
+  <id>http://javaxh.gitee.io/</id>
   
   <author>
     <name>晨月</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>第七天</title>
-    <link href="http://xuhao008.github.io/2020/08/07/%E7%AC%AC%E4%B8%83%E5%A4%A9/"/>
-    <id>http://xuhao008.github.io/2020/08/07/%E7%AC%AC%E4%B8%83%E5%A4%A9/</id>
+    <link href="http://javaxh.gitee.io/2020/08/07/%E7%AC%AC%E4%B8%83%E5%A4%A9/"/>
+    <id>http://javaxh.gitee.io/2020/08/07/%E7%AC%AC%E4%B8%83%E5%A4%A9/</id>
     <published>2020-08-06T16:05:12.000Z</published>
     <updated>2020-08-06T09:34:14.063Z</updated>
     
@@ -56,14 +56,14 @@ pages数组数组中第一项表示应用启动页&lt;/p&gt;
     
     
     
-      <category term="个人学习笔记" scheme="http://xuhao008.github.io/tags/%E4%B8%AA%E4%BA%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+      <category term="个人学习笔记" scheme="http://javaxh.gitee.io/tags/%E4%B8%AA%E4%BA%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
     
   </entry>
   
   <entry>
     <title>第六天</title>
-    <link href="http://xuhao008.github.io/2020/08/06/%E7%AC%AC%E5%85%AD%E5%A4%A9/"/>
-    <id>http://xuhao008.github.io/2020/08/06/%E7%AC%AC%E5%85%AD%E5%A4%A9/</id>
+    <link href="http://javaxh.gitee.io/2020/08/06/%E7%AC%AC%E5%85%AD%E5%A4%A9/"/>
+    <id>http://javaxh.gitee.io/2020/08/06/%E7%AC%AC%E5%85%AD%E5%A4%A9/</id>
     <published>2020-08-05T16:05:12.000Z</published>
     <updated>2020-08-06T09:34:50.562Z</updated>
     
@@ -79,14 +79,14 @@ pages数组数组中第一项表示应用启动页&lt;/p&gt;
     
     
     
-      <category term="个人学习笔记" scheme="http://xuhao008.github.io/tags/%E4%B8%AA%E4%BA%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+      <category term="个人学习笔记" scheme="http://javaxh.gitee.io/tags/%E4%B8%AA%E4%BA%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
     
   </entry>
   
   <entry>
     <title>Hello World</title>
-    <link href="http://xuhao008.github.io/2020/08/05/hello-world/"/>
-    <id>http://xuhao008.github.io/2020/08/05/hello-world/</id>
+    <link href="http://javaxh.gitee.io/2020/08/05/hello-world/"/>
+    <id>http://javaxh.gitee.io/2020/08/05/hello-world/</id>
     <published>2020-08-05T03:27:43.110Z</published>
     <updated>2020-08-05T03:27:43.110Z</updated>
     
@@ -113,8 +113,8 @@ pages数组数组中第一项表示应用启动页&lt;/p&gt;
   
   <entry>
     <title>第五天</title>
-    <link href="http://xuhao008.github.io/2020/08/05/%E7%AC%AC%E4%BA%94%E5%A4%A9/"/>
-    <id>http://xuhao008.github.io/2020/08/05/%E7%AC%AC%E4%BA%94%E5%A4%A9/</id>
+    <link href="http://javaxh.gitee.io/2020/08/05/%E7%AC%AC%E4%BA%94%E5%A4%A9/"/>
+    <id>http://javaxh.gitee.io/2020/08/05/%E7%AC%AC%E4%BA%94%E5%A4%A9/</id>
     <published>2020-08-04T18:05:12.000Z</published>
     <updated>2020-08-05T06:23:12.616Z</updated>
     
@@ -210,14 +210,14 @@ pages数组数组中第一项表示应用启动页&lt;/p&gt;
     
     
     
-      <category term="个人学习笔记" scheme="http://xuhao008.github.io/tags/%E4%B8%AA%E4%BA%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+      <category term="个人学习笔记" scheme="http://javaxh.gitee.io/tags/%E4%B8%AA%E4%BA%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
     
   </entry>
   
   <entry>
     <title>第四天</title>
-    <link href="http://xuhao008.github.io/2020/08/03/%E7%AC%AC%E5%9B%9B%E5%A4%A9/"/>
-    <id>http://xuhao008.github.io/2020/08/03/%E7%AC%AC%E5%9B%9B%E5%A4%A9/</id>
+    <link href="http://javaxh.gitee.io/2020/08/03/%E7%AC%AC%E5%9B%9B%E5%A4%A9/"/>
+    <id>http://javaxh.gitee.io/2020/08/03/%E7%AC%AC%E5%9B%9B%E5%A4%A9/</id>
     <published>2020-08-03T13:05:12.000Z</published>
     <updated>2020-08-05T06:13:34.658Z</updated>
     
@@ -242,14 +242,14 @@ pages数组数组中第一项表示应用启动页&lt;/p&gt;
     
     
     
-      <category term="个人学习笔记" scheme="http://xuhao008.github.io/tags/%E4%B8%AA%E4%BA%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+      <category term="个人学习笔记" scheme="http://javaxh.gitee.io/tags/%E4%B8%AA%E4%BA%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
     
   </entry>
   
   <entry>
     <title>第三天</title>
-    <link href="http://xuhao008.github.io/2020/07/31/%E7%AC%AC%E4%B8%89%E5%A4%A9/"/>
-    <id>http://xuhao008.github.io/2020/07/31/%E7%AC%AC%E4%B8%89%E5%A4%A9/</id>
+    <link href="http://javaxh.gitee.io/2020/07/31/%E7%AC%AC%E4%B8%89%E5%A4%A9/"/>
+    <id>http://javaxh.gitee.io/2020/07/31/%E7%AC%AC%E4%B8%89%E5%A4%A9/</id>
     <published>2020-07-31T08:05:12.000Z</published>
     <updated>2020-08-05T05:23:53.023Z</updated>
     
@@ -280,14 +280,14 @@ pages数组数组中第一项表示应用启动页&lt;/p&gt;
     
     
     
-      <category term="个人学习笔记" scheme="http://xuhao008.github.io/tags/%E4%B8%AA%E4%BA%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+      <category term="个人学习笔记" scheme="http://javaxh.gitee.io/tags/%E4%B8%AA%E4%BA%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
     
   </entry>
   
   <entry>
     <title>第二天</title>
-    <link href="http://xuhao008.github.io/2020/07/30/%E7%AC%AC%E4%BA%8C%E5%A4%A9/"/>
-    <id>http://xuhao008.github.io/2020/07/30/%E7%AC%AC%E4%BA%8C%E5%A4%A9/</id>
+    <link href="http://javaxh.gitee.io/2020/07/30/%E7%AC%AC%E4%BA%8C%E5%A4%A9/"/>
+    <id>http://javaxh.gitee.io/2020/07/30/%E7%AC%AC%E4%BA%8C%E5%A4%A9/</id>
     <published>2020-07-30T15:05:12.000Z</published>
     <updated>2020-08-05T05:23:41.334Z</updated>
     
@@ -328,14 +328,14 @@ JRE是java的运行环境，包括了java虚拟机JVM，java类库，和一些�
     
     
     
-      <category term="个人学习笔记" scheme="http://xuhao008.github.io/tags/%E4%B8%AA%E4%BA%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+      <category term="个人学习笔记" scheme="http://javaxh.gitee.io/tags/%E4%B8%AA%E4%BA%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
     
   </entry>
   
   <entry>
     <title>第一天</title>
-    <link href="http://xuhao008.github.io/2020/07/29/%E7%AC%AC%E4%B8%80%E5%A4%A9/"/>
-    <id>http://xuhao008.github.io/2020/07/29/%E7%AC%AC%E4%B8%80%E5%A4%A9/</id>
+    <link href="http://javaxh.gitee.io/2020/07/29/%E7%AC%AC%E4%B8%80%E5%A4%A9/"/>
+    <id>http://javaxh.gitee.io/2020/07/29/%E7%AC%AC%E4%B8%80%E5%A4%A9/</id>
     <published>2020-07-29T15:05:12.000Z</published>
     <updated>2020-08-05T05:24:23.377Z</updated>
     
@@ -358,14 +358,14 @@ JRE是java的运行环境，包括了java虚拟机JVM，java类库，和一些�
     
     
     
-      <category term="个人学习笔记" scheme="http://xuhao008.github.io/tags/%E4%B8%AA%E4%BA%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+      <category term="个人学习笔记" scheme="http://javaxh.gitee.io/tags/%E4%B8%AA%E4%BA%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
     
   </entry>
   
   <entry>
     <title>Vue中使用iframe引用html页面已经vue和html页面方法的调用</title>
-    <link href="http://xuhao008.github.io/2020/07/14/Vue%E4%B8%AD%E4%BD%BF%E7%94%A8iframe%E5%BC%95%E7%94%A8html%E9%A1%B5%E9%9D%A2%E5%B7%B2%E7%BB%8Fvue%E5%92%8Chtml%E9%A1%B5%E9%9D%A2%E6%96%B9%E6%B3%95%E7%9A%84%E8%B0%83%E7%94%A8/"/>
-    <id>http://xuhao008.github.io/2020/07/14/Vue%E4%B8%AD%E4%BD%BF%E7%94%A8iframe%E5%BC%95%E7%94%A8html%E9%A1%B5%E9%9D%A2%E5%B7%B2%E7%BB%8Fvue%E5%92%8Chtml%E9%A1%B5%E9%9D%A2%E6%96%B9%E6%B3%95%E7%9A%84%E8%B0%83%E7%94%A8/</id>
+    <link href="http://javaxh.gitee.io/2020/07/14/Vue%E4%B8%AD%E4%BD%BF%E7%94%A8iframe%E5%BC%95%E7%94%A8html%E9%A1%B5%E9%9D%A2%E5%B7%B2%E7%BB%8Fvue%E5%92%8Chtml%E9%A1%B5%E9%9D%A2%E6%96%B9%E6%B3%95%E7%9A%84%E8%B0%83%E7%94%A8/"/>
+    <id>http://javaxh.gitee.io/2020/07/14/Vue%E4%B8%AD%E4%BD%BF%E7%94%A8iframe%E5%BC%95%E7%94%A8html%E9%A1%B5%E9%9D%A2%E5%B7%B2%E7%BB%8Fvue%E5%92%8Chtml%E9%A1%B5%E9%9D%A2%E6%96%B9%E6%B3%95%E7%9A%84%E8%B0%83%E7%94%A8/</id>
     <published>2020-07-14T14:29:12.000Z</published>
     <updated>2020-08-05T03:27:43.110Z</updated>
     
@@ -388,14 +388,14 @@ JRE是java的运行环境，包括了java虚拟机JVM，java类库，和一些�
     
     
     
-      <category term="vue" scheme="http://xuhao008.github.io/tags/vue/"/>
+      <category term="vue" scheme="http://javaxh.gitee.io/tags/vue/"/>
     
   </entry>
   
   <entry>
     <title>VUE，localStorage（本地储存）储存数组对象，取出时产生错误</title>
-    <link href="http://xuhao008.github.io/2020/06/22/VUE%EF%BC%8ClocalStorage%EF%BC%88%E6%9C%AC%E5%9C%B0%E5%82%A8%E5%AD%98%EF%BC%89%E5%82%A8%E5%AD%98%E6%95%B0%E7%BB%84%E5%AF%B9%E8%B1%A1%EF%BC%8C%E5%8F%96%E5%87%BA%E6%97%B6%E4%BA%A7%E7%94%9F%E9%94%99%E8%AF%AF/"/>
-    <id>http://xuhao008.github.io/2020/06/22/VUE%EF%BC%8ClocalStorage%EF%BC%88%E6%9C%AC%E5%9C%B0%E5%82%A8%E5%AD%98%EF%BC%89%E5%82%A8%E5%AD%98%E6%95%B0%E7%BB%84%E5%AF%B9%E8%B1%A1%EF%BC%8C%E5%8F%96%E5%87%BA%E6%97%B6%E4%BA%A7%E7%94%9F%E9%94%99%E8%AF%AF/</id>
+    <link href="http://javaxh.gitee.io/2020/06/22/VUE%EF%BC%8ClocalStorage%EF%BC%88%E6%9C%AC%E5%9C%B0%E5%82%A8%E5%AD%98%EF%BC%89%E5%82%A8%E5%AD%98%E6%95%B0%E7%BB%84%E5%AF%B9%E8%B1%A1%EF%BC%8C%E5%8F%96%E5%87%BA%E6%97%B6%E4%BA%A7%E7%94%9F%E9%94%99%E8%AF%AF/"/>
+    <id>http://javaxh.gitee.io/2020/06/22/VUE%EF%BC%8ClocalStorage%EF%BC%88%E6%9C%AC%E5%9C%B0%E5%82%A8%E5%AD%98%EF%BC%89%E5%82%A8%E5%AD%98%E6%95%B0%E7%BB%84%E5%AF%B9%E8%B1%A1%EF%BC%8C%E5%8F%96%E5%87%BA%E6%97%B6%E4%BA%A7%E7%94%9F%E9%94%99%E8%AF%AF/</id>
     <published>2020-06-22T12:05:12.000Z</published>
     <updated>2020-08-05T03:27:43.110Z</updated>
     
@@ -417,36 +417,36 @@ JRE是java的运行环境，包括了java虚拟机JVM，java类库，和一些�
     
     
     
-      <category term="vue" scheme="http://xuhao008.github.io/tags/vue/"/>
+      <category term="vue" scheme="http://javaxh.gitee.io/tags/vue/"/>
     
   </entry>
   
   <entry>
     <title>主页</title>
-    <link href="http://xuhao008.github.io/2020/04/25/%E5%9B%BE%E7%89%87/"/>
-    <id>http://xuhao008.github.io/2020/04/25/%E5%9B%BE%E7%89%87/</id>
+    <link href="http://javaxh.gitee.io/2020/04/25/%E5%9B%BE%E7%89%87/"/>
+    <id>http://javaxh.gitee.io/2020/04/25/%E5%9B%BE%E7%89%87/</id>
     <published>2020-04-24T22:05:12.000Z</published>
-    <updated>2020-08-06T09:50:14.766Z</updated>
+    <updated>2020-08-06T10:03:36.514Z</updated>
     
-    <content type="html"><![CDATA[<p><img src="/2020/04/25/%E5%9B%BE%E7%89%87/1.jpg" alt="images"></p>]]></content>
+    <content type="html"><![CDATA[<p><img src="/blog/2020/04/25/%E5%9B%BE%E7%89%87/1.jpg" alt="images"></p>]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;/2020/04/25/%E5%9B%BE%E7%89%87/1.jpg&quot; alt=&quot;images&quot;&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;img src=&quot;/blog/2020/04/25/%E5%9B%BE%E7%89%87/1.jpg&quot; alt=&quot;images&quot;&gt;&lt;/p&gt;
 
     
     </summary>
     
     
     
-      <category term="image" scheme="http://xuhao008.github.io/tags/image/"/>
+      <category term="image" scheme="http://javaxh.gitee.io/tags/image/"/>
     
   </entry>
   
   <entry>
     <title>整理JDK8新特性</title>
-    <link href="http://xuhao008.github.io/2019/08/11/%E6%95%B4%E7%90%86JDK8%E6%96%B0%E7%89%B9%E6%80%A7/"/>
-    <id>http://xuhao008.github.io/2019/08/11/%E6%95%B4%E7%90%86JDK8%E6%96%B0%E7%89%B9%E6%80%A7/</id>
+    <link href="http://javaxh.gitee.io/2019/08/11/%E6%95%B4%E7%90%86JDK8%E6%96%B0%E7%89%B9%E6%80%A7/"/>
+    <id>http://javaxh.gitee.io/2019/08/11/%E6%95%B4%E7%90%86JDK8%E6%96%B0%E7%89%B9%E6%80%A7/</id>
     <published>2019-08-10T22:05:12.000Z</published>
     <updated>2020-08-05T03:27:43.142Z</updated>
     
@@ -469,14 +469,14 @@ JRE是java的运行环境，包括了java虚拟机JVM，java类库，和一些�
     
     
     
-      <category term="java基础" scheme="http://xuhao008.github.io/tags/java%E5%9F%BA%E7%A1%80/"/>
+      <category term="java基础" scheme="http://javaxh.gitee.io/tags/java%E5%9F%BA%E7%A1%80/"/>
     
   </entry>
   
   <entry>
     <title>记录一次java使用processBuilder调用exe执行文件处理的代码</title>
-    <link href="http://xuhao008.github.io/2019/06/22/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1java%E4%BD%BF%E7%94%A8processBuilder%E8%B0%83%E7%94%A8exe%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86%E7%9A%84%E4%BB%A3%E7%A0%81/"/>
-    <id>http://xuhao008.github.io/2019/06/22/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1java%E4%BD%BF%E7%94%A8processBuilder%E8%B0%83%E7%94%A8exe%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86%E7%9A%84%E4%BB%A3%E7%A0%81/</id>
+    <link href="http://javaxh.gitee.io/2019/06/22/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1java%E4%BD%BF%E7%94%A8processBuilder%E8%B0%83%E7%94%A8exe%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86%E7%9A%84%E4%BB%A3%E7%A0%81/"/>
+    <id>http://javaxh.gitee.io/2019/06/22/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1java%E4%BD%BF%E7%94%A8processBuilder%E8%B0%83%E7%94%A8exe%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86%E7%9A%84%E4%BB%A3%E7%A0%81/</id>
     <published>2019-06-22T15:05:12.000Z</published>
     <updated>2020-08-05T03:27:43.142Z</updated>
     
@@ -496,14 +496,14 @@ JRE是java的运行环境，包括了java虚拟机JVM，java类库，和一些�
     
     
     
-      <category term="java" scheme="http://xuhao008.github.io/tags/java/"/>
+      <category term="java" scheme="http://javaxh.gitee.io/tags/java/"/>
     
   </entry>
   
   <entry>
     <title>Spring Cloud服务网关 zuul 快速入门</title>
-    <link href="http://xuhao008.github.io/2019/06/21/Spring%20Cloud%E6%9C%8D%E5%8A%A1%E7%BD%91%E5%85%B3%20zuul%20%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/"/>
-    <id>http://xuhao008.github.io/2019/06/21/Spring%20Cloud%E6%9C%8D%E5%8A%A1%E7%BD%91%E5%85%B3%20zuul%20%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/</id>
+    <link href="http://javaxh.gitee.io/2019/06/21/Spring%20Cloud%E6%9C%8D%E5%8A%A1%E7%BD%91%E5%85%B3%20zuul%20%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/"/>
+    <id>http://javaxh.gitee.io/2019/06/21/Spring%20Cloud%E6%9C%8D%E5%8A%A1%E7%BD%91%E5%85%B3%20zuul%20%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/</id>
     <published>2019-06-20T22:05:12.000Z</published>
     <updated>2020-08-05T03:27:43.095Z</updated>
     
@@ -540,14 +540,14 @@ Zuul大部分功能都是通过过滤器来实现的，Zuul定义了4种标准�
     
     
     
-      <category term="springcloud" scheme="http://xuhao008.github.io/tags/springcloud/"/>
+      <category term="springcloud" scheme="http://javaxh.gitee.io/tags/springcloud/"/>
     
   </entry>
   
   <entry>
     <title>SpringBoot+Vue+Redis实现单点登录(一处登录，另一处退出登录)</title>
-    <link href="http://xuhao008.github.io/2019/05/31/SpringBoot+Vue+Jpa+Redis%E5%AE%9E%E7%8E%B0%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95(%E4%B8%80%E5%A4%84%E7%99%BB%E5%BD%95%EF%BC%8C%E5%8F%A6%E4%B8%80%E5%A4%84%E9%80%80%E5%87%BA%E7%99%BB%E5%BD%95)/"/>
-    <id>http://xuhao008.github.io/2019/05/31/SpringBoot+Vue+Jpa+Redis%E5%AE%9E%E7%8E%B0%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95(%E4%B8%80%E5%A4%84%E7%99%BB%E5%BD%95%EF%BC%8C%E5%8F%A6%E4%B8%80%E5%A4%84%E9%80%80%E5%87%BA%E7%99%BB%E5%BD%95)/</id>
+    <link href="http://javaxh.gitee.io/2019/05/31/SpringBoot+Vue+Jpa+Redis%E5%AE%9E%E7%8E%B0%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95(%E4%B8%80%E5%A4%84%E7%99%BB%E5%BD%95%EF%BC%8C%E5%8F%A6%E4%B8%80%E5%A4%84%E9%80%80%E5%87%BA%E7%99%BB%E5%BD%95)/"/>
+    <id>http://javaxh.gitee.io/2019/05/31/SpringBoot+Vue+Jpa+Redis%E5%AE%9E%E7%8E%B0%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95(%E4%B8%80%E5%A4%84%E7%99%BB%E5%BD%95%EF%BC%8C%E5%8F%A6%E4%B8%80%E5%A4%84%E9%80%80%E5%87%BA%E7%99%BB%E5%BD%95)/</id>
     <published>2019-05-30T22:05:12.000Z</published>
     <updated>2020-08-05T03:27:43.095Z</updated>
     
@@ -572,14 +572,14 @@ Zuul大部分功能都是通过过滤器来实现的，Zuul定义了4种标准�
     
     
     
-      <category term="单点登录" scheme="http://xuhao008.github.io/tags/%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95/"/>
+      <category term="单点登录" scheme="http://javaxh.gitee.io/tags/%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95/"/>
     
   </entry>
   
   <entry>
     <title>SpringDataJpa+vue+Echarts绘制柱状图和饼状图</title>
-    <link href="http://xuhao008.github.io/2019/05/31/SpringDataJpa+vue+Echarts%E7%BB%98%E5%88%B6%E6%9F%B1%E7%8A%B6%E5%9B%BE%E5%92%8C%E9%A5%BC%E7%8A%B6%E5%9B%BE/"/>
-    <id>http://xuhao008.github.io/2019/05/31/SpringDataJpa+vue+Echarts%E7%BB%98%E5%88%B6%E6%9F%B1%E7%8A%B6%E5%9B%BE%E5%92%8C%E9%A5%BC%E7%8A%B6%E5%9B%BE/</id>
+    <link href="http://javaxh.gitee.io/2019/05/31/SpringDataJpa+vue+Echarts%E7%BB%98%E5%88%B6%E6%9F%B1%E7%8A%B6%E5%9B%BE%E5%92%8C%E9%A5%BC%E7%8A%B6%E5%9B%BE/"/>
+    <id>http://javaxh.gitee.io/2019/05/31/SpringDataJpa+vue+Echarts%E7%BB%98%E5%88%B6%E6%9F%B1%E7%8A%B6%E5%9B%BE%E5%92%8C%E9%A5%BC%E7%8A%B6%E5%9B%BE/</id>
     <published>2019-05-30T22:05:12.000Z</published>
     <updated>2020-08-05T03:27:43.095Z</updated>
     
@@ -603,14 +603,14 @@ Zuul大部分功能都是通过过滤器来实现的，Zuul定义了4种标准�
     
     
     
-      <category term="elasticsearch" scheme="http://xuhao008.github.io/tags/elasticsearch/"/>
+      <category term="elasticsearch" scheme="http://javaxh.gitee.io/tags/elasticsearch/"/>
     
   </entry>
   
   <entry>
     <title>SpringBoot项目实现高并发商品秒杀</title>
-    <link href="http://xuhao008.github.io/2019/05/31/SpringBoot%E9%A1%B9%E7%9B%AE%E5%AE%9E%E7%8E%B0%E9%AB%98%E5%B9%B6%E5%8F%91%E5%95%86%E5%93%81%E7%A7%92%E6%9D%80/"/>
-    <id>http://xuhao008.github.io/2019/05/31/SpringBoot%E9%A1%B9%E7%9B%AE%E5%AE%9E%E7%8E%B0%E9%AB%98%E5%B9%B6%E5%8F%91%E5%95%86%E5%93%81%E7%A7%92%E6%9D%80/</id>
+    <link href="http://javaxh.gitee.io/2019/05/31/SpringBoot%E9%A1%B9%E7%9B%AE%E5%AE%9E%E7%8E%B0%E9%AB%98%E5%B9%B6%E5%8F%91%E5%95%86%E5%93%81%E7%A7%92%E6%9D%80/"/>
+    <id>http://javaxh.gitee.io/2019/05/31/SpringBoot%E9%A1%B9%E7%9B%AE%E5%AE%9E%E7%8E%B0%E9%AB%98%E5%B9%B6%E5%8F%91%E5%95%86%E5%93%81%E7%A7%92%E6%9D%80/</id>
     <published>2019-05-30T22:05:12.000Z</published>
     <updated>2020-08-05T03:27:43.095Z</updated>
     
@@ -638,14 +638,14 @@ RabbitMQ安装教程：&lt;a href=&quot;https://www.linuxprobe.com/install-rabbi
     
     
     
-      <category term="高并发" scheme="http://xuhao008.github.io/tags/%E9%AB%98%E5%B9%B6%E5%8F%91/"/>
+      <category term="高并发" scheme="http://javaxh.gitee.io/tags/%E9%AB%98%E5%B9%B6%E5%8F%91/"/>
     
   </entry>
   
   <entry>
     <title>SpringBoot+elasticsearch实现全文检索，做一个简单的搜索引擎</title>
-    <link href="http://xuhao008.github.io/2019/05/31/SpringBoot+elasticsearch%E5%AE%9E%E7%8E%B0%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2%EF%BC%8C%E5%81%9A%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E/"/>
-    <id>http://xuhao008.github.io/2019/05/31/SpringBoot+elasticsearch%E5%AE%9E%E7%8E%B0%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2%EF%BC%8C%E5%81%9A%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E/</id>
+    <link href="http://javaxh.gitee.io/2019/05/31/SpringBoot+elasticsearch%E5%AE%9E%E7%8E%B0%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2%EF%BC%8C%E5%81%9A%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E/"/>
+    <id>http://javaxh.gitee.io/2019/05/31/SpringBoot+elasticsearch%E5%AE%9E%E7%8E%B0%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2%EF%BC%8C%E5%81%9A%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E/</id>
     <published>2019-05-30T22:05:12.000Z</published>
     <updated>2020-08-05T03:27:43.095Z</updated>
     
@@ -670,14 +670,14 @@ RabbitMQ安装教程：&lt;a href=&quot;https://www.linuxprobe.com/install-rabbi
     
     
     
-      <category term="elasticsearch" scheme="http://xuhao008.github.io/tags/elasticsearch/"/>
+      <category term="elasticsearch" scheme="http://javaxh.gitee.io/tags/elasticsearch/"/>
     
   </entry>
   
   <entry>
     <title>SpringBoot,JDBC连接数据库报错：java.lang.AbstractMethodError&#39;:oracle.jdbc.driver.T4CConnection.isValid(I)Z”</title>
-    <link href="http://xuhao008.github.io/2019/05/31/SpringBoot,JDBC%E8%BF%9E%E6%8E%A5oracle%E6%8A%A5%E9%94%99java.lang.AbstractMethodError_%20oracle.jdbc.driver.T4CConnection.isValid(I)Z/"/>
-    <id>http://xuhao008.github.io/2019/05/31/SpringBoot,JDBC%E8%BF%9E%E6%8E%A5oracle%E6%8A%A5%E9%94%99java.lang.AbstractMethodError_%20oracle.jdbc.driver.T4CConnection.isValid(I)Z/</id>
+    <link href="http://javaxh.gitee.io/2019/05/31/SpringBoot,JDBC%E8%BF%9E%E6%8E%A5oracle%E6%8A%A5%E9%94%99java.lang.AbstractMethodError_%20oracle.jdbc.driver.T4CConnection.isValid(I)Z/"/>
+    <id>http://javaxh.gitee.io/2019/05/31/SpringBoot,JDBC%E8%BF%9E%E6%8E%A5oracle%E6%8A%A5%E9%94%99java.lang.AbstractMethodError_%20oracle.jdbc.driver.T4CConnection.isValid(I)Z/</id>
     <published>2019-05-30T22:05:12.000Z</published>
     <updated>2020-08-05T03:27:43.095Z</updated>
     
@@ -717,14 +717,14 @@ java.lang.AbstractMethodError:oracle.jdbc.driver.T4CConnection.isValid(I)Z&lt;/p
     
     
     
-      <category term="oracle" scheme="http://xuhao008.github.io/tags/oracle/"/>
+      <category term="oracle" scheme="http://javaxh.gitee.io/tags/oracle/"/>
     
   </entry>
   
   <entry>
     <title>什么是微服务，为什么要使用微服务架构</title>
-    <link href="http://xuhao008.github.io/2019/05/31/%E4%BB%80%E4%B9%88%E6%98%AF%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%8C%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/"/>
-    <id>http://xuhao008.github.io/2019/05/31/%E4%BB%80%E4%B9%88%E6%98%AF%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%8C%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/</id>
+    <link href="http://javaxh.gitee.io/2019/05/31/%E4%BB%80%E4%B9%88%E6%98%AF%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%8C%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/"/>
+    <id>http://javaxh.gitee.io/2019/05/31/%E4%BB%80%E4%B9%88%E6%98%AF%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%8C%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/</id>
     <published>2019-05-30T22:05:12.000Z</published>
     <updated>2020-08-05T03:27:43.110Z</updated>
     
@@ -769,7 +769,7 @@ java.lang.AbstractMethodError:oracle.jdbc.driver.T4CConnection.isValid(I)Z&lt;/p
     
     
     
-      <category term="springcloud" scheme="http://xuhao008.github.io/tags/springcloud/"/>
+      <category term="springcloud" scheme="http://javaxh.gitee.io/tags/springcloud/"/>
     
   </entry>
   
