@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/blog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/blog/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/blog/lib/pace/pace-theme-minimal.min.css">
+  <script src="/blog/lib/pace/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://javaxh.gitee.io').hostname,
+    root: '/blog/',
+    scheme: 'Gemini',
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":true,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="2020-08-07  星期五 JAVA基础学习 1、反射  JAVA 反射机制是在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法和属性；这种动态获取的信息以及动态调用对象的方法的功能称为 java 语言的反射机制。  Java 提供了两种方式获取 Class 对象: 1.知道具体类的情况下可以使用： 1Class alunbarClas">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第八天">
+<meta property="og:url" content="http://javaxh.gitee.io/2020/08/07/%E7%AC%AC%E5%85%AB%E5%A4%A9/index.html">
+<meta property="og:site_name" content="JAVA入土">
+<meta property="og:description" content="2020-08-07  星期五 JAVA基础学习 1、反射  JAVA 反射机制是在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法和属性；这种动态获取的信息以及动态调用对象的方法的功能称为 java 语言的反射机制。  Java 提供了两种方式获取 Class 对象: 1.知道具体类的情况下可以使用： 1Class alunbarClas">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-08-07T10:03:44.238Z">
+<meta property="article:modified_time" content="2020-08-07T09:48:47.252Z">
+<meta property="article:author" content="晨月">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://javaxh.gitee.io/2020/08/07/%E7%AC%AC%E5%85%AB%E5%A4%A9/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>第八天 | JAVA入土</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/blog/atom.xml" title="JAVA入土" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/blog/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">JAVA入土</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">学习使我快乐</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/blog/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/blog/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">12</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/blog/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">0</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/blog/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">27</span></a>
+
+  </li>
+        <li class="menu-item menu-item-hot">
+
+    <a href="/blog/hot/" rel="section"><i class="fa fa-fw fa-signal"></i>热度排行</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/xuhao008/" class="github-corner" title="欢迎访问我的github主页" aria-label="欢迎访问我的github主页" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://javaxh.gitee.io/2020/08/07/%E7%AC%AC%E5%85%AB%E5%A4%A9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/blog/images/1a.jpg">
+      <meta itemprop="name" content="晨月">
+      <meta itemprop="description" content="技术博客,Java,记录美好学习时光">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JAVA入土">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          第八天
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-08-07 10:03:44 / 修改时间：09:48:47" itemprop="dateCreated datePublished" datetime="2020-08-07T10:03:44Z">2020-08-07</time>
+            </span>
+
+          
+            <span id="/blog/2020/08/07/%E7%AC%AC%E5%85%AB%E5%A4%A9/" class="post-meta-item leancloud_visitors" data-flag-title="第八天" title="热度">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">热度：</span>
+              <span class="leancloud-visitors-count"></span>
+              <span>℃</span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/blog/2020/08/07/%E7%AC%AC%E5%85%AB%E5%A4%A9/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/blog/2020/08/07/%E7%AC%AC%E5%85%AB%E5%A4%A9/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>7.3k 字</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>9 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>2020-08-07  星期五</p>
+<h3 id="JAVA基础学习">JAVA基础学习</h3>
+<h4 id="1、反射">1、反射</h4>
+<blockquote>
+<p>JAVA 反射机制是在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法和属性；这种动态获取的信息以及动态调用对象的方法的功能称为 java 语言的反射机制。</p>
+</blockquote>
+<p>Java 提供了两种方式获取 Class 对象:<br>
+1.知道具体类的情况下可以使用：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Class alunbarClass = TargetObject<span class="class">.<span class="keyword">class</span></span>;</span><br></pre></td></tr></table></figure>
+<p>但是我们一般是不知道具体类的，基本都是通过遍历包下面的类来获取 Class 对象</p>
+<p>2.通过 Class.forName()传入类的路径获取：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Class alunbarClass1 = Class.forName(<span class="string">"com.atoz.TargetObject"</span>);</span><br><span class="line">``` </span><br><span class="line">简单用代码演示一下反射的一些操作!   </span><br><span class="line">创建一个我们要使用反射操作的类 TargetObject：</span><br></pre></td></tr></table></figure>
+<p>public class TargetObject {<br>
+private String value;</p>
+<pre><code>public TargetObject() {
+    value = &quot;JavaGuide&quot;;
+}
+
+public void publicMethod(String s) {
+    System.out.println(&quot;I love &quot; + s);
+}
+
+private void privateMethod() {
+    System.out.println(&quot;value is &quot; + value);
+}
+</code></pre>
+<p>}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">使用反射操作这个类的方法以及参数</span><br></pre></td></tr></table></figure>
+<p>public class fsTest {<br>
+public static void main(String[] args) throws ClassNotFoundException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException, NoSuchFieldException {<br>
+//获取TargetObject类的Class对象并且创建TargetObject类实例<br>
+Class&lt;?&gt; aClass = Class.forName(“com.atoz.rabbitmqdemo.entity.TargetObject”);<br>
+TargetObject targetObject = (TargetObject) aClass.newInstance();</p>
+<pre><code>    //获取所有类中所有定义的方法
+    Method[] declaredMethod = aClass.getDeclaredMethods();
+    for (Method method:declaredMethod){
+        System.out.println(method.getName());
+    }
+    //获取publicMethod方法,并调用
+    Method publicMethod = aClass.getDeclaredMethod(&quot;publicMethod&quot;, String.class);
+    publicMethod.invoke(targetObject,&quot;javaxh&quot;);
+
+    //获取指定属性参数，并修改
+    Field declaredField = aClass.getDeclaredField(&quot;value&quot;);
+    //为了对类中的参数进行修改我们取消安全检查
+    declaredField.setAccessible(true);
+    declaredField.set(targetObject,&quot;javaxh&quot;);
+
+    //获取私有方法并调用
+    Method privateMethod = aClass.getDeclaredMethod(&quot;privateMethod&quot;);
+    //为了调用private方法我们取消安全检查
+    privateMethod.setAccessible(true);
+    privateMethod.invoke(targetObject);
+}
+</code></pre>
+<p>}</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="strong">**反射机制优缺点**</span></span><br><span class="line"><span class="bullet">- </span>优点： 运行期类型的判断，动态加载类，提高代码灵活度。</span><br><span class="line"><span class="bullet">- </span>缺点： 1.<span class="strong">**性能瓶颈**</span>：反射相当于一系列解释操作，通知 JVM 要做的事情，性能比直接的 java 代码要慢很多。2.<span class="strong">**安全问题**</span>，让我们可以动态操作改变类的属性同时也增加了类的安全隐患。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="section">#### 2、定位常见Java性能问题</span></span><br><span class="line"></span><br><span class="line"><span class="strong">**以下工具可以帮忙定位问题**</span></span><br><span class="line"></span><br><span class="line"><span class="strong">**top命令**</span>：top命令使我们最常用的Linux命令之一，它可以实时的显示当前正在执行的进程的CPU使用率，内存使用率等系统信息。top -Hp pid 可以查看线程的系统资源使用情况。</span><br><span class="line"></span><br><span class="line"><span class="strong">**vmstat命令**</span>：vmstat是一个指定周期和采集次数的虚拟内存检测工具，可以统计内存，CPU，swap的使用情况，它还有一个重要的常用功能，用来观察进程的上下文切换</span><br><span class="line"></span><br><span class="line"><span class="strong">**pidstat命令**</span>:pidstat 是 Sysstat 中的一个组件，也是一款功能强大的性能监测工具，top 和 vmstat 两个命令都是监测进程的内存、CPU 以及 I/O 使用情况，而 pidstat 命令可以检测到线程级别的。</span><br><span class="line"></span><br><span class="line"><span class="strong">**jstack命令**</span>:</span><br><span class="line">jstack是JDK工具命令，它是一种线程堆栈分析工具，最常用的功能就是使用 jstack pid 命令查看线程的堆栈信息，也经常用来排除死锁情况。</span><br><span class="line"></span><br><span class="line"><span class="strong">**jstat 命令**</span>:</span><br><span class="line">它可以检测Java程序运行的实时情况，包括堆内存信息和垃圾回收信息，我们常常用来查看程序垃圾回收情况。常用的命令是jstat -gc pid。</span><br><span class="line"></span><br><span class="line">jmap命令:</span><br><span class="line">jmap也是JDK工具命令，他可以查看堆内存的初始化信息以及堆内存的使用情况，还可以生成dump文件来进行详细分析。查看堆内存情况命令jmap -heap pid。</span><br><span class="line"></span><br><span class="line"><span class="strong">**mat内存工具**</span>:</span><br><span class="line">MAT(Memory Analyzer Tool)工具是eclipse的一个插件(MAT也可以单独使用)，它分析大内存的dump文件时，可以非常直观的看到各个对象在堆空间中所占用的内存大小、类实例数量、对象引用关系、利用OQL对象查询，以及可以很方便的找出对象GC Roots的相关信息。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="section">### Java 集合框架</span></span><br><span class="line"></span><br><span class="line"><span class="section">##### Java 集合分类</span></span><br><span class="line">![<span class="string">image</span>](<span class="link">https://img2018.cnblogs.com/blog/424537/201907/424537-20190726152617023-324785479.png</span>)</span><br><span class="line">在 Java 中除了以 Map 结尾的类之外， 其他类都实现了 Collection 接口。</span><br><span class="line">并且，以 Map 结尾的类都实现了 Map 接口。</span><br><span class="line"></span><br><span class="line"><span class="section">##### List,Set,Map 三者的区别</span></span><br><span class="line"><span class="bullet">- </span>List ：存储的元素是有序的、可重复的。</span><br><span class="line"><span class="bullet">- </span>Set ：存储的元素是无序的、不可重复的。</span><br><span class="line"><span class="bullet">- </span>Map ：使用键值对（kye-value）存储，Key 是无序的、不可重复的，value 是无序的、可重复的，每个键最多映射到一个值。</span><br><span class="line"></span><br><span class="line"><span class="strong">**List**</span>    </span><br><span class="line"><span class="bullet">- </span>Arraylist：Object[]数组</span><br><span class="line"><span class="bullet">- </span>Vector：Object[]数组</span><br><span class="line"><span class="bullet">- </span>LinkedList： 双向链表(JDK1.6 之前为循环链表，JDK1.7 取消了循环)</span><br><span class="line"></span><br><span class="line"><span class="strong">**Set**</span> </span><br><span class="line"><span class="bullet">- </span>HashSet（无序，唯一）: 基于 HashMap 实现的，底层采用 HashMap 来保存元素</span><br><span class="line"><span class="bullet">- </span>LinkedHashSet：LinkedHashSet 是 HashSet 的子类，并且其内部是通过 LinkedHashMap 来实现的。有点类似于 LinkedHashMap 其内部是基于 HashMap 实现一样，不过还是有一点点区别的</span><br><span class="line"><span class="bullet">- </span>TreeSet（有序，唯一）： 红黑树(自平衡的排序二叉树)</span><br><span class="line"></span><br><span class="line"><span class="strong">**Map**</span> </span><br><span class="line"><span class="bullet">- </span>HashMap： JDK1.8 之前 HashMap 由数组+链表组成的，数组是 HashMap 的主体，链表则是主要为了解决哈希冲突而存在的（“拉链法”解决冲突）。JDK1.8 以后在解决哈希冲突时有了较大的变化，当链表长度大于阈值（默认为8）（将链表转换成红黑树前会判断，如果当前数组的长度小于64，那么会选择先进行数组扩容，而不是转换为红黑树）时，将链表转化为红黑树，以减少搜索时间</span><br><span class="line"><span class="bullet">- </span>LinkedHashMap： LinkedHashMap 继承自 HashMap，所以它的底层仍然是基于拉链式散列结构即由数组和链表或红黑树组成。另外，LinkedHashMap 在上面结构的基础上，增加了一条双向链表，使得上面的结构可以保持键值对的插入顺序。同时通过对链表进行相应的操作，实现了访问顺序相关逻辑。</span><br><span class="line"><span class="bullet">- </span>Hashtable： 数组+链表组成的，数组是HashMap 的主体，链表则是主要为了解决哈希冲突而存在的</span><br><span class="line"><span class="bullet">- </span>TreeMap： 红黑树（自平衡的排序二叉树）</span><br><span class="line"></span><br><span class="line"><span class="section">##### Iterator 迭代器</span></span><br></pre></td></tr></table></figure>
+<p>public interface Iterator<E> {<br>
+//集合中是否还有元素<br>
+boolean hasNext();<br>
+//获得集合中的下一个元素<br>
+E next();<br>
+…<br>
+}</E></p>
+<figure class="highlight isbl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">迭代器的定义为：提供一种方法访问一个容器对象中各个元素，而又不需要暴露该对象的内部细节。</span><br><span class="line"></span><br><span class="line"><span class="variable">Iterator</span> 对象称为迭代器（设计模式的一种），迭代器可以对集合进行遍历，但每一个集合内部的数据结构可能是不尽相同的，所以每一个集合存和取都很可能是不一样的，虽然我们可以人为地在每一个类中定义 <span class="function"><span class="title">hasNext</span>() 和 <span class="title">next</span>() 方法，但这样做会让整个集合体系过于臃肿。于是就有了迭代器。</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">遍历一个<span class="variable">hashmap</span>集合</span></span><br></pre></td></tr></table></figure>
+<p>Map&lt;Integer, String&gt; map = new HashMap();<br>
+map.put(1, “Java”);<br>
+map.put(2, “C++”);<br>
+map.put(3, “PHP”);<br>
+Iterator&lt;Map.Entry&lt;Integer, String&gt;&gt; iterator = map.entrySet().iterator();<br>
+while (iterator.hasNext()) {<br>
+Map.Entry&lt;Integer, String&gt; entry = iterator.next();<br>
+System.out.println(entry.getKey() + entry.getValue());<br>
+}</p>
+<pre><code>
+##### 有哪些集合是线程不安全的？怎么解决呢？
+
+Arraylist,LinkedList,Hashmap,HashSet,TreeSet,TreeMap，PriorityQueue 都不是线程安全的
+
+- 如果你要使用线程安全的集合的话， java.util.concurrent 包中提供了很多并发容器可以使用：
+- ConcurrentHashMap: 可以看作是线程安全的 HashMap
+- CopyOnWriteArrayList:可以看作是线程安全的 ArrayList，在读多写少的场合性能非常好，远远好于 Vector.
+- ConcurrentLinkedQueue:高效的并发队列，使用链表实现。可以看做一个线程安全的 LinkedList，这是一个非阻塞队列。
+- BlockingQueue: 这是一个接口，JDK 内部通过链表、数组等方式实现了这个接口。表示阻塞队列，非常适合用于作为数据共享的通道。
+- ConcurrentSkipListMap :跳表的实现。这是一个Map，使用跳表的数据结构进行快速查找。
+
+
+##### Arraylist 和 Vector 的区别?
+ArrayList和Vectory基本是完全一样的，不过Vectory是线程安全的，所以性能没有ArrayList高
+
+##### ArrayList 与 LinkedList 异同?
+1. ArrayList和LinkedList都是线程不安全的    
+2. ArrayList底层是object数组，LinkedList 底层使用的是双向链表数据结构（JDK1.6之前为循环链表，JDK1.7取消了循环。）    
+3. ArrayList由于是数组结构，查询速度较快，插入慢，LinkedList链表结构，插入快，查询慢    
+4. ArrayList可以通过下标快速随机访问数据，LinkedList不可以  
+5. ArrayList 的空 间浪费主要体现在在 list 列表的结尾会预留一定的容量空间，而 LinkedList 的空间花费则体现在它的每一个元素都需要消耗比 ArrayList 更多的空间（因为要存放直接后继和直接前驱以及数据）。
+
+##### 双向链表和双向循环链表
+**双向链表**： 包含两个指针，一个 prev 指向前一个节点，一个 next 指向后一个节点。
+![image](https://camo.githubusercontent.com/7d452b4b9f1402669f346c243b4777cb1b9e032c/68747470733a2f2f6d792d626c6f672d746f2d7573652e6f73732d636e2d6265696a696e672e616c6979756e63732e636f6d2f323031392d362f2545352538462538432545352539302539312545392539332542452545382541312541382e706e67)
+
+**双向循环链表**： 最后一个节点的 next 指向 head，而 head 的 prev 指向最后一个节点，构成一个环。
+![image](https://camo.githubusercontent.com/cbb13185522a7d66d9419fada0715051778e867c/68747470733a2f2f6d792d626c6f672d746f2d7573652e6f73732d636e2d6265696a696e672e616c6979756e63732e636f6d2f323031392d362f2545352538462538432545352539302539312545352542452541412545372538452541462545392539332542452545382541312541382e706e67)
+
+##### 无序性和不可重复性的含义是什么
+1、什么是无序性？无序性不等于随机性 ，无序性是指存储的数据在底层数组中并非按照数组索引的顺序添加 ，而是根据数据的哈希值决定的。
+
+2、什么是不可重复性？不可重复性是指添加的元素按照 equals()判断时 ，返回 false，需要同时重写 equals()方法和 HashCode()方法。
+
+##### HashSet、LinkedHashSet 和 TreeSet 三者的异同
+
+1. HashSet 是 Set 接口的主要实现类 ，HashSet 的底层是 HashMap，线程不安全的，可以存储 null 值；
+2. LinkedHashSet 是 HashSet 的子类，能够按照添加的顺序遍历；
+3. TreeSet 底层使用红黑树，能够按照添加元素的顺序进行遍历，排序的方式有自然排序和定制排序。TreeSet判断两个对象不相等的方式是两个对象通过equals方法返回false，或者通过CompareTo方法比较没有返回0
+
+
+##### HashMap 和 Hashtable 的区别
+1. HashMap 是非线程安全的，HashTable 是线程安全的
+2. 因为线程安全的问题，HashMap 要比 HashTable 效率高一点。另外，HashTable 基本被淘汰，不要在代码中使用它；
+3. HashMap 可以存储 null 的 key 和 value，但 null 作为键只能有一个，null 作为值可以有多个；HashTable 不允许有 null 键和 null 值，否则会抛出 NullPointerException。
+4.  ① 创建时如果不指定容量初始值，Hashtable 默认的初始大小为 11，之后每次扩充，容量变为原来的 2n+1。HashMap 默认的初始化大小为 16。之后每次扩充，容量变为原来的 2 倍。② 创建时如果给定了容量初始值，那么 Hashtable 会直接使用你给定的大小，而 HashMap 会将其扩充为 2 的幂次方大小（HashMap 中的tableSizeFor()方法保证,也就是说 HashMap 总是使用 2 的幂作为哈希表的大小.
+5.   JDK1.8 以后的 HashMap 在解决哈希冲突时有了较大的变化，当链表长度大于阈值（默认为 8）（将链表转换成红黑树前会判断，如果当前数组的长度小于 64，那么会选择先进行数组扩容，而不是转换为红黑树）时，将链表转化为红黑树，以减少搜索时间。Hashtable 没有这样的机制。
+
+#####  HashMap 和 HashSet 区别
+HashSet 底层就是基于 HashMap 实现的。（HashSet 的源码非常非常少，因为除了 clone()、writeObject()、readObject()是 HashSet 自己不得不实现之外，其他方法都是直接调用 HashMap 中的方法。
+
+
+HashMap  | HashSet 
+---|---
+实现了 Map 接口	| 实现 Set 接口
+存储键值对|	仅存储对象
+调用 put()向 map 中添加元素	|调用 add()方法向 Set 中添加元素
+HashMap 使用键（Key）计算 Hashcode|HashSet使用成员对象来计算 hashcode 值，对于两个对象来说 hashcode 可能相同，所以 equals()方法用来判断对象的相等性
+
+##### HashMap 和 TreeMap 区别
+TreeMap 和HashMap 都继承自AbstractMap ，但是需要注意的是TreeMap它还实现了NavigableMap接口和SortedMap 接口。
+
+实现 NavigableMap 接口让 TreeMap 有了对集合内元素的搜索的能力。
+
+实现SortMap接口让 TreeMap 有了对集合中的元素根据键排序的能力。默认是按 key 的升序排序，不过我们也可以指定排序的比较器
+
+</code></pre>
+
+    </div>
+
+    
+    
+    
+
+    
+      <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束 <i class="fa fa-heart"></i> 感谢阅读-------------</div>
+
+    
+        <div class="reward-container">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/blog/images/wechatpay.png" alt="晨月 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/blog/images/alipay.jpg" alt="晨月 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/blog/2020/08/07/%E7%AC%AC%E4%B8%83%E5%A4%A9/" rel="prev" title="第七天">
+      <i class="fa fa-chevron-left"></i> 第七天
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="comments"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#JAVA基础学习"><span class="nav-number">1.</span> <span class="nav-text">JAVA基础学习</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、反射"><span class="nav-number">1.1.</span> <span class="nav-text">1、反射</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="晨月"
+      src="/blog/images/1a.jpg">
+  <p class="site-author-name" itemprop="name">晨月</p>
+  <div class="site-description" itemprop="description">技术博客,Java,记录美好学习时光</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/blog/archives/">
+        
+          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/blog/tags/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xuhao008/" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xuhao008&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/weixin_44209403/" title="CSDN → https:&#x2F;&#x2F;blog.csdn.net&#x2F;weixin_44209403&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-copyright"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/yourname" title="码云 → https:&#x2F;&#x2F;weibo.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fa fa-fw fa-google"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/blog/xhxxswkl@163.com" title="E-Mail → xhxxswkl@163.com"><i class="fa fa-fw fa-envelope"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/blog/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+      
+       <div>
+          <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="210" height="110" src="//music.163.com/outchain/player?type=2&id=518682659&auto=0&height=66"></iframe>
+       </div>
+      
+
+
+      <!-- 添加近期文章 -->
+      
+        <div class="links-of-blogroll motion-element links-of-blogroll-block">
+          <div class="links-of-blogroll-title">
+            <!-- modify icon to fire by szw -->
+            <i class="fa fa-history fa-" aria-hidden="true"></i>
+            近期文章
+          </div>
+          <ul class="links-of-blogroll-list">
+            
+            
+              <li>
+                <a href="/blog/" title="" target="_blank"></a>
+              </li>
+            
+              <li>
+                <a href="/blog/" title="" target="_blank"></a>
+              </li>
+            
+              <li>
+                <a href="/blog/" title="" target="_blank"></a>
+              </li>
+            
+              <li>
+                <a href="/blog/" title="" target="_blank"></a>
+              </li>
+            
+              <li>
+                <a href="/blog/" title="" target="_blank"></a>
+              </li>
+            
+          </ul>
+        </div>
+      
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">晨月</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">142k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">2:58</span>
+</div>
+
+        <div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+   
+    <span class="site-uv">
+       我的第 <span class="busuanzi-value" id="busuanzi_value_site_uv"></span> 位朋友，
+    </span>
+   <span class="agesicon"> <span>
+   
+   
+     <span class="site-pv">
+       历经 <span class="busuanzi-value" id="busuanzi_value_site_pv"></span> 次回眸才与你相遇。
+     </span>
+   
+ 
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='150' src="/blog/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/blog/lib/anime.min.js"></script>
+  <script src="/blog/lib/velocity/velocity.min.js"></script>
+  <script src="/blog/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/blog/js/utils.js"></script>
+
+<script src="/blog/js/motion.js"></script>
+
+
+<script src="/blog/js/schemes/pisces.js"></script>
+
+
+<script src="/blog/js/next-boot.js"></script>
+
+<script src="/blog/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/blog/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: true,
+    notify: true,
+    appId: 'wG3LQ9piimb7LMXEDw0BCOmG-gzGzoHsz',
+    appKey: 'pXkLtQymiNmeMV5F3bNJ2VKy',
+    placeholder: "说点什么吧。",
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: true,
+    lang: '' || 'zh-cn',
+    path: location.pathname,
+    recordIP: false,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/moment.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/moment-precise-range-plugin@1.3.0/moment-precise-range.min.js"></script>
+  <script>
+    function timer() {
+      var ages = moment.preciseDiff(moment(),moment(20190101,"YYYYMMDD"));
+      //去除时分秒信息
+      ages = ages.replace(/\s?\d{0,2}\s+hours?/, "");
+      ages = ages.replace(/\s?\d{0,2}\s+minutes?/, "");
+      ages = ages.replace(/\s?\d{0,2}\s+seconds?/, "");
+      //将年月日转换为中文
+      ages = ages.replace(/years?/, "年");
+      ages = ages.replace(/months?/, "月");
+      ages = ages.replace(/days?/, "天");
+      ages = ages.replace(/\d+/g, '<span style="color:#1094e8">$&</span>');
+      span.innerHTML = ` &nbsp; | &nbsp;我已在此等候你 ${ages}`;
+    }
+    var span = document.createElement("span");
+    //插入到agesicon之后
+    var agesicon = document.querySelector(".agesicon");
+    document.querySelector(".copyright").insertBefore(span, agesicon.nextSibling);
+    timer();
+  </script>
+<script src="/blog/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/blog/live2dw/assets/hibiki.model.json"},"display":{"position":"right","width":190,"height":500},"mobile":{"show":false},"react":{"opacity":0.9}});</script></body>
+</html>

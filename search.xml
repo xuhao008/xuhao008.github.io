@@ -1,8 +1,155 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>第八天</title>
+    <url>/blog/2020/08/07/%E7%AC%AC%E5%85%AB%E5%A4%A9/</url>
+    <content><![CDATA[<p>2020-08-07  星期五</p>
+<h3 id="JAVA基础学习">JAVA基础学习</h3>
+<h4 id="1、反射">1、反射</h4>
+<blockquote>
+<p>JAVA 反射机制是在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法和属性；这种动态获取的信息以及动态调用对象的方法的功能称为 java 语言的反射机制。</p>
+</blockquote>
+<p>Java 提供了两种方式获取 Class 对象:<br>
+1.知道具体类的情况下可以使用：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Class alunbarClass = TargetObject<span class="class">.<span class="keyword">class</span></span>;</span><br></pre></td></tr></table></figure>
+<p>但是我们一般是不知道具体类的，基本都是通过遍历包下面的类来获取 Class 对象</p>
+<p>2.通过 Class.forName()传入类的路径获取：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Class alunbarClass1 = Class.forName(<span class="string">"com.atoz.TargetObject"</span>);</span><br><span class="line">``` </span><br><span class="line">简单用代码演示一下反射的一些操作!   </span><br><span class="line">创建一个我们要使用反射操作的类 TargetObject：</span><br></pre></td></tr></table></figure>
+<p>public class TargetObject {<br>
+private String value;</p>
+<pre><code>public TargetObject() {
+    value = &quot;JavaGuide&quot;;
+}
+
+public void publicMethod(String s) {
+    System.out.println(&quot;I love &quot; + s);
+}
+
+private void privateMethod() {
+    System.out.println(&quot;value is &quot; + value);
+}
+</code></pre>
+<p>}</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">使用反射操作这个类的方法以及参数</span><br></pre></td></tr></table></figure>
+<p>public class fsTest {<br>
+public static void main(String[] args) throws ClassNotFoundException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException, NoSuchFieldException {<br>
+//获取TargetObject类的Class对象并且创建TargetObject类实例<br>
+Class&lt;?&gt; aClass = Class.forName(“com.atoz.rabbitmqdemo.entity.TargetObject”);<br>
+TargetObject targetObject = (TargetObject) aClass.newInstance();</p>
+<pre><code>    //获取所有类中所有定义的方法
+    Method[] declaredMethod = aClass.getDeclaredMethods();
+    for (Method method:declaredMethod){
+        System.out.println(method.getName());
+    }
+    //获取publicMethod方法,并调用
+    Method publicMethod = aClass.getDeclaredMethod(&quot;publicMethod&quot;, String.class);
+    publicMethod.invoke(targetObject,&quot;javaxh&quot;);
+
+    //获取指定属性参数，并修改
+    Field declaredField = aClass.getDeclaredField(&quot;value&quot;);
+    //为了对类中的参数进行修改我们取消安全检查
+    declaredField.setAccessible(true);
+    declaredField.set(targetObject,&quot;javaxh&quot;);
+
+    //获取私有方法并调用
+    Method privateMethod = aClass.getDeclaredMethod(&quot;privateMethod&quot;);
+    //为了调用private方法我们取消安全检查
+    privateMethod.setAccessible(true);
+    privateMethod.invoke(targetObject);
+}
+</code></pre>
+<p>}</p>
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="strong">**反射机制优缺点**</span></span><br><span class="line"><span class="bullet">- </span>优点： 运行期类型的判断，动态加载类，提高代码灵活度。</span><br><span class="line"><span class="bullet">- </span>缺点： 1.<span class="strong">**性能瓶颈**</span>：反射相当于一系列解释操作，通知 JVM 要做的事情，性能比直接的 java 代码要慢很多。2.<span class="strong">**安全问题**</span>，让我们可以动态操作改变类的属性同时也增加了类的安全隐患。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="section">#### 2、定位常见Java性能问题</span></span><br><span class="line"></span><br><span class="line"><span class="strong">**以下工具可以帮忙定位问题**</span></span><br><span class="line"></span><br><span class="line"><span class="strong">**top命令**</span>：top命令使我们最常用的Linux命令之一，它可以实时的显示当前正在执行的进程的CPU使用率，内存使用率等系统信息。top -Hp pid 可以查看线程的系统资源使用情况。</span><br><span class="line"></span><br><span class="line"><span class="strong">**vmstat命令**</span>：vmstat是一个指定周期和采集次数的虚拟内存检测工具，可以统计内存，CPU，swap的使用情况，它还有一个重要的常用功能，用来观察进程的上下文切换</span><br><span class="line"></span><br><span class="line"><span class="strong">**pidstat命令**</span>:pidstat 是 Sysstat 中的一个组件，也是一款功能强大的性能监测工具，top 和 vmstat 两个命令都是监测进程的内存、CPU 以及 I/O 使用情况，而 pidstat 命令可以检测到线程级别的。</span><br><span class="line"></span><br><span class="line"><span class="strong">**jstack命令**</span>:</span><br><span class="line">jstack是JDK工具命令，它是一种线程堆栈分析工具，最常用的功能就是使用 jstack pid 命令查看线程的堆栈信息，也经常用来排除死锁情况。</span><br><span class="line"></span><br><span class="line"><span class="strong">**jstat 命令**</span>:</span><br><span class="line">它可以检测Java程序运行的实时情况，包括堆内存信息和垃圾回收信息，我们常常用来查看程序垃圾回收情况。常用的命令是jstat -gc pid。</span><br><span class="line"></span><br><span class="line">jmap命令:</span><br><span class="line">jmap也是JDK工具命令，他可以查看堆内存的初始化信息以及堆内存的使用情况，还可以生成dump文件来进行详细分析。查看堆内存情况命令jmap -heap pid。</span><br><span class="line"></span><br><span class="line"><span class="strong">**mat内存工具**</span>:</span><br><span class="line">MAT(Memory Analyzer Tool)工具是eclipse的一个插件(MAT也可以单独使用)，它分析大内存的dump文件时，可以非常直观的看到各个对象在堆空间中所占用的内存大小、类实例数量、对象引用关系、利用OQL对象查询，以及可以很方便的找出对象GC Roots的相关信息。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="section">### Java 集合框架</span></span><br><span class="line"></span><br><span class="line"><span class="section">##### Java 集合分类</span></span><br><span class="line">![<span class="string">image</span>](<span class="link">https://img2018.cnblogs.com/blog/424537/201907/424537-20190726152617023-324785479.png</span>)</span><br><span class="line">在 Java 中除了以 Map 结尾的类之外， 其他类都实现了 Collection 接口。</span><br><span class="line">并且，以 Map 结尾的类都实现了 Map 接口。</span><br><span class="line"></span><br><span class="line"><span class="section">##### List,Set,Map 三者的区别</span></span><br><span class="line"><span class="bullet">- </span>List ：存储的元素是有序的、可重复的。</span><br><span class="line"><span class="bullet">- </span>Set ：存储的元素是无序的、不可重复的。</span><br><span class="line"><span class="bullet">- </span>Map ：使用键值对（kye-value）存储，Key 是无序的、不可重复的，value 是无序的、可重复的，每个键最多映射到一个值。</span><br><span class="line"></span><br><span class="line"><span class="strong">**List**</span>    </span><br><span class="line"><span class="bullet">- </span>Arraylist：Object[]数组</span><br><span class="line"><span class="bullet">- </span>Vector：Object[]数组</span><br><span class="line"><span class="bullet">- </span>LinkedList： 双向链表(JDK1.6 之前为循环链表，JDK1.7 取消了循环)</span><br><span class="line"></span><br><span class="line"><span class="strong">**Set**</span> </span><br><span class="line"><span class="bullet">- </span>HashSet（无序，唯一）: 基于 HashMap 实现的，底层采用 HashMap 来保存元素</span><br><span class="line"><span class="bullet">- </span>LinkedHashSet：LinkedHashSet 是 HashSet 的子类，并且其内部是通过 LinkedHashMap 来实现的。有点类似于 LinkedHashMap 其内部是基于 HashMap 实现一样，不过还是有一点点区别的</span><br><span class="line"><span class="bullet">- </span>TreeSet（有序，唯一）： 红黑树(自平衡的排序二叉树)</span><br><span class="line"></span><br><span class="line"><span class="strong">**Map**</span> </span><br><span class="line"><span class="bullet">- </span>HashMap： JDK1.8 之前 HashMap 由数组+链表组成的，数组是 HashMap 的主体，链表则是主要为了解决哈希冲突而存在的（“拉链法”解决冲突）。JDK1.8 以后在解决哈希冲突时有了较大的变化，当链表长度大于阈值（默认为8）（将链表转换成红黑树前会判断，如果当前数组的长度小于64，那么会选择先进行数组扩容，而不是转换为红黑树）时，将链表转化为红黑树，以减少搜索时间</span><br><span class="line"><span class="bullet">- </span>LinkedHashMap： LinkedHashMap 继承自 HashMap，所以它的底层仍然是基于拉链式散列结构即由数组和链表或红黑树组成。另外，LinkedHashMap 在上面结构的基础上，增加了一条双向链表，使得上面的结构可以保持键值对的插入顺序。同时通过对链表进行相应的操作，实现了访问顺序相关逻辑。</span><br><span class="line"><span class="bullet">- </span>Hashtable： 数组+链表组成的，数组是HashMap 的主体，链表则是主要为了解决哈希冲突而存在的</span><br><span class="line"><span class="bullet">- </span>TreeMap： 红黑树（自平衡的排序二叉树）</span><br><span class="line"></span><br><span class="line"><span class="section">##### Iterator 迭代器</span></span><br></pre></td></tr></table></figure>
+<p>public interface Iterator<E> {<br>
+//集合中是否还有元素<br>
+boolean hasNext();<br>
+//获得集合中的下一个元素<br>
+E next();<br>
+…<br>
+}</E></p>
+<figure class="highlight isbl"><table><tr><td class="code"><pre><span class="line">迭代器的定义为：提供一种方法访问一个容器对象中各个元素，而又不需要暴露该对象的内部细节。</span><br><span class="line"></span><br><span class="line"><span class="variable">Iterator</span> 对象称为迭代器（设计模式的一种），迭代器可以对集合进行遍历，但每一个集合内部的数据结构可能是不尽相同的，所以每一个集合存和取都很可能是不一样的，虽然我们可以人为地在每一个类中定义 <span class="function"><span class="title">hasNext</span>() 和 <span class="title">next</span>() 方法，但这样做会让整个集合体系过于臃肿。于是就有了迭代器。</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">遍历一个<span class="variable">hashmap</span>集合</span></span><br></pre></td></tr></table></figure>
+<p>Map&lt;Integer, String&gt; map = new HashMap();<br>
+map.put(1, “Java”);<br>
+map.put(2, “C++”);<br>
+map.put(3, “PHP”);<br>
+Iterator&lt;Map.Entry&lt;Integer, String&gt;&gt; iterator = map.entrySet().iterator();<br>
+while (iterator.hasNext()) {<br>
+Map.Entry&lt;Integer, String&gt; entry = iterator.next();<br>
+System.out.println(entry.getKey() + entry.getValue());<br>
+}</p>
+<pre><code>
+##### 有哪些集合是线程不安全的？怎么解决呢？
+
+Arraylist,LinkedList,Hashmap,HashSet,TreeSet,TreeMap，PriorityQueue 都不是线程安全的
+
+- 如果你要使用线程安全的集合的话， java.util.concurrent 包中提供了很多并发容器可以使用：
+- ConcurrentHashMap: 可以看作是线程安全的 HashMap
+- CopyOnWriteArrayList:可以看作是线程安全的 ArrayList，在读多写少的场合性能非常好，远远好于 Vector.
+- ConcurrentLinkedQueue:高效的并发队列，使用链表实现。可以看做一个线程安全的 LinkedList，这是一个非阻塞队列。
+- BlockingQueue: 这是一个接口，JDK 内部通过链表、数组等方式实现了这个接口。表示阻塞队列，非常适合用于作为数据共享的通道。
+- ConcurrentSkipListMap :跳表的实现。这是一个Map，使用跳表的数据结构进行快速查找。
+
+
+##### Arraylist 和 Vector 的区别?
+ArrayList和Vectory基本是完全一样的，不过Vectory是线程安全的，所以性能没有ArrayList高
+
+##### ArrayList 与 LinkedList 异同?
+1. ArrayList和LinkedList都是线程不安全的    
+2. ArrayList底层是object数组，LinkedList 底层使用的是双向链表数据结构（JDK1.6之前为循环链表，JDK1.7取消了循环。）    
+3. ArrayList由于是数组结构，查询速度较快，插入慢，LinkedList链表结构，插入快，查询慢    
+4. ArrayList可以通过下标快速随机访问数据，LinkedList不可以  
+5. ArrayList 的空 间浪费主要体现在在 list 列表的结尾会预留一定的容量空间，而 LinkedList 的空间花费则体现在它的每一个元素都需要消耗比 ArrayList 更多的空间（因为要存放直接后继和直接前驱以及数据）。
+
+##### 双向链表和双向循环链表
+**双向链表**： 包含两个指针，一个 prev 指向前一个节点，一个 next 指向后一个节点。
+![image](https://camo.githubusercontent.com/7d452b4b9f1402669f346c243b4777cb1b9e032c/68747470733a2f2f6d792d626c6f672d746f2d7573652e6f73732d636e2d6265696a696e672e616c6979756e63732e636f6d2f323031392d362f2545352538462538432545352539302539312545392539332542452545382541312541382e706e67)
+
+**双向循环链表**： 最后一个节点的 next 指向 head，而 head 的 prev 指向最后一个节点，构成一个环。
+![image](https://camo.githubusercontent.com/cbb13185522a7d66d9419fada0715051778e867c/68747470733a2f2f6d792d626c6f672d746f2d7573652e6f73732d636e2d6265696a696e672e616c6979756e63732e636f6d2f323031392d362f2545352538462538432545352539302539312545352542452541412545372538452541462545392539332542452545382541312541382e706e67)
+
+##### 无序性和不可重复性的含义是什么
+1、什么是无序性？无序性不等于随机性 ，无序性是指存储的数据在底层数组中并非按照数组索引的顺序添加 ，而是根据数据的哈希值决定的。
+
+2、什么是不可重复性？不可重复性是指添加的元素按照 equals()判断时 ，返回 false，需要同时重写 equals()方法和 HashCode()方法。
+
+##### HashSet、LinkedHashSet 和 TreeSet 三者的异同
+
+1. HashSet 是 Set 接口的主要实现类 ，HashSet 的底层是 HashMap，线程不安全的，可以存储 null 值；
+2. LinkedHashSet 是 HashSet 的子类，能够按照添加的顺序遍历；
+3. TreeSet 底层使用红黑树，能够按照添加元素的顺序进行遍历，排序的方式有自然排序和定制排序。TreeSet判断两个对象不相等的方式是两个对象通过equals方法返回false，或者通过CompareTo方法比较没有返回0
+
+
+##### HashMap 和 Hashtable 的区别
+1. HashMap 是非线程安全的，HashTable 是线程安全的
+2. 因为线程安全的问题，HashMap 要比 HashTable 效率高一点。另外，HashTable 基本被淘汰，不要在代码中使用它；
+3. HashMap 可以存储 null 的 key 和 value，但 null 作为键只能有一个，null 作为值可以有多个；HashTable 不允许有 null 键和 null 值，否则会抛出 NullPointerException。
+4.  ① 创建时如果不指定容量初始值，Hashtable 默认的初始大小为 11，之后每次扩充，容量变为原来的 2n+1。HashMap 默认的初始化大小为 16。之后每次扩充，容量变为原来的 2 倍。② 创建时如果给定了容量初始值，那么 Hashtable 会直接使用你给定的大小，而 HashMap 会将其扩充为 2 的幂次方大小（HashMap 中的tableSizeFor()方法保证,也就是说 HashMap 总是使用 2 的幂作为哈希表的大小.
+5.   JDK1.8 以后的 HashMap 在解决哈希冲突时有了较大的变化，当链表长度大于阈值（默认为 8）（将链表转换成红黑树前会判断，如果当前数组的长度小于 64，那么会选择先进行数组扩容，而不是转换为红黑树）时，将链表转化为红黑树，以减少搜索时间。Hashtable 没有这样的机制。
+
+#####  HashMap 和 HashSet 区别
+HashSet 底层就是基于 HashMap 实现的。（HashSet 的源码非常非常少，因为除了 clone()、writeObject()、readObject()是 HashSet 自己不得不实现之外，其他方法都是直接调用 HashMap 中的方法。
+
+
+HashMap  | HashSet 
+---|---
+实现了 Map 接口	| 实现 Set 接口
+存储键值对|	仅存储对象
+调用 put()向 map 中添加元素	|调用 add()方法向 Set 中添加元素
+HashMap 使用键（Key）计算 Hashcode|HashSet使用成员对象来计算 hashcode 值，对于两个对象来说 hashcode 可能相同，所以 equals()方法用来判断对象的相等性
+
+##### HashMap 和 TreeMap 区别
+TreeMap 和HashMap 都继承自AbstractMap ，但是需要注意的是TreeMap它还实现了NavigableMap接口和SortedMap 接口。
+
+实现 NavigableMap 接口让 TreeMap 有了对集合内元素的搜索的能力。
+
+实现SortMap接口让 TreeMap 有了对集合中的元素根据键排序的能力。默认是按 key 的升序排序，不过我们也可以指定排序的比较器
+
+</code></pre>
+]]></content>
+  </entry>
+  <entry>
     <title>第七天</title>
-    <url>/2020/08/07/%E7%AC%AC%E4%B8%83%E5%A4%A9/</url>
+    <url>/blog/2020/08/07/%E7%AC%AC%E4%B8%83%E5%A4%A9/</url>
     <content><![CDATA[<h3 id="uniapp学习">uniapp学习</h3>
 <h4 id="1、什么是uniapp">1、什么是uniapp</h4>
 <p><code>uni-app</code> 是一个使用 <a href="https://vuejs.org/" target="_blank" rel="noopener">Vue.js</a> 开发所有前端应用的框架，开发者编写一套代码，可发布到iOS、Android、H5、以及各种小程序（微信/支付宝/百度/头条/QQ/钉钉）等多个平台。</p>
@@ -11,7 +158,7 @@
 首先需要下载HbuilderX开发工具，它是通用的前端开发工具，但为<code>uni-app</code>做了特别强化。<br>
 我们可以通过该工具直接创建uniapp项目，并且选择各种方式运行。</p>
 <p><strong>项目目录结构</strong><br>
-<img src="/2020/08/07/%E7%AC%AC%E4%B8%83%E5%A4%A9/uniapp%E9%A1%B9%E7%9B%AE%E6%88%AA%E5%9B%BE.jpg" alt="uniapp项目截图"></p>
+<img src="/blog/2020/08/07/%E7%AC%AC%E4%B8%83%E5%A4%A9/uniapp%E9%A1%B9%E7%9B%AE%E6%88%AA%E5%9B%BE.jpg" alt="uniapp项目截图"></p>
 <ul>
 <li><strong>pages.json</strong>文件用来对 uni-app 进行全局配置，决定页面文件的路径、窗口样式、原生的导航栏、底部的原生tabbar 等</li>
 <li><strong>manifest.json</strong> 文件是应用的配置文件，用于指定应用的名称、图标、权限等。</li>
@@ -396,7 +543,7 @@ view{
   </entry>
   <entry>
     <title>第六天</title>
-    <url>/2020/08/06/%E7%AC%AC%E5%85%AD%E5%A4%A9/</url>
+    <url>/blog/2020/08/06/%E7%AC%AC%E5%85%AD%E5%A4%A9/</url>
     <content><![CDATA[<p>重新了解了git相关命令，但是还是需要重新系统的学习和应用</p>
 <p>使用hexo重新部署了自己的个人博客，更新了博客</p>
 ]]></content>
@@ -406,7 +553,7 @@ view{
   </entry>
   <entry>
     <title>Hello World</title>
-    <url>/2020/08/05/hello-world/</url>
+    <url>/blog/2020/08/05/hello-world/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
 <h2 id="Quick-Start">Quick Start</h2>
 <h3 id="Create-a-new-post">Create a new post</h3>
@@ -425,11 +572,11 @@ view{
   </entry>
   <entry>
     <title>第五天</title>
-    <url>/2020/08/05/%E7%AC%AC%E4%BA%94%E5%A4%A9/</url>
+    <url>/blog/2020/08/05/%E7%AC%AC%E4%BA%94%E5%A4%A9/</url>
     <content><![CDATA[<h3 id="vue-js">vue.js</h3>
 <h4 id="1、vue项目目录结构">1、vue项目目录结构</h4>
 <p>通过weboack模板安装后的目录<br>
-<img src="/2020/08/05/%E7%AC%AC%E4%BA%94%E5%A4%A9/1.jpg" alt="images"></p>
+<img src="/blog/2020/08/05/%E7%AC%AC%E4%BA%94%E5%A4%A9/1.jpg" alt="images"></p>
 <table>
 <thead>
 <tr>
@@ -473,7 +620,7 @@ view{
 </tbody>
 </table>
 <p>src目录<br>
-<img src="/2020/08/05/%E7%AC%AC%E4%BA%94%E5%A4%A9/2.jpg" alt="src目录"></p>
+<img src="/blog/2020/08/05/%E7%AC%AC%E4%BA%94%E5%A4%A9/2.jpg" alt="src目录"></p>
 <table>
 <thead>
 <tr>
@@ -628,7 +775,7 @@ prop 是子组件用来接受父组件传递过来的数据的一个自定义属
   </entry>
   <entry>
     <title>第四天</title>
-    <url>/2020/08/03/%E7%AC%AC%E5%9B%9B%E5%A4%A9/</url>
+    <url>/blog/2020/08/03/%E7%AC%AC%E5%9B%9B%E5%A4%A9/</url>
     <content><![CDATA[<h3 id="Vue-js">Vue.js</h3>
 <h4 id="1、Vue-js-是什么">1、Vue.js 是什么</h4>
 <p>vue是一套用于构建用户界面的渐进式框架</p>
@@ -654,7 +801,7 @@ prop 是子组件用来接受父组件传递过来的数据的一个自定义属
 <p>在 Vue 里，一个组件本质上是一个拥有预定义选项的一个 Vue 实例</p>
 <figure class="highlight xquery"><table><tr><td class="code"><pre><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app-7"</span>&gt;</span></span></span><br><span class="line"><span class="xml">  </span><span class="xml"><span class="tag">&lt;<span class="name">ol</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="comment">&lt;!--</span></span></span><br><span class="line"><span class="xml">      现在我们为每个 todo-item 提供 todo 对象</span></span><br><span class="line"><span class="xml">      todo 对象是变量，即其内容可以是动态的。</span></span><br><span class="line"><span class="xml">      我们也需要为每个组件提供一个“key”，稍后再</span></span><br><span class="line"><span class="xml">      作详细解释。</span></span><br><span class="line"><span class="xml">    --&gt;</span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">todo-item</span></span></span></span><br><span class="line"><span class="xml">      v-for="item in groceryList"</span></span><br><span class="line"><span class="xml">      v-bind:todo="item"</span></span><br><span class="line"><span class="xml">      v-bind:key="item.id"</span></span><br><span class="line"><span class="xml">    &gt;<span class="tag">&lt;/<span class="name">todo-item</span>&gt;</span></span></span><br><span class="line"><span class="xml">  <span class="tag">&lt;/<span class="name">ol</span>&gt;</span></span></span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Vue.component(<span class="string">'todo-item'</span>, &#123;</span><br><span class="line">  props: [<span class="string">'todo'</span>],</span><br><span class="line">  template: <span class="string">'&lt;li&gt;&#123;&#123; todo.text &#125;&#125;&lt;/li&gt;'</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">var app7 = new Vue(&#123;</span><br><span class="line">  el: <span class="string">'#app-7'</span>,</span><br><span class="line">  data: &#123;</span><br><span class="line">    groceryList: [</span><br><span class="line">      &#123;<span class="built_in"> id</span>: <span class="number">0</span>, text: <span class="string">'蔬菜'</span> &#125;,</span><br><span class="line">      &#123;<span class="built_in"> id</span>: <span class="number">1</span>, text: <span class="string">'奶酪'</span> &#125;,</span><br><span class="line">      &#123;<span class="built_in"> id</span>: <span class="number">2</span>, text: <span class="string">'随便其它什么人吃的东西'</span> &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 <h4 id="6、vue生命周期">6、vue生命周期</h4>
-<p><img src="/2020/08/03/%E7%AC%AC%E5%9B%9B%E5%A4%A9/lifecycle.jpg" alt="lifecycle"></p>
+<p><img src="/blog/2020/08/03/%E7%AC%AC%E5%9B%9B%E5%A4%A9/lifecycle.jpg" alt="lifecycle"></p>
 <p>创建vue项目<br>
 需要先安装nodejs，vue-cli<br>
 使用vue create projectname创建<br>
@@ -681,7 +828,7 @@ prop 是子组件用来接受父组件传递过来的数据的一个自定义属
   </entry>
   <entry>
     <title>第三天</title>
-    <url>/2020/07/31/%E7%AC%AC%E4%B8%89%E5%A4%A9/</url>
+    <url>/blog/2020/07/31/%E7%AC%AC%E4%B8%89%E5%A4%A9/</url>
     <content><![CDATA[<h3 id="一、JAVA基础知识点">一、JAVA基础知识点</h3>
 <h4 id="1、关于java-final-static-this-super关键词的总结">1、关于java,final,static,this,super关键词的总结</h4>
 <p><a href="https://snailclimb.gitee.io/javaguide/#/docs/java/basic/final,static,this,super" target="_blank" rel="noopener">https://snailclimb.gitee.io/javaguide/#/docs/java/basic/final,static,this,super</a></p>
@@ -802,7 +949,7 @@ forward:高. redirect:低.</li>
   </entry>
   <entry>
     <title>第二天</title>
-    <url>/2020/07/30/%E7%AC%AC%E4%BA%8C%E5%A4%A9/</url>
+    <url>/blog/2020/07/30/%E7%AC%AC%E4%BA%8C%E5%A4%A9/</url>
     <content><![CDATA[<h4 id="JAVA基础学习">JAVA基础学习</h4>
 <h5 id="1、java语言特点">1、java语言特点</h5>
 <ul>
@@ -897,7 +1044,7 @@ JRE是java的运行环境，包括了java虚拟机JVM，java类库，和一些�
   </entry>
   <entry>
     <title>第一天</title>
-    <url>/2020/07/29/%E7%AC%AC%E4%B8%80%E5%A4%A9/</url>
+    <url>/blog/2020/07/29/%E7%AC%AC%E4%B8%80%E5%A4%A9/</url>
     <content><![CDATA[<h4 id="java的概念">java的概念</h4>
 <p>Java是一种可以撰写跨平台应用程序的、面向对象的程序设计语言。简单说，Java就是一种语言，不过是一种针对jvm的语言，Java编译后是字节码，而jvm会把这些字节码解释成机器码，然后做出相应的动作。</p>
 <p>而Java是一种特殊的解释型语言（首先将java的类文件编译成jvm能识别的字节码文件，然后针对热点方法，利用JTT即时编译技术，编译执行，而对于非热点方法，采用的则是解释执行）</p>
@@ -1056,7 +1203,7 @@ short:0                   Long:0L           float:0.0f          double:0.0d
   </entry>
   <entry>
     <title>Vue中使用iframe引用html页面已经vue和html页面方法的调用</title>
-    <url>/2020/07/14/Vue%E4%B8%AD%E4%BD%BF%E7%94%A8iframe%E5%BC%95%E7%94%A8html%E9%A1%B5%E9%9D%A2%E5%B7%B2%E7%BB%8Fvue%E5%92%8Chtml%E9%A1%B5%E9%9D%A2%E6%96%B9%E6%B3%95%E7%9A%84%E8%B0%83%E7%94%A8/</url>
+    <url>/blog/2020/07/14/Vue%E4%B8%AD%E4%BD%BF%E7%94%A8iframe%E5%BC%95%E7%94%A8html%E9%A1%B5%E9%9D%A2%E5%B7%B2%E7%BB%8Fvue%E5%92%8Chtml%E9%A1%B5%E9%9D%A2%E6%96%B9%E6%B3%95%E7%9A%84%E8%B0%83%E7%94%A8/</url>
     <content><![CDATA[<h3 id="Vue中使用iframe引用html页面已经vue和html页面方法的调用">Vue中使用iframe引用html页面已经vue和html页面方法的调用</h3>
 <p>当我们需要在vue中使用其他模块或者其他地方的一些html页面功能时，我们可以使用iframe去引用html页面，实现他们的交互</p>
 <p>首先我们可以再vue页面中使用<iframe></iframe>标签引用html页面</p>
@@ -1080,7 +1227,7 @@ short:0                   Long:0L           float:0.0f          double:0.0d
   </entry>
   <entry>
     <title>VUE，localStorage（本地储存）储存数组对象，取出时产生错误</title>
-    <url>/2020/06/22/VUE%EF%BC%8ClocalStorage%EF%BC%88%E6%9C%AC%E5%9C%B0%E5%82%A8%E5%AD%98%EF%BC%89%E5%82%A8%E5%AD%98%E6%95%B0%E7%BB%84%E5%AF%B9%E8%B1%A1%EF%BC%8C%E5%8F%96%E5%87%BA%E6%97%B6%E4%BA%A7%E7%94%9F%E9%94%99%E8%AF%AF/</url>
+    <url>/blog/2020/06/22/VUE%EF%BC%8ClocalStorage%EF%BC%88%E6%9C%AC%E5%9C%B0%E5%82%A8%E5%AD%98%EF%BC%89%E5%82%A8%E5%AD%98%E6%95%B0%E7%BB%84%E5%AF%B9%E8%B1%A1%EF%BC%8C%E5%8F%96%E5%87%BA%E6%97%B6%E4%BA%A7%E7%94%9F%E9%94%99%E8%AF%AF/</url>
     <content><![CDATA[<h2 id="VUE，localStorage（本地储存）储存数组对象，取出时产生错误">VUE，localStorage（本地储存）储存数组对象，取出时产生错误</h2>
 <p>在开发中通过以下代码储存json数组对象时</p>
 <p>数据格式：</p>
@@ -1096,7 +1243,7 @@ short:0                   Long:0L           float:0.0f          double:0.0d
   </entry>
   <entry>
     <title>主页</title>
-    <url>/2020/04/25/%E5%9B%BE%E7%89%87/</url>
+    <url>/blog/2020/04/25/%E5%9B%BE%E7%89%87/</url>
     <content><![CDATA[<p><img src="/blog/2020/04/25/%E5%9B%BE%E7%89%87/1.jpg" alt="images"></p>
 ]]></content>
       <tags>
@@ -1105,7 +1252,7 @@ short:0                   Long:0L           float:0.0f          double:0.0d
   </entry>
   <entry>
     <title>整理JDK8新特性</title>
-    <url>/2019/08/11/%E6%95%B4%E7%90%86JDK8%E6%96%B0%E7%89%B9%E6%80%A7/</url>
+    <url>/blog/2019/08/11/%E6%95%B4%E7%90%86JDK8%E6%96%B0%E7%89%B9%E6%80%A7/</url>
     <content><![CDATA[<h2 id="整理JDK8新特性">整理JDK8新特性</h2>
 <p><strong>目录</strong></p>
 <p>static？default？lamda表达式？</p>
@@ -1185,7 +1332,7 @@ short:0                   Long:0L           float:0.0f          double:0.0d
   </entry>
   <entry>
     <title>记录一次java使用processBuilder调用exe执行文件处理的代码</title>
-    <url>/2019/06/22/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1java%E4%BD%BF%E7%94%A8processBuilder%E8%B0%83%E7%94%A8exe%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86%E7%9A%84%E4%BB%A3%E7%A0%81/</url>
+    <url>/blog/2019/06/22/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1java%E4%BD%BF%E7%94%A8processBuilder%E8%B0%83%E7%94%A8exe%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86%E7%9A%84%E4%BB%A3%E7%A0%81/</url>
     <content><![CDATA[<h3 id="记录一次java使用processBuilder调用exe执行文件处理的代码">记录一次java使用processBuilder调用exe执行文件处理的代码</h3>
 <p>ProcessBuilder 是jdk1.5以后的类，在这以前一直是直接用process。<br>
 具体区别和联系可以查看下方博客<br>
@@ -1199,7 +1346,7 @@ short:0                   Long:0L           float:0.0f          double:0.0d
   </entry>
   <entry>
     <title>Spring Cloud服务网关 zuul 快速入门</title>
-    <url>/2019/06/21/Spring%20Cloud%E6%9C%8D%E5%8A%A1%E7%BD%91%E5%85%B3%20zuul%20%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/</url>
+    <url>/blog/2019/06/21/Spring%20Cloud%E6%9C%8D%E5%8A%A1%E7%BD%91%E5%85%B3%20zuul%20%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/</url>
     <content><![CDATA[<h2 id="前言：">前言：</h2>
 <p>上篇博客中，我们快速搭建了一个Spring Cloud微服务的dome，那么这个博客就是在哪个dome的基础上开始讲解一下服务网关zuul的使用，zuul的作用我在我的前面博客中也有提到，这里就不多说。<br>
 上次和这次dome的代码已上传到github，需要自取：</p>
@@ -1264,7 +1411,7 @@ Zuul大部分功能都是通过过滤器来实现的，Zuul定义了4种标准�
   </entry>
   <entry>
     <title>什么是微服务，为什么要使用微服务架构</title>
-    <url>/2019/05/31/%E4%BB%80%E4%B9%88%E6%98%AF%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%8C%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/</url>
+    <url>/blog/2019/05/31/%E4%BB%80%E4%B9%88%E6%98%AF%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%8C%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/</url>
     <content><![CDATA[<h2 id="前言">前言</h2>
 <p>最近这几年微服务比较火，很多技术公司对招聘java工程师，都是以有微服务架构开发经验的求职者优先，仿佛不谈点微服务相关的技术，都显得不是那么主流了。</p>
 <h2 id="一：什么是微服务">一：什么是微服务</h2>
@@ -1307,7 +1454,7 @@ Zuul大部分功能都是通过过滤器来实现的，Zuul定义了4种标准�
   </entry>
   <entry>
     <title>使用docker-compose快速创建个人博客</title>
-    <url>/2019/05/31/%E4%BD%BF%E7%94%A8docker-compose%E5%BF%AB%E9%80%9F%E5%88%9B%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</url>
+    <url>/blog/2019/05/31/%E4%BD%BF%E7%94%A8docker-compose%E5%BF%AB%E9%80%9F%E5%88%9B%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</url>
     <content><![CDATA[<h2 id="一、安装docker">一、安装docker</h2>
 <p>可以查看下方博客进行安装</p>
 <p><a href="https://blog.csdn.net/weixin_44209403/article/details/103232900" target="_blank" rel="noopener">https://blog.csdn.net/weixin_44209403/article/details/103232900</a></p>
@@ -1340,7 +1487,7 @@ Zuul大部分功能都是通过过滤器来实现的，Zuul定义了4种标准�
   </entry>
   <entry>
     <title>linux(CentOS7)安装docker和使用docker教程</title>
-    <url>/2019/05/31/linux(%E9%98%BF%E9%87%8CESC%E6%9C%8D%E5%8A%A1%E5%99%A8%EF%BC%9ACentOS%207.6%2064%E4%BD%8D)docker%E7%AE%80%E4%BB%8B%E5%92%8C%E5%AE%89%E8%A3%85docker%E5%92%8C%E4%BD%BF%E7%94%A8docker%E6%95%99%E7%A8%8B/</url>
+    <url>/blog/2019/05/31/linux(%E9%98%BF%E9%87%8CESC%E6%9C%8D%E5%8A%A1%E5%99%A8%EF%BC%9ACentOS%207.6%2064%E4%BD%8D)docker%E7%AE%80%E4%BB%8B%E5%92%8C%E5%AE%89%E8%A3%85docker%E5%92%8C%E4%BD%BF%E7%94%A8docker%E6%95%99%E7%A8%8B/</url>
     <content><![CDATA[<h2 id="一、什么是Docker">一、什么是Docker</h2>
 <p><img src="https://img-blog.csdnimg.cn/20191125094548758.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDIwOTQwMw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
 1、Docker 是一个开源的应用容器引擎，让开发者可以打包他们的应用以及依赖包到一个可移植的容器中,然后发布到任何流行的Linux机器或Windows 机器上,也可以实现虚拟化,容器是完全使用沙箱机制,相互之间不会有任何接口。<br>
@@ -1432,7 +1579,7 @@ docker pull mysql</p>
   </entry>
   <entry>
     <title>SpringBoot+Vue+Redis实现单点登录(一处登录，另一处退出登录)</title>
-    <url>/2019/05/31/SpringBoot+Vue+Jpa+Redis%E5%AE%9E%E7%8E%B0%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95(%E4%B8%80%E5%A4%84%E7%99%BB%E5%BD%95%EF%BC%8C%E5%8F%A6%E4%B8%80%E5%A4%84%E9%80%80%E5%87%BA%E7%99%BB%E5%BD%95)/</url>
+    <url>/blog/2019/05/31/SpringBoot+Vue+Jpa+Redis%E5%AE%9E%E7%8E%B0%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95(%E4%B8%80%E5%A4%84%E7%99%BB%E5%BD%95%EF%BC%8C%E5%8F%A6%E4%B8%80%E5%A4%84%E9%80%80%E5%87%BA%E7%99%BB%E5%BD%95)/</url>
     <content><![CDATA[<h2 id="一、需求">一、需求</h2>
 <p>实现用户在浏览器登录后，跳转到其他页面，当用户在其它地方又登录时，前面用户登录的页面退出登录(列如qq挤号那种方式)</p>
 <h2 id="二、实现思路">二、实现思路</h2>
@@ -1478,7 +1625,7 @@ dome代码地址</p>
   </entry>
   <entry>
     <title>SpringBoot+elasticsearch实现全文检索，做一个简单的搜索引擎</title>
-    <url>/2019/05/31/SpringBoot+elasticsearch%E5%AE%9E%E7%8E%B0%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2%EF%BC%8C%E5%81%9A%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E/</url>
+    <url>/blog/2019/05/31/SpringBoot+elasticsearch%E5%AE%9E%E7%8E%B0%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2%EF%BC%8C%E5%81%9A%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E/</url>
     <content><![CDATA[<h2 id="一、什么是elasticsearch">一、什么是elasticsearch</h2>
 <p>答：“ElasticSearch是一个基于Lucene的搜索服务器。它提供了一个分布式多用户能力的全文搜索引擎，基于RESTful web接口。Elasticsearch是用Java开发的，并作为Apache许可条款下的开放源码发布，是当前流行的企业级搜索引擎。设计用于云计算中，能够达到实时搜索，稳定，可靠，快速，安装使用方便。我们建立一个网站或应用程序，并要添加搜索功能，但是想要完成搜索工作的创建是非常困难的。我们希望搜索解决方案要运行速度快，我们希望能有一个零配置和一个完全免费的搜索模式，我们希望能够简单地使用JSON通过HTTP来索引数据，我们希望我们的搜索服务器始终可用，我们希望能够从一台开始并扩展到数百台，我们要实时搜索，我们要简单的多租户，我们希望建立一个云的解决方案。因此我们利用Elasticsearch来解决所有这些问题及可能出现的更多其它问题。”</p>
 <h2 id="二、配置Elasticsearch和logstash">二、配置Elasticsearch和logstash</h2>
@@ -1535,7 +1682,7 @@ dome代码地址</p>
   </entry>
   <entry>
     <title>SpringBoot项目实现高并发商品秒杀</title>
-    <url>/2019/05/31/SpringBoot%E9%A1%B9%E7%9B%AE%E5%AE%9E%E7%8E%B0%E9%AB%98%E5%B9%B6%E5%8F%91%E5%95%86%E5%93%81%E7%A7%92%E6%9D%80/</url>
+    <url>/blog/2019/05/31/SpringBoot%E9%A1%B9%E7%9B%AE%E5%AE%9E%E7%8E%B0%E9%AB%98%E5%B9%B6%E5%8F%91%E5%95%86%E5%93%81%E7%A7%92%E6%9D%80/</url>
     <content><![CDATA[<h1>SpringBoot项目实现高并发商品秒杀</h1>
 <p>注：该项目使用IDEA+SpringBoot+Maven+Mybatis+Redis+RabbitMQ 等技术实现。本人水平有限，以下代码可能有错误，或者解释不清，希望理解，并且及时下方留言，及时修改，谢谢各位道友！</p>
 <h2 id="一、秒杀实现思路">一、秒杀实现思路</h2>
@@ -1673,7 +1820,7 @@ spring.rabbitmq.template.retry.multiplier=1.0</p>
   </entry>
   <entry>
     <title>SpringDataJpa+vue+Echarts绘制柱状图和饼状图</title>
-    <url>/2019/05/31/SpringDataJpa+vue+Echarts%E7%BB%98%E5%88%B6%E6%9F%B1%E7%8A%B6%E5%9B%BE%E5%92%8C%E9%A5%BC%E7%8A%B6%E5%9B%BE/</url>
+    <url>/blog/2019/05/31/SpringDataJpa+vue+Echarts%E7%BB%98%E5%88%B6%E6%9F%B1%E7%8A%B6%E5%9B%BE%E5%92%8C%E9%A5%BC%E7%8A%B6%E5%9B%BE/</url>
     <content><![CDATA[<p><em>注明：dome源码和sql文末自取</em>。该dome使用了IDEA和vs-code编码工具。idea使用了lombok插件。</p>
 <h2 id="一、后端实现">一、后端实现</h2>
 <p>1、创建SpringBoot项目，勾选 web、jpa、lombok、mysql、jdbc 启动器，并创建对应的层<br>
@@ -1747,7 +1894,7 @@ spring.rabbitmq.template.retry.multiplier=1.0</p>
   </entry>
   <entry>
     <title>springdatajpa+vue实现省市区三级联动</title>
-    <url>/2019/05/31/springDataJpa+vue%E5%AE%9E%E7%8E%B0%E4%B8%89%E7%BA%A7%E8%81%94%E5%8A%A8/</url>
+    <url>/blog/2019/05/31/springDataJpa+vue%E5%AE%9E%E7%8E%B0%E4%B8%89%E7%BA%A7%E8%81%94%E5%8A%A8/</url>
     <content><![CDATA[<h2 id="一，编写后端代码">一，编写后端代码</h2>
 <p>1、创建springboot项目，添加 web、jpa、lombok、mysql、jdbc 启动器，并创建对应的层</p>
 <p>2、编写省，市，区的实体（idea使用了lombok插件），SQL等项目文件文末自取<br>
@@ -1869,7 +2016,7 @@ spring.rabbitmq.template.retry.multiplier=1.0</p>
   </entry>
   <entry>
     <title>SpringBoot,JDBC连接数据库报错：java.lang.AbstractMethodError&#39;:oracle.jdbc.driver.T4CConnection.isValid(I)Z”</title>
-    <url>/2019/05/31/SpringBoot,JDBC%E8%BF%9E%E6%8E%A5oracle%E6%8A%A5%E9%94%99java.lang.AbstractMethodError_%20oracle.jdbc.driver.T4CConnection.isValid(I)Z/</url>
+    <url>/blog/2019/05/31/SpringBoot,JDBC%E8%BF%9E%E6%8E%A5oracle%E6%8A%A5%E9%94%99java.lang.AbstractMethodError_%20oracle.jdbc.driver.T4CConnection.isValid(I)Z/</url>
     <content><![CDATA[<p>问题：使用springboot，jdbc连接oracle10g数据库，启动项目报错<br>
 java.lang.AbstractMethodError:oracle.jdbc.driver.T4CConnection.isValid(I)Z</p>
 <p>原因：oracle的jdbc连接包与jdk版本不匹配导致的，如果使用的是ojdbc14版本的，该版本不支持jdk1.8，建议更换ojdbc版本，如ojdbc8。</p>
@@ -1905,7 +2052,7 @@ java.lang.AbstractMethodError:oracle.jdbc.driver.T4CConnection.isValid(I)Z</p>
   </entry>
   <entry>
     <title>使用java爬虫爬取网站前台代码（html+css+js+img）</title>
-    <url>/2019/05/31/%E4%BD%BF%E7%94%A8java%E7%88%AC%E8%99%AB%E7%88%AC%E5%8F%96%E7%BD%91%E7%AB%99%E5%89%8D%E5%8F%B0%E4%BB%A3%E7%A0%81%EF%BC%88html+css+js+img%EF%BC%89/</url>
+    <url>/blog/2019/05/31/%E4%BD%BF%E7%94%A8java%E7%88%AC%E8%99%AB%E7%88%AC%E5%8F%96%E7%BD%91%E7%AB%99%E5%89%8D%E5%8F%B0%E4%BB%A3%E7%A0%81%EF%BC%88html+css+js+img%EF%BC%89/</url>
     <content><![CDATA[<h1>使用java爬虫爬取网站前台代码（html+css+js+img）</h1>
 <h2 id="一、爬虫">一、爬虫</h2>
 <p>1、什么是爬虫<br>
@@ -1948,7 +2095,7 @@ jsoup 是一款 Java 的HTML 解析器，可直接解析某个URL地址、HTML�
   </entry>
   <entry>
     <title>JSP中使用JSTL</title>
-    <url>/2019/05/11/JSP%E4%B8%ADJSTL%E5%AD%A6%E4%B9%A0/</url>
+    <url>/blog/2019/05/11/JSP%E4%B8%ADJSTL%E5%AD%A6%E4%B9%A0/</url>
     <content><![CDATA[<h1>JSP中JSTL学习</h1>
 <p>&lt;%@ page language=“java” import=“java.util.*” pageEncoding=“utf-8”%&gt;<br>
 &lt;%@taglib prefix=“c” uri=“<a href="http://java.sun.com/jsp/jstl/core" target="_blank" rel="noopener">http://java.sun.com/jsp/jstl/core</a>” %&gt;<br>
@@ -1985,7 +2132,7 @@ JSTL的xml标签库<br>
   </entry>
   <entry>
     <title>快速搭建SpringCloud环境</title>
-    <url>/2019/04/06/%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BASpringCloud%E7%8E%AF%E5%A2%83/</url>
+    <url>/blog/2019/04/06/%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BASpringCloud%E7%8E%AF%E5%A2%83/</url>
     <content><![CDATA[<p>前言：在我上篇博客中，详细介绍了，Spring Cloud的一些概念和组件，如果你是新手，建议你可以先去看看：</p>
 <blockquote>
 <p><a href="https://blog.csdn.net/weixin_44209403/article/details/103493907" target="_blank" rel="noopener">https://blog.csdn.net/weixin_44209403/article/details/103493907</a></p>
